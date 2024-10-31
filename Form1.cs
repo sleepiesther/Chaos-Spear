@@ -12,6 +12,7 @@ using Reloaded.Memory;
 using Reloaded.Memory.Sigscan;
 using SharpHook;
 using SharpHook.Native;
+using Reloaded.Memory.Sigscan.Definitions;
 
 namespace Chaos_Spear
 {
@@ -21,25 +22,26 @@ namespace Chaos_Spear
         private Process proc;
 
         private int xcoordOff = 0x02993FE8;
-        private int timerOff = 0x02993FE8;
+        private int ringOff = 0x02993FE8;
 
-        private IntPtr coordAddress, timerAddress;
+
+        private IntPtr coordAddress, ringsAddress;
 
         private ExternalMemory gameMem;
 
         nint coordAdd;
         nint camCoordAdd;
-        nint timerAdd;
+        nint ringAdd;
 
         private float[] savedPos = new float[3];
 
-        float[] oldPos = {0,0,0};
+        float[] oldPos = { 0, 0, 0 };
 
         float xSpeed, zSpeed;
 
         private SimpleGlobalHook kbHook;
         private Task task;
-        
+
         public Form1()
         {
             InitializeComponent();
@@ -59,7 +61,8 @@ namespace Chaos_Spear
                         return;
                     }
                     coordAddress = IntPtr.Add(proc.MainModule.BaseAddress, xcoordOff);
-                    timerAddress = IntPtr.Add(proc.MainModule.BaseAddress, timerOff);
+                    ringsAddress = IntPtr.Add(proc.MainModule.BaseAddress, ringOff);
+
 
                     gameMem = new ExternalMemory(proc);
 
@@ -67,7 +70,7 @@ namespace Chaos_Spear
                     button1.Text = "Detach";
 
                     timer1.Start();
-                    
+
                     kbHook = new SimpleGlobalHook(true);
                     kbHook.KeyPressed += handle_keys;
                     task = kbHook.RunAsync();
@@ -77,7 +80,7 @@ namespace Chaos_Spear
                     attached = false;
                     button1.Text = "Attach";
                     timer1.Stop();
-                    
+
                     //kbHook.Dispose();
                 }
 
@@ -171,7 +174,7 @@ namespace Chaos_Spear
                 gameMem.Read<float>((nuint)coordAdd + 0xD0, out xSpeed);
                 gameMem.Read<float>((nuint)coordAdd + 0xD8, out zSpeed);
 
-                speedHorizontal = (float)Math.Round(Math.Sqrt(Math.Pow(xSpeed,2) + Math.Pow(zSpeed, 2)), 1);
+                speedHorizontal = (float)Math.Round(Math.Sqrt(Math.Pow(xSpeed, 2) + Math.Pow(zSpeed, 2)), 1);
 
                 label1.Text = "Saved X Pos: " + savedPos[0];
 
@@ -188,30 +191,9 @@ namespace Chaos_Spear
                 oldPos[1] = curPos[1];
                 oldPos[2] = curPos[2];
 
-                gameMem.Read<nint>((nuint)timerAddress, out timerAdd);
-
-                timerAdd += 0x1B0;
-                gameMem.Read<nint>((nuint)timerAdd, out timerAdd);
-
-
-                timerAdd += 0x10;
-                gameMem.Read<nint>((nuint)timerAdd, out timerAdd);
-
-
-                timerAdd += 0x60;
-                gameMem.Read<nint>((nuint)timerAdd, out timerAdd);
-
-
-                timerAdd += 0xB0;
-                gameMem.Read<nint>((nuint)timerAdd, out timerAdd);
-
-                timerAdd += 0x20;
-                gameMem.Read<nint>((nuint)timerAdd, out timerAdd);
-
-                gameMem.Write<float>((nuint)timerAdd + 0x28, 99999);
-
             }
-            catch(Exception exception) {
+            catch (Exception exception)
+            {
                 /*
                 timer1.Stop();
                 MessageBox.Show(exception.ToString());*/
@@ -219,25 +201,39 @@ namespace Chaos_Spear
             }
             finally
             {
-                
+
             }
 
         }
-      
+        private void button4_Click(object sender, EventArgs e)
+        {
+            ringsAddress = IntPtr.Add(proc.MainModule.BaseAddress, ringOff);
+            gameMem.Read<nint>((nuint)ringsAddress, out ringAdd);
+            gameMem.Read<nint>((nuint)ringAdd + 0x130, out ringAdd);
+            gameMem.Read<nint>((nuint)ringAdd + 0x68, out ringAdd);
+            gameMem.Read<nint>((nuint)ringAdd + 0x2D0, out ringAdd);
+            gameMem.Read<nint>((nuint)ringAdd + 0x38, out ringAdd);
+            gameMem.Read<nint>((nuint)ringAdd + 0x160, out ringAdd);
+            gameMem.Read<nint>((nuint)ringAdd + 0x30, out ringAdd);
+            gameMem.Write<int>((nuint)ringAdd + 0x28, 999);
+
+        }
+
         private void handle_keys(Object sender, KeyboardHookEventArgs e)
         {
             if (attached)
             {
                 KeyCode key = e.Data.KeyCode;
-                if(key == KeyCode.VcF9)
+                if (key == KeyCode.VcF9)
                 {
                     button2_Click(sender, e);
                 }
-                else if(key == KeyCode.VcF10)
+                else if (key == KeyCode.VcF10)
                 {
-                    button3_Click(sender,e);
+                    button3_Click(sender, e);
                 }
             }
         }
+
     }
 }

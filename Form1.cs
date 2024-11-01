@@ -209,11 +209,11 @@ namespace Chaos_Spear
         {
             ringsAddress = IntPtr.Add(proc.MainModule.BaseAddress, ringOff);
             gameMem.Read<nint>((nuint)ringsAddress, out ringAdd);
-            gameMem.Read<nint>((nuint)ringAdd + 0x130, out ringAdd);
-            gameMem.Read<nint>((nuint)ringAdd + 0x68, out ringAdd);
-            gameMem.Read<nint>((nuint)ringAdd + 0x2D0, out ringAdd);
-            gameMem.Read<nint>((nuint)ringAdd + 0x38, out ringAdd);
-            gameMem.Read<nint>((nuint)ringAdd + 0x160, out ringAdd);
+            gameMem.Read<nint>((nuint)ringAdd + 0x1B0, out ringAdd);
+            gameMem.Read<nint>((nuint)ringAdd + 0x20, out ringAdd);
+            gameMem.Read<nint>((nuint)ringAdd + 0x168, out ringAdd);
+            gameMem.Read<nint>((nuint)ringAdd + 0x0, out ringAdd);
+            gameMem.Read<nint>((nuint)ringAdd + 0x20, out ringAdd);
             gameMem.Read<nint>((nuint)ringAdd + 0x30, out ringAdd);
             gameMem.Write<int>((nuint)ringAdd + 0x28, 999);
 

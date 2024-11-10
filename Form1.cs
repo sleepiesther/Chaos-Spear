@@ -47,6 +47,22 @@ namespace Chaos_Spear
             InitializeComponent();
         }
 
+        private void handle_keys(Object sender, KeyboardHookEventArgs e)
+        {
+            if (attached)
+            {
+                KeyCode key = e.Data.KeyCode;
+                if (key == KeyCode.VcF9)
+                {
+                    button2_Click(sender, e);
+                }
+                else if (key == KeyCode.VcF10)
+                {
+                    button3_Click(sender, e);
+                }
+            }
+        }
+
         private void button1_Click(object sender, EventArgs e)
         {
             try
@@ -63,14 +79,13 @@ namespace Chaos_Spear
                     coordAddress = IntPtr.Add(proc.MainModule.BaseAddress, xcoordOff);
                     ringsAddress = IntPtr.Add(proc.MainModule.BaseAddress, ringOff);
 
-
                     gameMem = new ExternalMemory(proc);
 
                     attached = true;
                     button1.Text = "Detach";
 
                     timer1.Start();
-
+                    
                     kbHook = new SimpleGlobalHook(true);
                     kbHook.KeyPressed += handle_keys;
                     task = kbHook.RunAsync();
@@ -218,22 +233,5 @@ namespace Chaos_Spear
             gameMem.Write<int>((nuint)ringAdd + 0x28, 999);
 
         }
-
-        private void handle_keys(Object sender, KeyboardHookEventArgs e)
-        {
-            if (attached)
-            {
-                KeyCode key = e.Data.KeyCode;
-                if (key == KeyCode.VcF9)
-                {
-                    button2_Click(sender, e);
-                }
-                else if (key == KeyCode.VcF10)
-                {
-                    button3_Click(sender, e);
-                }
-            }
-        }
-
     }
 }

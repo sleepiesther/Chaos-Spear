@@ -33,11 +33,12 @@ namespace Chaos_Spear
         nint camCoordAdd;
         nint ringAdd;
 
+        GOCPlayerKinematicParams kParams;
+        GOCPlayerKinematicParams savedParams;
         private float[] savedPos = new float[3];
 
         float[] oldPos = { 0, 0, 0 };
 
-        float xSpeed, zSpeed;
 
         private SimpleGlobalHook kbHook;
         private Task task;
@@ -134,13 +135,8 @@ namespace Chaos_Spear
 
             coordAdd += 0x1A8;
             gameMem.Read<nint>((nuint)coordAdd, out coordAdd);
-
-            gameMem.Read<float>((nuint)coordAdd + 0x80, out savedPos[0]);
-            gameMem.Read<float>((nuint)coordAdd + 0x84, out savedPos[1]);
-            gameMem.Read<float>((nuint)coordAdd + 0x88, out savedPos[2]);
-
-            gameMem.Read<float>((nuint)coordAdd + 0xD0, out xSpeed);
-            gameMem.Read<float>((nuint)coordAdd + 0xD8, out zSpeed);
+            gameMem.Read((nuint)coordAdd, out savedParams);
+            
 
         }
 
@@ -152,9 +148,14 @@ namespace Chaos_Spear
                 return;
             }
 
-            gameMem.Write<float>((nuint)coordAdd + 0x80, savedPos[0]);
-            gameMem.Write<float>((nuint)coordAdd + 0x84, savedPos[1]);
-            gameMem.Write<float>((nuint)coordAdd + 0x88, savedPos[2]);
+            gameMem.Write<float>((nuint)coordAdd + 0x80, savedParams.xPos);
+            gameMem.Write<float>((nuint)coordAdd + 0x84, savedParams.yPos);
+            gameMem.Write<float>((nuint)coordAdd + 0x88, savedParams.zPos);
+            //why not rotate the guy
+            gameMem.Write<float>((nuint)coordAdd + 0xC0, savedParams.qRotX);
+            gameMem.Write<float>((nuint)coordAdd + 0xC4, savedParams.qRotY);
+            gameMem.Write<float>((nuint)coordAdd + 0xC8, savedParams.qRotZ);
+            gameMem.Write<float>((nuint)coordAdd + 0xCC, savedParams.qRotW);
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -181,30 +182,23 @@ namespace Chaos_Spear
 
                 coordAdd += 0x1A8;
                 gameMem.Read<nint>((nuint)coordAdd, out coordAdd);
+                gameMem.Read((nuint)coordAdd, out kParams);
 
-                gameMem.Read<float>((nuint)coordAdd + 0x80, out curPos[0]);
-                gameMem.Read<float>((nuint)coordAdd + 0x84, out curPos[1]);
-                gameMem.Read<float>((nuint)coordAdd + 0x88, out curPos[2]);
+                
 
-                gameMem.Read<float>((nuint)coordAdd + 0xD0, out xSpeed);
-                gameMem.Read<float>((nuint)coordAdd + 0xD8, out zSpeed);
+                speedHorizontal = (float)Math.Round(Math.Sqrt(Math.Pow(kParams.xSpd, 2) + Math.Pow(kParams.zSpd, 2)), 1);
 
-                speedHorizontal = (float)Math.Round(Math.Sqrt(Math.Pow(xSpeed, 2) + Math.Pow(zSpeed, 2)), 1);
+                label1.Text = "Saved X Pos: " + savedParams.xPos;
 
-                label1.Text = "Saved X Pos: " + savedPos[0];
+                label2.Text = "Saved Y Pos: " + savedParams.yPos;
 
-                label2.Text = "Saved Y Pos: " + savedPos[1];
+                label3.Text = "Saved Z Pos: " + savedParams.zPos;
 
-                label3.Text = "Saved Z Pos: " + savedPos[2];
-
-                label4.Text = "Current X Pos: " + Math.Round(curPos[0], 1);
-                label5.Text = "Current Y Pos: " + Math.Round(curPos[1], 1);
-                label6.Text = "Current Z Pos: " + Math.Round(curPos[2], 1);
+                label4.Text = "Current X Pos: " + Math.Round(kParams.xPos, 1);
+                label5.Text = "Current Y Pos: " + Math.Round(kParams.yPos, 1);
+                label6.Text = "Current Z Pos: " + Math.Round(kParams.zPos, 1);
                 label7.Text = "Speed: " + speedHorizontal;
 
-                oldPos[0] = curPos[0];
-                oldPos[1] = curPos[1];
-                oldPos[2] = curPos[2];
 
             }
             catch (Exception exception)

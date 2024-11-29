@@ -41,6 +41,11 @@
             timer1 = new System.Windows.Forms.Timer(components);
             label7 = new Label();
             button4 = new Button();
+            comboBox1 = new ComboBox();
+            label8 = new Label();
+            comboBox2 = new ComboBox();
+            label9 = new Label();
+            label10 = new Label();
             SuspendLayout();
             // 
             // button1
@@ -78,7 +83,7 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
-            label1.Location = new Point(77, 310);
+            label1.Location = new Point(5, 310);
             label1.Name = "label1";
             label1.Size = new Size(158, 32);
             label1.TabIndex = 3;
@@ -88,7 +93,7 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
-            label2.Location = new Point(77, 342);
+            label2.Location = new Point(5, 342);
             label2.Name = "label2";
             label2.Size = new Size(157, 32);
             label2.TabIndex = 4;
@@ -98,7 +103,7 @@
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
-            label3.Location = new Point(77, 373);
+            label3.Location = new Point(5, 373);
             label3.Name = "label3";
             label3.Size = new Size(157, 32);
             label3.TabIndex = 5;
@@ -158,12 +163,75 @@
             button4.UseVisualStyleBackColor = true;
             button4.Click += button4_Click;
             // 
+            // ComboBox1
+            // 
+            comboBox1.Location = new Point(700, 120);
+            comboBox1.Name = "comboBox1";
+            comboBox1.Size = new Size(70, 70);
+            comboBox1.TabIndex = 11;
+            for (int x = 0; x < 10; x++)
+            {
+                comboBox1.Items.Add(x);
+            }
+            comboBox1.SelectedItem = 0;
+            comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBox1.SelectedValueChanged += comboBox1_changed;
+            // 
+            // Label8
+            // 
+            label8.AutoSize = true;
+            label8.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
+            label8.Location = new Point(450, 117);
+            label8.Name = "label8";
+            label8.Size = new Size(97, 32);
+            label8.TabIndex = 12;
+            label8.Text = "Save position to slot: ";
+            // 
+            // ComboBox2
+            // 
+            comboBox2.Location = new Point(700, 220);
+            comboBox2.Name = "comboBox2";
+            comboBox2.Size = new Size(70, 70);
+            comboBox2.TabIndex = 13;
+            for (int x = 0; x < 10; x++)
+            {
+                comboBox2.Items.Add(x);
+            }
+            comboBox2.SelectedItem = 0;
+            comboBox2.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBox2.SelectedValueChanged += comboBox2_changed;
+            // 
+            // Label9
+            // 
+            label9.AutoSize = true;
+            label9.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
+            label9.Location = new Point(450, 217);
+            label9.Name = "label9";
+            label9.Size = new Size(97, 32);
+            label9.TabIndex = 14;
+            label9.Text = "Load position from slot: ";
+            // 
+            // Label10
+            // 
+            label10.AutoSize = true;
+            label10.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            label10.Location = new Point(5, 290);
+            label10.Name = "label10";
+            label10.Size = new Size(97, 32);
+            label10.TabIndex = 15;
+            label10.Text = "Showing positions stored in slots 0 : 0";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.Control;
             ClientSize = new Size(800, 450);
+            Controls.Add(label10);
+            Controls.Add(label9);
+            Controls.Add(comboBox2);
+            Controls.Add(label8);
+            Controls.Add(comboBox1);
             Controls.Add(button4);
             Controls.Add(label7);
             Controls.Add(label4);
@@ -196,5 +264,10 @@
         private System.Windows.Forms.Timer timer1;
         private Label label7;
         private Button button4;
+        private ComboBox comboBox1;
+        private Label label8;
+        private ComboBox comboBox2;
+        private Label label9;
+        private Label label10;
     }
 }

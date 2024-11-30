@@ -1,7 +1,9 @@
 # Chaos Spear
 A practice tool for Shadow Generations. 
-### THIS IS NOT A MOD, THIS IS A SEPARATE PROGRAM
-### PLEASE REFRAIN FROM USING THIS TOOL IN ONLINE MODE
+
+**THIS IS NOT A MOD, THIS IS A SEPARATE PROGRAM**
+
+**PLEASE REFRAIN FROM USING THIS TOOL IN ONLINE MODE**
 
 ## Features:
 - Save and load position and rotation, with 10 slots for storing data.
@@ -9,7 +11,9 @@ A practice tool for Shadow Generations.
 
 ## How to download:
 - Download the .zip folder from the most recent release, and unzip it.
-  #### OR
+
+  **OR**
+
 - Clone this repository, and build the program yourself using the .NET framework.
 
 ## How to run:

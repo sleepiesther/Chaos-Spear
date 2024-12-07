@@ -198,11 +198,11 @@ namespace Chaos_Spear
                 speedHorizontal = (float)Math.Round(Math.Sqrt(Math.Pow(kParams.xSpd, 2) + Math.Pow(kParams.zSpd, 2)), 1);
 
                 // Showing values for two slots can cause clipping due to excessive text length, so the values are rounded slightly
-                label1.Text = "Saved X Pos: " + Math.Round(saveSlots[slotToSave].xPos, 5) + " : " + Math.Round(saveSlots[slotToLoad].xPos, 5);
+                label1.Text = "Saved X Pos: " + Math.Round(saveSlots[slotToSave].xPos, 3) + " : " + Math.Round(saveSlots[slotToLoad].xPos, 3);
 
-                label2.Text = "Saved Y Pos: " + Math.Round(saveSlots[slotToSave].yPos, 5) + " : " + Math.Round(saveSlots[slotToLoad].yPos, 5);
+                label2.Text = "Saved Y Pos: " + Math.Round(saveSlots[slotToSave].yPos, 3) + " : " + Math.Round(saveSlots[slotToLoad].yPos, 3);
 
-                label3.Text = "Saved Z Pos: " + Math.Round(saveSlots[slotToSave].xPos, 5) + " : " + Math.Round(saveSlots[slotToLoad].xPos, 5);
+                label3.Text = "Saved Z Pos: " + Math.Round(saveSlots[slotToSave].xPos, 3) + " : " + Math.Round(saveSlots[slotToLoad].xPos, 3);
 
                 label4.Text = "Current X Pos: " + Math.Round(kParams.xPos, 1);
                 label5.Text = "Current Y Pos: " + Math.Round(kParams.yPos, 1);
@@ -226,6 +226,11 @@ namespace Chaos_Spear
         }
         private void button4_Click(object sender, EventArgs e)
         {
+            if (!attached)
+            {
+                MessageBox.Show("Attach program to SXSG first");
+                return;
+            }
             ringsAddress = IntPtr.Add(proc.MainModule.BaseAddress, ringOff);
             gameMem.Read<nint>((nuint)ringsAddress, out ringAdd);
             gameMem.Read<nint>((nuint)ringAdd + 0x1B0, out ringAdd);

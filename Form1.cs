@@ -202,7 +202,7 @@ namespace Chaos_Spear
 
                 label2.Text = "Saved Y Pos: " + Math.Round(saveSlots[slotToSave].yPos, 3) + " : " + Math.Round(saveSlots[slotToLoad].yPos, 3);
 
-                label3.Text = "Saved Z Pos: " + Math.Round(saveSlots[slotToSave].xPos, 3) + " : " + Math.Round(saveSlots[slotToLoad].xPos, 3);
+                label3.Text = "Saved Z Pos: " + Math.Round(saveSlots[slotToSave].zPos, 3) + " : " + Math.Round(saveSlots[slotToLoad].zPos, 3);
 
                 label4.Text = "Current X Pos: " + Math.Round(kParams.xPos, 1);
                 label5.Text = "Current Y Pos: " + Math.Round(kParams.yPos, 1);

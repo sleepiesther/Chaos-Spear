@@ -46,6 +46,7 @@
             comboBox2 = new ComboBox();
             label9 = new Label();
             label10 = new Label();
+            label11 = new Label();
             SuspendLayout();
             // 
             // button1
@@ -220,6 +221,16 @@
             label10.Size = new Size(97, 32);
             label10.TabIndex = 15;
             label10.Text = "Showing positions stored in slots 0 : 0";
+            //
+            // Label11
+            //
+            label11.AutoSize = true;
+            label11.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
+            label11.Location = new Point(448, 414);
+            label11.Name = "label11";
+            label11.Size = new Size(101, 32);
+            label11.TabIndex = 11;
+            label11.Text = "Facing: ";
             // 
             // Form1
             // 
@@ -227,6 +238,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.Control;
             ClientSize = new Size(800, 450);
+            Controls.Add(label11);
             Controls.Add(label10);
             Controls.Add(label9);
             Controls.Add(comboBox2);
@@ -269,5 +281,6 @@
         private ComboBox comboBox2;
         private Label label9;
         private Label label10;
+        private Label label11;
     }
 }

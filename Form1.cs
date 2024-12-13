@@ -51,19 +51,12 @@ namespace Chaos_Spear
             InitializeComponent();
         }
 
-        private void handle_keys(Object sender, KeyboardHookEventArgs e)
+        private void Form1_Load(object sender, EventArgs e)
         {
-            if (attached)
+            // Adds 10 instances of the params struct to act as the save/load slots. 10 is a bit of an arbitrary number, but it's nice to be sure the slot index will always be a single digit number. If you want to change the amount of slots, keep in mind that it is also hardcoded into the comboBox initialisations so you'll have to change that too.
+            for (int x = 0; x < 10; x++)
             {
-                KeyCode key = e.Data.KeyCode;
-                if (key == KeyCode.VcF9)
-                {
-                    button2_Click(sender, e);
-                }
-                else if (key == KeyCode.VcF10)
-                {
-                    button3_Click(sender, e);
-                }
+                saveSlots.Add(new GOCPlayerKinematicParams());
             }
         }
 
@@ -110,12 +103,19 @@ namespace Chaos_Spear
             }
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void handle_keys(Object sender, KeyboardHookEventArgs e)
         {
-            // Adds 10 instances of the params struct to act as the save/load slots. 10 is a bit of an arbitrary number, but it's nice to be sure the slot index will always be a single digit number. If you want to change the amount of slots, keep in mind that it is also hardcoded into the comboBox initialisations so you'll have to change that too.
-            for (int x = 0; x < 10; x++)
+            if (attached)
             {
-                saveSlots.Add(new GOCPlayerKinematicParams());
+                KeyCode key = e.Data.KeyCode;
+                if (key == KeyCode.VcF9)
+                {
+                    button2_Click(sender, e);
+                }
+                else if (key == KeyCode.VcF10)
+                {
+                    button3_Click(sender, e);
+                }
             }
         }
 
@@ -128,20 +128,27 @@ namespace Chaos_Spear
             }
             gameMem.Read<nint>((nuint)coordAddress, out coordAdd);
 
-            coordAdd += 0x130;
+            coordAdd += 0x1B0;
             gameMem.Read<nint>((nuint)coordAdd, out coordAdd);
 
-            coordAdd += 0x68;
+            coordAdd += 0x20;
             gameMem.Read<nint>((nuint)coordAdd, out coordAdd);
 
-            coordAdd += 0x58;
+            coordAdd += 0x168;
             gameMem.Read<nint>((nuint)coordAdd, out coordAdd);
 
-            coordAdd += 0x1A8;
+            coordAdd += 0x0;
+            gameMem.Read<nint>((nuint)coordAdd, out coordAdd);
+
+            coordAdd += 0x20;
+            gameMem.Read<nint>((nuint)coordAdd, out coordAdd);
+
+            coordAdd += 0x48;
             gameMem.Read<nint>((nuint)coordAdd, out coordAdd);
             gameMem.Read((nuint)coordAdd, out savedParams);
-            // gameMem doesn't like having list items as the out, so the data is saved to the list here instead
+            
             saveSlots[slotToSave] = savedParams;
+
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -152,7 +159,6 @@ namespace Chaos_Spear
                 return;
             }
 
-            // No reason for this assignment just means i dont have to rewrite the Mem.Writes LMAO
             savedParams = saveSlots[slotToLoad];
             gameMem.Write<float>((nuint)coordAdd + 0x80, savedParams.xPos);
             gameMem.Write<float>((nuint)coordAdd + 0x84, savedParams.yPos);
@@ -174,19 +180,22 @@ namespace Chaos_Spear
 
                 gameMem.Read<nint>((nuint)coordAddress, out coordAdd);
 
-                coordAdd += 0x88;
+                coordAdd += 0x1B0;
                 gameMem.Read<nint>((nuint)coordAdd, out coordAdd);
 
-                coordAdd += 0x28;
+                coordAdd += 0x20;
+                gameMem.Read<nint>((nuint)coordAdd, out coordAdd);
+
+                coordAdd += 0x168;
                 gameMem.Read<nint>((nuint)coordAdd, out coordAdd);
 
                 coordAdd += 0x0;
                 gameMem.Read<nint>((nuint)coordAdd, out coordAdd);
 
-                coordAdd += 0x58;
+                coordAdd += 0x20;
                 gameMem.Read<nint>((nuint)coordAdd, out coordAdd);
 
-                coordAdd += 0x1A8;
+                coordAdd += 0x48;
                 gameMem.Read<nint>((nuint)coordAdd, out coordAdd);
                 gameMem.Read((nuint)coordAdd, out kParams);
 
@@ -194,7 +203,6 @@ namespace Chaos_Spear
 
                 speedHorizontal = (float)Math.Round(Math.Sqrt(Math.Pow(kParams.xSpd, 2) + Math.Pow(kParams.zSpd, 2)), 1);
 
-                // Showing values for two slots can cause clipping due to excessive text length, so the values are rounded slightly
                 label1.Text = "Saved X Pos: " + Math.Round(saveSlots[slotToSave].xPos, 3) + " : " + Math.Round(saveSlots[slotToLoad].xPos, 3);
 
                 label2.Text = "Saved Y Pos: " + Math.Round(saveSlots[slotToSave].yPos, 3) + " : " + Math.Round(saveSlots[slotToLoad].yPos, 3);
@@ -206,6 +214,7 @@ namespace Chaos_Spear
                 label6.Text = "Current Z Pos: " + Math.Round(kParams.zPos, 1);
                 label7.Text = "Speed: " + speedHorizontal;
 
+                label11.Text = "Facing: " + Math.Round(heading(kParams.qRotW, kParams.qRotY), 1);
 
             }
             catch (Exception exception)
@@ -223,11 +232,6 @@ namespace Chaos_Spear
         }
         private void button4_Click(object sender, EventArgs e)
         {
-            if (!attached)
-            {
-                MessageBox.Show("Attach program to SXSG first");
-                return;
-            }
             ringsAddress = IntPtr.Add(proc.MainModule.BaseAddress, ringOff);
             gameMem.Read<nint>((nuint)ringsAddress, out ringAdd);
             gameMem.Read<nint>((nuint)ringAdd + 0x1B0, out ringAdd);
@@ -248,6 +252,32 @@ namespace Chaos_Spear
         {
             slotToLoad = comboBox2.SelectedIndex;
             label10.Text = "Showing positions stored in slots " + slotToSave + " : " + slotToLoad;
+        }
+
+        //This is just copied from Portal Gear, the Sonic Frontiers Save Position Tool
+        public float heading(float rotW, float rotY)
+        {
+            float angle = (float)(Math.Acos(rotW) * 2);
+            bool sign = rotY > 0;
+            if (sign)
+            {
+                if(angle < Math.PI)
+                {
+                    return (float)radiansToDegrees(-angle+Math.PI);
+                }
+                else
+                {
+                    return (float)radiansToDegrees(2* Math.PI - angle + Math.PI);
+                }
+            }
+            else
+            {
+                return (float)radiansToDegrees(angle+Math.PI);
+            }
+        }
+        public double radiansToDegrees(double radians)
+        {
+            return radians / Math.PI * 180;
         }
     }
 }

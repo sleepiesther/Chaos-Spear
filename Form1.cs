@@ -48,21 +48,6 @@ namespace Chaos_Spear
             InitializeComponent();
         }
 
-        private void handle_keys(Object sender, KeyboardHookEventArgs e)
-        {
-            if (attached)
-            {
-                KeyCode key = e.Data.KeyCode;
-                if (key == KeyCode.VcF9)
-                {
-                    button2_Click(sender, e);
-                }
-                else if (key == KeyCode.VcF10)
-                {
-                    button3_Click(sender, e);
-                }
-            }
-        }
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -107,9 +92,20 @@ namespace Chaos_Spear
             }
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void handle_keys(Object sender, KeyboardHookEventArgs e)
         {
-
+            if (attached)
+            {
+                KeyCode key = e.Data.KeyCode;
+                if (key == KeyCode.VcF9)
+                {
+                    button2_Click(sender, e);
+                }
+                else if (key == KeyCode.VcF10)
+                {
+                    button3_Click(sender, e);
+                }
+            }
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -121,16 +117,22 @@ namespace Chaos_Spear
             }
             gameMem.Read<nint>((nuint)coordAddress, out coordAdd);
 
-            coordAdd += 0x130;
+            coordAdd += 0x1B0;
             gameMem.Read<nint>((nuint)coordAdd, out coordAdd);
 
-            coordAdd += 0x68;
+            coordAdd += 0x20;
             gameMem.Read<nint>((nuint)coordAdd, out coordAdd);
 
-            coordAdd += 0x58;
+            coordAdd += 0x168;
             gameMem.Read<nint>((nuint)coordAdd, out coordAdd);
 
-            coordAdd += 0x1A8;
+            coordAdd += 0x0;
+            gameMem.Read<nint>((nuint)coordAdd, out coordAdd);
+
+            coordAdd += 0x20;
+            gameMem.Read<nint>((nuint)coordAdd, out coordAdd);
+
+            coordAdd += 0x48;
             gameMem.Read<nint>((nuint)coordAdd, out coordAdd);
             gameMem.Read((nuint)coordAdd, out savedParams);
             
@@ -165,19 +167,22 @@ namespace Chaos_Spear
 
                 gameMem.Read<nint>((nuint)coordAddress, out coordAdd);
 
-                coordAdd += 0x88;
+                coordAdd += 0x1B0;
                 gameMem.Read<nint>((nuint)coordAdd, out coordAdd);
 
-                coordAdd += 0x28;
+                coordAdd += 0x20;
+                gameMem.Read<nint>((nuint)coordAdd, out coordAdd);
+
+                coordAdd += 0x168;
                 gameMem.Read<nint>((nuint)coordAdd, out coordAdd);
 
                 coordAdd += 0x0;
                 gameMem.Read<nint>((nuint)coordAdd, out coordAdd);
 
-                coordAdd += 0x58;
+                coordAdd += 0x20;
                 gameMem.Read<nint>((nuint)coordAdd, out coordAdd);
 
-                coordAdd += 0x1A8;
+                coordAdd += 0x48;
                 gameMem.Read<nint>((nuint)coordAdd, out coordAdd);
                 gameMem.Read((nuint)coordAdd, out kParams);
 
@@ -196,6 +201,7 @@ namespace Chaos_Spear
                 label6.Text = "Current Z Pos: " + Math.Round(kParams.zPos, 1);
                 label7.Text = "Speed: " + speedHorizontal;
 
+                label8.Text = "Facing: " + Math.Round(heading(kParams.qRotW, kParams.qRotY), 1);
 
             }
             catch (Exception exception)
@@ -223,6 +229,31 @@ namespace Chaos_Spear
             gameMem.Read<nint>((nuint)ringAdd + 0x30, out ringAdd);
             gameMem.Write<int>((nuint)ringAdd + 0x28, 999);
 
+        }
+        //This is just copied from Portal Gear, the Sonic Frontiers Save Position Tool
+        public float heading(float rotW, float rotY)
+        {
+            float angle = (float)(Math.Acos(rotW) * 2);
+            bool sign = rotY > 0;
+            if (sign)
+            {
+                if(angle < Math.PI)
+                {
+                    return (float)radiansToDegrees(-angle+Math.PI);
+                }
+                else
+                {
+                    return (float)radiansToDegrees(2* Math.PI - angle + Math.PI);
+                }
+            }
+            else
+            {
+                return (float)radiansToDegrees(angle+Math.PI);
+            }
+        }
+        public double radiansToDegrees(double radians)
+        {
+            return radians / Math.PI * 180;
         }
     }
 }

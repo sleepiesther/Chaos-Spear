@@ -41,6 +41,7 @@
             timer1 = new System.Windows.Forms.Timer(components);
             label7 = new Label();
             button4 = new Button();
+            label8 = new Label();
             SuspendLayout();
             // 
             // button1
@@ -158,12 +159,23 @@
             button4.UseVisualStyleBackColor = true;
             button4.Click += button4_Click;
             // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
+            label8.Location = new Point(448, 414);
+            label8.Name = "label8";
+            label8.Size = new Size(101, 32);
+            label8.TabIndex = 11;
+            label8.Text = "Facing: ";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.Control;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(800, 456);
+            Controls.Add(label8);
             Controls.Add(button4);
             Controls.Add(label7);
             Controls.Add(label4);
@@ -177,7 +189,6 @@
             Controls.Add(button1);
             Name = "Form1";
             Text = "Chaos Spear";
-            Load += Form1_Load;
             ResumeLayout(false);
             PerformLayout();
         }
@@ -196,5 +207,6 @@
         private System.Windows.Forms.Timer timer1;
         private Label label7;
         private Button button4;
+        private Label label8;
     }
 }

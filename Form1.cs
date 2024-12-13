@@ -21,8 +21,8 @@ namespace Chaos_Spear
         private bool attached = false;
         private Process proc;
 
-        private int xcoordOff = 0x02993FE8;
-        private int ringOff = 0x02993FE8;
+        private int xcoordOff = 0x029D2C28;
+        private int ringOff = 0x029D2C28;
 
 
         private IntPtr coordAddress, ringsAddress;
@@ -128,13 +128,10 @@ namespace Chaos_Spear
             }
             gameMem.Read<nint>((nuint)coordAddress, out coordAdd);
 
-            coordAdd += 0x88;
+            coordAdd += 0x130;
             gameMem.Read<nint>((nuint)coordAdd, out coordAdd);
 
-            coordAdd += 0x28;
-            gameMem.Read<nint>((nuint)coordAdd, out coordAdd);
-
-            coordAdd += 0x0;
+            coordAdd += 0x68;
             gameMem.Read<nint>((nuint)coordAdd, out coordAdd);
 
             coordAdd += 0x58;

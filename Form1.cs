@@ -108,7 +108,10 @@ namespace Chaos_Spear
             if (attached)
             {
                 KeyCode key = e.Data.KeyCode;
-                if (key == KeyCode.VcF9)
+                if (key == KeyCode.VcF8){
+                    button4_Click(sender, e);
+                }
+                else if (key == KeyCode.VcF9)
                 {
                     button2_Click(sender, e);
                 }

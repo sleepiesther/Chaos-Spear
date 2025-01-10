@@ -47,6 +47,14 @@
             label9 = new Label();
             label10 = new Label();
             label11 = new Label();
+            button5 = new Button();
+            button6 = new Button();
+            comboBox3 = new ComboBox();
+            label12 = new Label();
+            label13 = new Label();
+            button7 = new Button();
+            label14 = new Label();
+            comboBox4 = new ComboBox();
             SuspendLayout();
             // 
             // button1
@@ -156,7 +164,7 @@
             // 
             // button4
             // 
-            button4.Location = new Point(86, 212);
+            button4.Location = new Point(86, 185);
             button4.Name = "button4";
             button4.Size = new Size(235, 70);
             button4.TabIndex = 10;
@@ -229,15 +237,117 @@
             label11.Location = new Point(448, 414);
             label11.Name = "label11";
             label11.Size = new Size(101, 32);
-            label11.TabIndex = 11;
-            label11.Text = "Facing: ";
+            label11.TabIndex = 16;
+            label11.Text = "Facing: ";  
+            //
+            // Button5
+            //            
+            button5.Location = new Point(10, 415);
+            button5.Name = "button5";
+            button5.Size = new Size(100, 40);
+            button5.TabIndex = 17;
+            button5.Text = "Save to JSON";
+            button5.UseVisualStyleBackColor = true;
+            button5.Click += button5_Click;
+            //
+            // Button6
+            //            
+            button6.Location = new Point(150, 415);
+            button6.Name = "button6";
+            button6.Size = new Size(100, 40);
+            button6.TabIndex = 18;
+            button6.Text = "Load JSON";
+            button6.UseVisualStyleBackColor = true;
+            button6.Click += button6_Click;
+            //
+            // comboBox3
+            //
+            comboBox3.Location = new Point(150, 465);
+            comboBox3.Name = "comboBox3";
+            comboBox3.Size = new Size(150, 70);
+            comboBox3.TabIndex = 19;
+            Dictionary<string, string> comboSource = new Dictionary<string, string>();
+            foreach (string file in Directory.GetFiles(Path.GetDirectoryName(Application.ExecutablePath) + "\\saves", "*.json"))
+            {
+                comboSource.Add(file, file.Split('\\')[^1]);
+            }
+            comboBox3.DataSource = new BindingSource(comboSource, null);
+            comboBox3.DisplayMember = "Value";
+            comboBox3.ValueMember = "Key";
+            comboBox3.DropDownStyle = ComboBoxStyle.DropDownList;
+            //
+            // Label12
+            //
+            label12.AutoSize = true;
+            label12.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            label12.Location = new Point(0, 465);
+            label12.Name = "label12";
+            label12.Size = new Size(101, 32);
+            label12.TabIndex = 20;
+            label12.Text = "Load data from: ";
+            //
+            // Label13
+            //
+            label13.AutoSize = true;
+            label13.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            label13.Location = new Point(00, 490);
+            label13.Name = "label13";
+            label13.Size = new Size(101, 32);
+            label13.TabIndex = 21;
+            label13.Text = "Save slot names: ";
+            for (int x = 0; x < 10; x++){
+                if (x % 5 == 0){
+                    label13.Text += "\r\n";
+                }
+                label13.Text += "Slot " + x + ": None  ";
+            }
+            //
+            // Button7
+            //  
+            button7.Location = new Point(86, 270);
+            button7.Name = "button7";
+            button7.Size = new Size(150, 20);
+            button7.TabIndex = 22;
+            button7.Text = "Wipe save slots";
+            button7.UseVisualStyleBackColor = true;
+            button7.Click += button7_Click;
+            //
+            // Label14
+            //
+            label14.AutoSize = true;
+            label14.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
+            label14.Location = new Point(448, 460);
+            label14.Name = "label14";
+            label14.Size = new Size(101, 32);
+            label14.TabIndex = 23;
+            label14.Text = "Game version: ";
+            //
+            // comboBox4
+            //
+            comboBox4.Location = new Point(600, 465);
+            comboBox4.Name = "comboBox4";
+            comboBox4.Size = new Size(150, 70);
+            comboBox4.TabIndex = 24;
+            comboBox4.Items.Add("Current");
+            comboBox4.Items.Add("Old");
+            comboBox4.SelectedItem = "Current";
+            comboBox4.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBox4.SelectedValueChanged += comboBox4_changed;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.Control;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(850, 550);
+            Controls.Add(comboBox4);
+            Controls.Add(label14);
+            Controls.Add(button7);
+            Controls.Add(label13);
+            Controls.Add(label12);
+            Controls.Add(button6);
+            Controls.Add(comboBox3);
+            Controls.Add(button5);
             Controls.Add(label11);
             Controls.Add(label10);
             Controls.Add(label9);
@@ -282,5 +392,13 @@
         private Label label9;
         private Label label10;
         private Label label11;
+        private Button button5;
+        private Button button6;
+        private ComboBox comboBox3;
+        private Label label12;
+        private Label label13;
+        private Button button7;
+        private Label label14;
+        private ComboBox comboBox4;
     }
 }

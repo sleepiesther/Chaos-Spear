@@ -243,8 +243,6 @@ namespace Chaos_Spear
 
                 speedHorizontal = (float)Math.Round(Math.Sqrt(Math.Pow(kParams.XSpd, 2) + Math.Pow(kParams.ZSpd, 2)), 1);
 
-                comboBox1.SelectedIndex = slotToSave;
-
                 label10.Text = "Showing positions stored in slots " + slotToSave + " : " + slotToLoad;
 
                 label1.Text = "Saved X Pos: " + Math.Round(saveSlots[slotToSave].XPos, 3) + " : " + Math.Round(saveSlots[slotToLoad].XPos, 3);

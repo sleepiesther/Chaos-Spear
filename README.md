@@ -19,6 +19,7 @@ A practice tool for Shadow Generations.
 
 ## How to run:
 - Load Chaos Spear by running Chaos_Spear.exe, and load Shadow Generations at the same time.
+- Choose your game version in the dropdown. Choose "Current" if you are playing on a version that is compatible with the Tokyo DLC, choose "Old" if you are playing on a version from before the Tokyo DLC release
 - When both are open and running, click the "Attach" button on Chaos Spear. It should change to say "Detach". If successful, Chaos Spear is now linked to the game.
 - Once in a playable level (e.g. White Space, a boss, a main stage etc), use the "Save Position" button to save Shadow's current position. Choose a save slot to save to using the dropdown labelled "Save position to slot:". Saving to a slot with data already in it will override that data, so be careful!
 - Use the "Load Position" button to load the position data saved in the current load slot. Choose a slot to load to using the dropdown labelled "Load positon from slot:". All empty slots default to 0, 0, 0. There's no need to worry about loading from an empty slot.
@@ -36,5 +37,5 @@ A practice tool for Shadow Generations.
 - The way Chaos Spear saves position is by grabbing Shadow's coordinates from the game's memory and storing them in the program. It loads positions by injecting those coordinates into the games memory. What this means is you can save coordinates in one stage (e.g RH1) and load them in another stage (e.g SCA2). This isn't very useful, but its cool.
 - This also means you can transfer coordinates from one save to another.
 - Because all slots default to 0, 0, 0, you can use Chaos Spear to find what the origin of every level is. For example, the origin of White Space is just above the collection room.
-- The JSON format used has an array of strings before any of the position data, this is the name of every save slot. You'll have to manually edit this if you want to change any names.
+- The JSON format used has an array of strings before any of the position data, this is the name of every save slot. You'll have to manually edit this if you want to change any names. (Don't make the names too long, you will run out of space in the window :P)
 - There are saves included in the download for every level, including position data for most big skips/sections

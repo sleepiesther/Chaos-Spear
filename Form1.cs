@@ -321,13 +321,24 @@ namespace Chaos_Spear
             try{
                 string jsonString = File.ReadAllText(((KeyValuePair<string,string>)comboBox3.SelectedItem).Key);
                 List<dynamic> jsonData = JsonSerializer.Deserialize<List<dynamic>>(jsonString);
-                label13.Text = "Save slot names: ";
-                for (int x = 0; x < 10; x++){
-                    if (x % 5 == 0){
-                        label13.Text += "\r\n";
+                comboBox1.Items.Clear();
+                comboBox2.Items.Clear();
+                for (int x = 0; x < jsonData.Count - 1; x++){
+                    if (jsonData[0][x].ToString() != "None")
+                    {
+                        comboBox1.Items.Add(x + " (" + jsonData[0][x] + ")");
+                        comboBox2.Items.Add(x + " (" + jsonData[0][x] + ")");
                     }
-                    label13.Text += "Slot " + x + ": " + jsonData[0][x] + "  ";
+                    else
+                    {                
+                        comboBox1.Items.Add(x);
+                        comboBox2.Items.Add(x);
+                    }
                 }
+                slotToSave = 0;
+                slotToLoad = 0;
+                comboBox1.SelectedIndex = 0;
+                comboBox2.SelectedIndex = 0;
                 for (int x = 1; x < jsonData.Count; x++){
                     saveSlots[x-1] = JsonSerializer.Deserialize<GOCPlayerKinematicParams>(jsonData[x]);
                 }
@@ -338,17 +349,18 @@ namespace Chaos_Spear
             }
         }
         private void button7_Click(object sender, EventArgs e){
-            slotToSave = 0;
-            label13.Text = "Save slot names: ";
+            comboBox1.Items.Clear();
+            comboBox2.Items.Clear();
             for (int x = 0; x < 10; x++)
             {
                 saveSlots[x] = new GOCPlayerKinematicParams();
-                
-                if (x % 5 == 0){
-                    label13.Text += "\r\n";
-                }
-                label13.Text += "Slot " + x + ": None  ";
+                comboBox1.Items.Add(x);
+                comboBox2.Items.Add(x);
             }
+            slotToSave = 0;
+            slotToLoad = 0;
+            comboBox1.SelectedIndex = 0;
+            comboBox2.SelectedIndex = 0;
         }
         private void comboBox4_changed(object sender, EventArgs e){
             currentVersion = comboBox4.SelectedItem.ToString();

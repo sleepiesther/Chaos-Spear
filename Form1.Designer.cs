@@ -53,7 +53,6 @@
             label12 = new Label();
             label13 = new Label();
             button7 = new Button();
-            label14 = new Label();
             comboBox4 = new ComboBox();
             SuspendLayout();
             // 
@@ -176,13 +175,13 @@
             // 
             comboBox1.Location = new Point(700, 120);
             comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(70, 70);
+            comboBox1.Size = new Size(130, 70);
             comboBox1.TabIndex = 11;
             for (int x = 0; x < 10; x++)
             {
                 comboBox1.Items.Add(x);
             }
-            comboBox1.SelectedItem = 0;
+            comboBox1.SelectedIndex = 0;
             comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox1.SelectedValueChanged += comboBox1_changed;
             // 
@@ -200,13 +199,13 @@
             // 
             comboBox2.Location = new Point(700, 220);
             comboBox2.Name = "comboBox2";
-            comboBox2.Size = new Size(70, 70);
+            comboBox2.Size = new Size(130, 70);
             comboBox2.TabIndex = 13;
             for (int x = 0; x < 10; x++)
             {
                 comboBox2.Items.Add(x);
             }
-            comboBox2.SelectedItem = 0;
+            comboBox2.SelectedIndex = 0;
             comboBox2.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox2.SelectedValueChanged += comboBox2_changed;
             // 
@@ -286,22 +285,6 @@
             label12.TabIndex = 20;
             label12.Text = "Load data from: ";
             //
-            // Label13
-            //
-            label13.AutoSize = true;
-            label13.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            label13.Location = new Point(00, 490);
-            label13.Name = "label13";
-            label13.Size = new Size(101, 32);
-            label13.TabIndex = 21;
-            label13.Text = "Save slot names: ";
-            for (int x = 0; x < 10; x++){
-                if (x % 5 == 0){
-                    label13.Text += "\r\n";
-                }
-                label13.Text += "Slot " + x + ": None  ";
-            }
-            //
             // Button7
             //  
             button7.Location = new Point(86, 270);
@@ -312,15 +295,15 @@
             button7.UseVisualStyleBackColor = true;
             button7.Click += button7_Click;
             //
-            // Label14
+            // label13
             //
-            label14.AutoSize = true;
-            label14.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
-            label14.Location = new Point(448, 460);
-            label14.Name = "label14";
-            label14.Size = new Size(101, 32);
-            label14.TabIndex = 23;
-            label14.Text = "Game version: ";
+            label13.AutoSize = true;
+            label13.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
+            label13.Location = new Point(448, 460);
+            label13.Name = "label13";
+            label13.Size = new Size(101, 32);
+            label13.TabIndex = 23;
+            label13.Text = "Game version: ";
             //
             // comboBox4
             //
@@ -339,9 +322,8 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.Control;
-            ClientSize = new Size(850, 550);
+            ClientSize = new Size(850, 500);
             Controls.Add(comboBox4);
-            Controls.Add(label14);
             Controls.Add(button7);
             Controls.Add(label13);
             Controls.Add(label12);
@@ -398,7 +380,6 @@
         private Label label12;
         private Label label13;
         private Button button7;
-        private Label label14;
         private ComboBox comboBox4;
     }
 }

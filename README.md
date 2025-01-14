@@ -1,6 +1,7 @@
 # Chaos Spear
 A practice tool for Shadow Generations. 
 
+**This program currently doesn't work on patch 1.10.0.1, sorry!**
 **THIS IS NOT A MOD, THIS IS A SEPARATE PROGRAM**
 
 **PLEASE REFRAIN FROM USING THIS TOOL IN ONLINE MODE**

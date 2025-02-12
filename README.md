@@ -1,7 +1,7 @@
 # Chaos Spear
 A practice tool for Shadow Generations. 
 
-**This program currently doesn't work on patch 1.10.0.1, sorry!**
+**This program currently doesn't work on patch 1.10.0.1 or later, sorry!**
 
 **THIS IS NOT A MOD, THIS IS A SEPARATE PROGRAM**
 
@@ -11,6 +11,7 @@ A practice tool for Shadow Generations.
 - Save and load position and rotation, with 10 slots for storing data.
 - Save and load positions to and from JSON files.
 - Give yourself 999 rings at any time.
+- View your current speed,
 
 ## How to download:
 - Download the .zip folder from the most recent release, and unzip it.
@@ -27,7 +28,7 @@ A practice tool for Shadow Generations.
 - Use the "Load Position" button to load the position data saved in the current load slot. Choose a slot to load to using the dropdown labelled "Load positon from slot:". All empty slots default to 0, 0, 0. There's no need to worry about loading from an empty slot.
 - Use the "Give 999 Rings" button to immediately grant yourself 999 rings.
 - Use the "Save to JSON" button to save all of your current slots to a JSON file (name is hardcoded to saves/save.json).
-- Use the "Load from JSON" button to load the data from the file selected in the dropdown.
+- Use the "Load from JSON" button to load the data from the file selected in the dropdown. The list of JSON files is updated on boot, so if a file is missing you may have to reboot Chaos Spear
 
 ## Notes:
 - You can see the data stored in both the slot you have set to save to, and the slot you have set to load from in the bottom left corner. It is formatted like: "Saved [AXIS] Pos: [data for the slot selected to save to] : [data for the slot selected to load from]" 

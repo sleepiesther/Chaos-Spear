@@ -38,7 +38,7 @@ namespace Chaos_Spear
         List<GOCPlayerKinematicParams> saveSlots = new List<GOCPlayerKinematicParams>();
         int slotToSave = 0;
         int slotToLoad = 0;
-        string currentVersion = "Current";
+        string currentVersion = "Old";
         private float[] savedPos = new float[3];
 
         float[] oldPos = { 0, 0, 0 };
@@ -254,7 +254,15 @@ namespace Chaos_Spear
                 label4.Text = "Current X Pos: " + Math.Round(kParams.XPos, 1);
                 label5.Text = "Current Y Pos: " + Math.Round(kParams.YPos, 1);
                 label6.Text = "Current Z Pos: " + Math.Round(kParams.ZPos, 1);
-                label7.Text = "Speed: " + speedHorizontal;
+                string speedText;
+                if (checkBox1.Checked){
+                    speedText = "Speed: " + speedHorizontal + " (" + Math.Round(kParams.XSpd, 2) + ", " + Math.Round(kParams.YSpd, 2) + ", " + Math.Round(kParams.ZSpd, 2) + ")";
+                }
+                else{
+                    speedText = "Speed: " + speedHorizontal;
+                }
+
+                label7.Text = speedText;
 
                 label11.Text = "Facing: " + Math.Round(heading(kParams.QRotW, kParams.QRotY), 1);
 

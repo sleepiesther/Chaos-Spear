@@ -54,6 +54,8 @@
             label13 = new Label();
             button7 = new Button();
             comboBox4 = new ComboBox();
+            checkBox1 = new CheckBox();
+            label14 = new Label();
             SuspendLayout();
             // 
             // button1
@@ -313,9 +315,26 @@
             comboBox4.TabIndex = 24;
             comboBox4.Items.Add("Current");
             comboBox4.Items.Add("Old");
-            comboBox4.SelectedItem = "Current";
+            comboBox4.SelectedItem = "Old";
             comboBox4.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox4.SelectedValueChanged += comboBox4_changed;
+            //
+            // checkBox1
+            //
+            checkBox1.AutoSize = true;
+            checkBox1.Location = new Point(730, 293);
+            checkBox1.Name = "checkBox1";
+            checkBox1.TabIndex = 25;
+            //
+            // label14
+            //
+            label14.AutoSize = true;
+            label14.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
+            label14.Location = new Point(448, 285);
+            label14.Name = "label14";
+            label14.Size = new Size(101, 32);
+            label14.TabIndex = 26;
+            label14.Text = "Show detailed speed values: ";
             // 
             // Form1
             // 
@@ -323,6 +342,8 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.Control;
             ClientSize = new Size(850, 500);
+            Controls.Add(label14);
+            Controls.Add(checkBox1);
             Controls.Add(comboBox4);
             Controls.Add(button7);
             Controls.Add(label13);
@@ -381,5 +402,7 @@
         private Label label13;
         private Button button7;
         private ComboBox comboBox4;
+        private CheckBox checkBox1;
+        private Label label14;
     }
 }

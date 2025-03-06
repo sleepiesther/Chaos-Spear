@@ -11,7 +11,7 @@ A practice tool for Shadow Generations.
 - Save and load position and rotation, with 10 slots for storing data.
 - Save and load positions to and from JSON files.
 - Give yourself 999 rings at any time.
-- View your current speed,
+- View your current speed, both as a single horizontal speed value and as a vector of all 3 values.
 
 ## How to download:
 - Download the .zip folder from the most recent release, and unzip it.

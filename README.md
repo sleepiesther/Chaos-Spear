@@ -24,7 +24,7 @@ A practice tool for Shadow Generations.
 - Load Chaos Spear by running Chaos_Spear.exe, and load Shadow Generations at the same time.
 - Choose your game version in the dropdown. Choose "Current" if you are playing on a version that is compatible with the Tokyo DLC, choose "Old" if you are playing on a version from before the Tokyo DLC release
 - When both are open and running, click the "Attach" button on Chaos Spear. It should change to say "Detach". If successful, Chaos Spear is now linked to the game.
-- Once in a playable level (e.g. White Space, a boss, a main stage etc), use the "Save Position" button to save Shadow's current position. Choose a save slot to save to using the dropdown labelled "Save position to slot:". Saving to a slot with data already in it will override that data, so be careful!
+- Once in a playable level (e.g. White Space, a boss, a main stage etc), use the "Save Position" button to save Shadow's current position. Choose a save slot to save to using the dropdown labelled "Save position to slot:". Saving to a slot with data already in it will overwrite that data, so be careful!
 - Use the "Load Position" button to load the position data saved in the current load slot. Choose a slot to load to using the dropdown labelled "Load positon from slot:". All empty slots default to 0, 0, 0. There's no need to worry about loading from an empty slot.
 - Use the "Give 999 Rings" button to immediately grant yourself 999 rings.
 - Use the "Save to JSON" button to save all of your current slots to a JSON file (name is hardcoded to saves/save.json).

@@ -5,13 +5,13 @@ A practice tool for Shadow Generations.
 
 **THIS IS NOT A MOD, THIS IS A SEPARATE PROGRAM**
 
-**PLEASE REFRAIN FROM USING THIS TOOL IN ONLINE MODE**
-
 ## Features:
 - Save and load position and rotation, with 10 slots for storing data.
 - Save and load positions to and from JSON files.
 - Give yourself 999 rings at any time.
 - View your current speed, both as a single horizontal speed value and as a vector of all 3 values.
+- Charge Chaos Control at any time.
+- Turn on an infinite boost cheat at any time.
 
 ## How to download:
 - Download the .zip folder from the most recent release, and unzip it.
@@ -35,8 +35,6 @@ A practice tool for Shadow Generations.
 - Messing around with positions may cause levels to break, particularly in more scripted areas like the RH sections of SCA1, RC1, and SH1; and bosses. If anything breaks, quitting/retrying the level, dying, or reloading your save should fix everything.
 - Teleporting across large distances of a level may cause you to land in a random kill plane even when your destination is safe in normal gameplay, especially if you are teleporting to a position behind your current one. To fix this when teleporting forward, use the save slots to save positions at the end of segments of the level, and teleport segment by segment until you reach your destination. This should trick the game into thinking you've progressed through the level properly, and therefore remove any kill planes. The best way to fix this when teleporting backwards is to just retry.
 - Attempting to save, load, or give yourself rings while not in a level (e.g. while in the main menu) will cause Chaos Spear to break (this won't cause any damage to the game). So don't do that :D.
-- As stated before, please do not use this tool in online mode. SEGA has expressed interest in finding and removing hackers/hacked times from the Shadow Generations in-game leaderboards. While it is unlikely that they will ban anyone from the leaderboards for using tools like Chaos Spear in online mode, it is still a possibility. It is safer to use this tool only in single player.
-- Obviously do not use this tool to actually set and submit erroneous times to the in-game leaderboards. I should not have to explain why this isn't ok. This also puts your account at greater risk of being affected by any ban waves.
 - The way Chaos Spear saves position is by grabbing Shadow's coordinates from the game's memory and storing them in the program. It loads positions by injecting those coordinates into the games memory. What this means is you can save coordinates in one stage (e.g RH1) and load them in another stage (e.g SCA2). This isn't very useful, but its cool.
 - This also means you can transfer coordinates from one save to another.
 - Because all slots default to 0, 0, 0, you can use Chaos Spear to find what the origin of every level is. For example, the origin of White Space is just above the collection room.

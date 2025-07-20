@@ -25,8 +25,9 @@ namespace Chaos_Spear
         private int xcoordOff;
         private int ringOff;
         private int ccOff;
+        private int boostOff;
 
-        private IntPtr coordAddress, ringsAddress, ccAddress;
+        private IntPtr coordAddress, ringsAddress, ccAddress, boostAddress;
 
         private ExternalMemory gameMem;
 
@@ -34,6 +35,7 @@ namespace Chaos_Spear
         nint camCoordAdd;
         nint ringAdd;
         nint ccAdd;
+        nint boostAdd;
 
         GOCPlayerKinematicParams kParams;
         GOCPlayerKinematicParams savedParams;
@@ -94,7 +96,7 @@ namespace Chaos_Spear
                         xcoordOff = 0x02993FE8;
                         ringOff = 0x02993FE8;
                         ccOff = 0x02999C60;
-
+                        boostOff = 0x02993FE8;
                     }
                     coordAddress = IntPtr.Add(proc.MainModule.BaseAddress, xcoordOff);
                     ringsAddress = IntPtr.Add(proc.MainModule.BaseAddress, ringOff);
@@ -447,6 +449,22 @@ namespace Chaos_Spear
             gameMem.Read<nint>((nuint)ccAdd + 0x18, out ccAdd);
             gameMem.Read<nint>((nuint)ccAdd + 0x80, out ccAdd);
             gameMem.Write<int>((nuint)ccAdd + 0x38, 100);
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            boostAddress = IntPtr.Add(proc.MainModule.BaseAddress, boostOff);
+            gameMem.Read<nint>((nuint)boostAddress, out boostAdd);
+            gameMem.Read<nint>((nuint)boostAdd + 0x88, out boostAdd);
+            gameMem.Read<nint>((nuint)boostAdd + 0x28, out boostAdd);
+            gameMem.Read<nint>((nuint)boostAdd + 0x0, out boostAdd);
+            gameMem.Read<nint>((nuint)boostAdd + 0x130, out boostAdd);
+            gameMem.Read<nint>((nuint)boostAdd + 0x18, out boostAdd);
+            gameMem.Read<nint>((nuint)boostAdd + 0xA8, out boostAdd);
+            gameMem.Read<nint>((nuint)boostAdd + 0x40, out boostAdd);
+            gameMem.Read<nint>((nuint)boostAdd + 0x18, out boostAdd);
+            gameMem.Read<nint>((nuint)boostAdd + 0x18, out boostAdd);
+            gameMem.Write<float>((nuint)boostAdd + 0x68, 100);
         }
     }
 }

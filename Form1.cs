@@ -72,6 +72,7 @@ namespace Chaos_Spear
                 comboBox3.DataSource = new BindingSource(comboSource, null);
                 saveSlots.Add(new GOCPlayerKinematicParams());
             }
+            comboBox4.SelectedIndex = 1;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -296,7 +297,7 @@ namespace Chaos_Spear
 
                 label11.Text = "Facing: " + Math.Round(heading(kParams.QRotW, kParams.QRotY), 1);
 
-                if (checkBox2.Checked) {
+                if (checkBox2.Checked && currentVersion == "Old") {
                     boostAddress = IntPtr.Add(proc.MainModule.BaseAddress, boostOff);
                     gameMem.Read<nint>((nuint)boostAddress, out boostAdd);
                     gameMem.Read<nint>((nuint)boostAdd + 0x88, out boostAdd);
@@ -327,6 +328,11 @@ namespace Chaos_Spear
         }
         private void button4_Click(object sender, EventArgs e)
         {
+            if (!attached)
+            {
+                MessageBox.Show("Attach program to SXSG first");
+                return;
+            }
             if (currentVersion == "Old")
             {
                 ringsAddress = IntPtr.Add(proc.MainModule.BaseAddress, ringOff);
@@ -444,6 +450,14 @@ namespace Chaos_Spear
         private void comboBox4_changed(object sender, EventArgs e)
         {
             currentVersion = comboBox4.SelectedItem.ToString();
+            if (currentVersion == "Current")
+            {
+                label16.Text = "Boost and Chaos Control don't work on this version. \nIf you find the pointers make a pull request :)";
+            }
+            else
+            {
+                label16.Text = "";
+            }
         }
         //This is just copied from Portal Gear, the Sonic Frontiers Save Position Tool
         public float heading(float rotW, float rotY)
@@ -473,18 +487,26 @@ namespace Chaos_Spear
 
         private void button8_Click(object sender, EventArgs e)
         {
-            ccAddress = IntPtr.Add(proc.MainModule.BaseAddress, ccOff);
-            gameMem.Read<nint>((nuint)ccAddress, out ccAdd);
-            gameMem.Read<nint>((nuint)ccAdd + 0x30, out ccAdd);
-            gameMem.Read<nint>((nuint)ccAdd + 0x88, out ccAdd);
-            gameMem.Read<nint>((nuint)ccAdd + 0x28, out ccAdd);
-            gameMem.Read<nint>((nuint)ccAdd + 0x0, out ccAdd);
-            gameMem.Read<nint>((nuint)ccAdd + 0x2D0, out ccAdd);
-            gameMem.Read<nint>((nuint)ccAdd + 0x38, out ccAdd);
-            gameMem.Read<nint>((nuint)ccAdd + 0x108, out ccAdd);
-            gameMem.Read<nint>((nuint)ccAdd + 0x18, out ccAdd);
-            gameMem.Read<nint>((nuint)ccAdd + 0x80, out ccAdd);
-            gameMem.Write<int>((nuint)ccAdd + 0x38, 100);
+            if (!attached)
+            {
+                MessageBox.Show("Attach program to SXSG first");
+                return;
+            }
+            if (currentVersion == "Old")
+            {
+                ccAddress = IntPtr.Add(proc.MainModule.BaseAddress, ccOff);
+                gameMem.Read<nint>((nuint)ccAddress, out ccAdd);
+                gameMem.Read<nint>((nuint)ccAdd + 0x30, out ccAdd);
+                gameMem.Read<nint>((nuint)ccAdd + 0x88, out ccAdd);
+                gameMem.Read<nint>((nuint)ccAdd + 0x28, out ccAdd);
+                gameMem.Read<nint>((nuint)ccAdd + 0x0, out ccAdd);
+                gameMem.Read<nint>((nuint)ccAdd + 0x2D0, out ccAdd);
+                gameMem.Read<nint>((nuint)ccAdd + 0x38, out ccAdd);
+                gameMem.Read<nint>((nuint)ccAdd + 0x108, out ccAdd);
+                gameMem.Read<nint>((nuint)ccAdd + 0x18, out ccAdd);
+                gameMem.Read<nint>((nuint)ccAdd + 0x80, out ccAdd);
+                gameMem.Write<int>((nuint)ccAdd + 0x38, 100);
+            }
         }
     }
 }

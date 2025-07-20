@@ -59,6 +59,7 @@
             button8 = new Button();
             label15 = new Label();
             checkBox2 = new CheckBox();
+            label16 = new Label();
             SuspendLayout();
             // 
             // button1
@@ -321,7 +322,6 @@
             // 
             comboBox4.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox4.Items.AddRange(new object[] { "Current", "Old" });
-            comboBox4.SelectedIndex = 1;
             comboBox4.Location = new Point(858, 826);
             comboBox4.Margin = new Padding(4, 5, 4, 5);
             comboBox4.Name = "comboBox4";
@@ -379,12 +379,23 @@
             checkBox2.TabIndex = 30;
             checkBox2.UseVisualStyleBackColor = true;
             // 
+            // label16
+            // 
+            label16.AutoSize = true;
+            label16.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            label16.Location = new Point(609, 885);
+            label16.Margin = new Padding(4, 0, 4, 0);
+            label16.Name = "label16";
+            label16.Size = new Size(0, 32);
+            label16.TabIndex = 31;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.Control;
             ClientSize = new Size(1214, 980);
+            Controls.Add(label16);
             Controls.Add(checkBox2);
             Controls.Add(label15);
             Controls.Add(button8);
@@ -454,5 +465,6 @@
         private Button button8;
         private Label label15;
         private CheckBox checkBox2;
+        private Label label16;
     }
 }

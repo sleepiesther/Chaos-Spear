@@ -133,7 +133,11 @@ namespace Chaos_Spear
             if (attached)
             {
                 KeyCode key = e.Data.KeyCode;
-                if (key == KeyCode.VcF8)
+                if (key == KeyCode.VcF7)
+                {
+                    button8_Click(sender, e);
+                }
+                else if (key == KeyCode.VcF8)
                 {
                     button4_Click(sender, e);
                 }
@@ -292,6 +296,21 @@ namespace Chaos_Spear
 
                 label11.Text = "Facing: " + Math.Round(heading(kParams.QRotW, kParams.QRotY), 1);
 
+                if (checkBox2.Checked) {
+                    boostAddress = IntPtr.Add(proc.MainModule.BaseAddress, boostOff);
+                    gameMem.Read<nint>((nuint)boostAddress, out boostAdd);
+                    gameMem.Read<nint>((nuint)boostAdd + 0x88, out boostAdd);
+                    gameMem.Read<nint>((nuint)boostAdd + 0x28, out boostAdd);
+                    gameMem.Read<nint>((nuint)boostAdd + 0x0, out boostAdd);
+                    gameMem.Read<nint>((nuint)boostAdd + 0x130, out boostAdd);
+                    gameMem.Read<nint>((nuint)boostAdd + 0x18, out boostAdd);
+                    gameMem.Read<nint>((nuint)boostAdd + 0xA8, out boostAdd);
+                    gameMem.Read<nint>((nuint)boostAdd + 0x40, out boostAdd);
+                    gameMem.Read<nint>((nuint)boostAdd + 0x18, out boostAdd);
+                    gameMem.Read<nint>((nuint)boostAdd + 0x18, out boostAdd);
+                    gameMem.Write<float>((nuint)boostAdd + 0x68, 100);
+                }
+
             }
             catch (Exception exception)
             {
@@ -308,15 +327,32 @@ namespace Chaos_Spear
         }
         private void button4_Click(object sender, EventArgs e)
         {
-            ringsAddress = IntPtr.Add(proc.MainModule.BaseAddress, ringOff);
-            gameMem.Read<nint>((nuint)ringsAddress, out ringAdd);
-            gameMem.Read<nint>((nuint)ringAdd + 0x1B0, out ringAdd);
-            gameMem.Read<nint>((nuint)ringAdd + 0x20, out ringAdd);
-            gameMem.Read<nint>((nuint)ringAdd + 0x168, out ringAdd);
-            gameMem.Read<nint>((nuint)ringAdd + 0x0, out ringAdd);
-            gameMem.Read<nint>((nuint)ringAdd + 0x20, out ringAdd);
-            gameMem.Read<nint>((nuint)ringAdd + 0x30, out ringAdd);
-            gameMem.Write<int>((nuint)ringAdd + 0x28, 999);
+            if (currentVersion == "Old")
+            {
+                ringsAddress = IntPtr.Add(proc.MainModule.BaseAddress, ringOff);
+                gameMem.Read<nint>((nuint)ringsAddress, out ringAdd);
+                gameMem.Read<nint>((nuint)ringAdd + 0x150, out ringAdd);
+                gameMem.Read<nint>((nuint)ringAdd + 0x460, out ringAdd);
+                gameMem.Read<nint>((nuint)ringAdd + 0x48, out ringAdd);
+                gameMem.Read<nint>((nuint)ringAdd + 0x88, out ringAdd);
+                gameMem.Read<nint>((nuint)ringAdd + 0x28, out ringAdd);
+                gameMem.Read<nint>((nuint)ringAdd + 0x0, out ringAdd);
+                gameMem.Read<nint>((nuint)ringAdd + 0x2D0, out ringAdd);
+                gameMem.Read<nint>((nuint)ringAdd + 0x30, out ringAdd);
+                gameMem.Write<int>((nuint)ringAdd + 0x28, 999);
+            }
+            else if (currentVersion == "Current")
+            {
+                ringsAddress = IntPtr.Add(proc.MainModule.BaseAddress, ringOff);
+                gameMem.Read<nint>((nuint)ringsAddress, out ringAdd);
+                gameMem.Read<nint>((nuint)ringAdd + 0x10, out ringAdd);
+                gameMem.Read<nint>((nuint)ringAdd + 0x20, out ringAdd);
+                gameMem.Read<nint>((nuint)ringAdd + 0x168, out ringAdd);
+                gameMem.Read<nint>((nuint)ringAdd + 0x0, out ringAdd);
+                gameMem.Read<nint>((nuint)ringAdd + 0x20, out ringAdd);
+                gameMem.Read<nint>((nuint)ringAdd + 0x30, out ringAdd);
+                gameMem.Write<int>((nuint)ringAdd + 0x28, 999);
+            }
 
         }
         private void comboBox1_changed(object sender, EventArgs e)
@@ -449,22 +485,6 @@ namespace Chaos_Spear
             gameMem.Read<nint>((nuint)ccAdd + 0x18, out ccAdd);
             gameMem.Read<nint>((nuint)ccAdd + 0x80, out ccAdd);
             gameMem.Write<int>((nuint)ccAdd + 0x38, 100);
-        }
-
-        private void button9_Click(object sender, EventArgs e)
-        {
-            boostAddress = IntPtr.Add(proc.MainModule.BaseAddress, boostOff);
-            gameMem.Read<nint>((nuint)boostAddress, out boostAdd);
-            gameMem.Read<nint>((nuint)boostAdd + 0x88, out boostAdd);
-            gameMem.Read<nint>((nuint)boostAdd + 0x28, out boostAdd);
-            gameMem.Read<nint>((nuint)boostAdd + 0x0, out boostAdd);
-            gameMem.Read<nint>((nuint)boostAdd + 0x130, out boostAdd);
-            gameMem.Read<nint>((nuint)boostAdd + 0x18, out boostAdd);
-            gameMem.Read<nint>((nuint)boostAdd + 0xA8, out boostAdd);
-            gameMem.Read<nint>((nuint)boostAdd + 0x40, out boostAdd);
-            gameMem.Read<nint>((nuint)boostAdd + 0x18, out boostAdd);
-            gameMem.Read<nint>((nuint)boostAdd + 0x18, out boostAdd);
-            gameMem.Write<float>((nuint)boostAdd + 0x68, 100);
         }
     }
 }

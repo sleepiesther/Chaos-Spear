@@ -57,13 +57,14 @@
             checkBox1 = new CheckBox();
             label14 = new Label();
             button8 = new Button();
-            button9 = new Button();
+            label15 = new Label();
+            checkBox2 = new CheckBox();
             SuspendLayout();
             // 
             // button1
             // 
             button1.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            button1.Location = new Point(123, 93);
+            button1.Location = new Point(120, 41);
             button1.Margin = new Padding(4, 5, 4, 5);
             button1.Name = "button1";
             button1.Size = new Size(336, 192);
@@ -98,7 +99,7 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
-            label1.Location = new Point(7, 517);
+            label1.Location = new Point(4, 681);
             label1.Margin = new Padding(4, 0, 4, 0);
             label1.Name = "label1";
             label1.Size = new Size(233, 48);
@@ -109,7 +110,7 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
-            label2.Location = new Point(7, 570);
+            label2.Location = new Point(4, 734);
             label2.Margin = new Padding(4, 0, 4, 0);
             label2.Name = "label2";
             label2.Size = new Size(231, 48);
@@ -120,7 +121,7 @@
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
-            label3.Location = new Point(7, 622);
+            label3.Location = new Point(4, 786);
             label3.Margin = new Padding(4, 0, 4, 0);
             label3.Name = "label3";
             label3.Size = new Size(231, 48);
@@ -131,7 +132,7 @@
             // 
             label4.AutoSize = true;
             label4.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
-            label4.Location = new Point(640, 517);
+            label4.Location = new Point(641, 568);
             label4.Margin = new Padding(4, 0, 4, 0);
             label4.Name = "label4";
             label4.Size = new Size(258, 48);
@@ -142,7 +143,7 @@
             // 
             label5.AutoSize = true;
             label5.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
-            label5.Location = new Point(640, 570);
+            label5.Location = new Point(641, 621);
             label5.Margin = new Padding(4, 0, 4, 0);
             label5.Name = "label5";
             label5.Size = new Size(258, 48);
@@ -153,7 +154,7 @@
             // 
             label6.AutoSize = true;
             label6.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
-            label6.Location = new Point(639, 622);
+            label6.Location = new Point(640, 673);
             label6.Margin = new Padding(4, 0, 4, 0);
             label6.Name = "label6";
             label6.Size = new Size(260, 48);
@@ -168,7 +169,7 @@
             // 
             label7.AutoSize = true;
             label7.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
-            label7.Location = new Point(639, 417);
+            label7.Location = new Point(640, 468);
             label7.Margin = new Padding(4, 0, 4, 0);
             label7.Name = "label7";
             label7.Size = new Size(142, 48);
@@ -177,7 +178,7 @@
             // 
             // button4
             // 
-            button4.Location = new Point(123, 308);
+            button4.Location = new Point(120, 256);
             button4.Margin = new Padding(4, 5, 4, 5);
             button4.Name = "button4";
             button4.Size = new Size(336, 117);
@@ -232,7 +233,7 @@
             // 
             label10.AutoSize = true;
             label10.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            label10.Location = new Point(7, 483);
+            label10.Location = new Point(4, 647);
             label10.Margin = new Padding(4, 0, 4, 0);
             label10.Name = "label10";
             label10.Size = new Size(449, 32);
@@ -243,7 +244,7 @@
             // 
             label11.AutoSize = true;
             label11.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
-            label11.Location = new Point(640, 690);
+            label11.Location = new Point(641, 741);
             label11.Margin = new Padding(4, 0, 4, 0);
             label11.Name = "label11";
             label11.Size = new Size(148, 48);
@@ -252,7 +253,7 @@
             // 
             // button5
             // 
-            button5.Location = new Point(14, 692);
+            button5.Location = new Point(11, 856);
             button5.Margin = new Padding(4, 5, 4, 5);
             button5.Name = "button5";
             button5.Size = new Size(143, 67);
@@ -263,7 +264,7 @@
             // 
             // button6
             // 
-            button6.Location = new Point(214, 692);
+            button6.Location = new Point(211, 856);
             button6.Margin = new Padding(4, 5, 4, 5);
             button6.Name = "button6";
             button6.Size = new Size(143, 67);
@@ -276,7 +277,7 @@
             // 
             comboBox3.DisplayMember = "Value";
             comboBox3.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboBox3.Location = new Point(214, 775);
+            comboBox3.Location = new Point(211, 939);
             comboBox3.Margin = new Padding(4, 5, 4, 5);
             comboBox3.Name = "comboBox3";
             comboBox3.Size = new Size(213, 33);
@@ -287,7 +288,7 @@
             // 
             label12.AutoSize = true;
             label12.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            label12.Location = new Point(0, 775);
+            label12.Location = new Point(-3, 939);
             label12.Margin = new Padding(4, 0, 4, 0);
             label12.Name = "label12";
             label12.Size = new Size(203, 32);
@@ -298,7 +299,7 @@
             // 
             label13.AutoSize = true;
             label13.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
-            label13.Location = new Point(640, 767);
+            label13.Location = new Point(641, 818);
             label13.Margin = new Padding(4, 0, 4, 0);
             label13.Name = "label13";
             label13.Size = new Size(212, 38);
@@ -307,7 +308,7 @@
             // 
             // button7
             // 
-            button7.Location = new Point(123, 450);
+            button7.Location = new Point(120, 614);
             button7.Margin = new Padding(4, 5, 4, 5);
             button7.Name = "button7";
             button7.Size = new Size(214, 33);
@@ -320,7 +321,8 @@
             // 
             comboBox4.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox4.Items.AddRange(new object[] { "Current", "Old" });
-            comboBox4.Location = new Point(857, 775);
+            comboBox4.SelectedIndex = 1;
+            comboBox4.Location = new Point(858, 826);
             comboBox4.Margin = new Padding(4, 5, 4, 5);
             comboBox4.Name = "comboBox4";
             comboBox4.Size = new Size(213, 33);
@@ -330,7 +332,7 @@
             // checkBox1
             // 
             checkBox1.AutoSize = true;
-            checkBox1.Location = new Point(1043, 488);
+            checkBox1.Location = new Point(1044, 539);
             checkBox1.Margin = new Padding(4, 5, 4, 5);
             checkBox1.Name = "checkBox1";
             checkBox1.Size = new Size(22, 21);
@@ -340,7 +342,7 @@
             // 
             label14.AutoSize = true;
             label14.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
-            label14.Location = new Point(640, 475);
+            label14.Location = new Point(641, 526);
             label14.Margin = new Padding(4, 0, 4, 0);
             label14.Name = "label14";
             label14.Size = new Size(393, 38);
@@ -349,31 +351,42 @@
             // 
             // button8
             // 
-            button8.Location = new Point(502, 431);
+            button8.Location = new Point(120, 399);
             button8.Name = "button8";
-            button8.Size = new Size(112, 34);
+            button8.Size = new Size(336, 117);
             button8.TabIndex = 27;
-            button8.Text = "button8";
+            button8.Text = "Charge Chaos Control";
             button8.UseVisualStyleBackColor = true;
             button8.Click += button8_Click;
             // 
-            // button9
+            // label15
             // 
-            button9.Location = new Point(502, 484);
-            button9.Name = "button9";
-            button9.Size = new Size(112, 34);
-            button9.TabIndex = 28;
-            button9.Text = "button9";
-            button9.UseVisualStyleBackColor = true;
-            button9.Click += button9_Click;
+            label15.AutoSize = true;
+            label15.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
+            label15.Location = new Point(120, 547);
+            label15.Margin = new Padding(4, 0, 4, 0);
+            label15.Name = "label15";
+            label15.Size = new Size(203, 38);
+            label15.TabIndex = 29;
+            label15.Text = "Infinite boost:";
+            // 
+            // checkBox2
+            // 
+            checkBox2.AutoSize = true;
+            checkBox2.Location = new Point(332, 561);
+            checkBox2.Name = "checkBox2";
+            checkBox2.Size = new Size(22, 21);
+            checkBox2.TabIndex = 30;
+            checkBox2.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.Control;
-            ClientSize = new Size(1214, 833);
-            Controls.Add(button9);
+            ClientSize = new Size(1214, 980);
+            Controls.Add(checkBox2);
+            Controls.Add(label15);
             Controls.Add(button8);
             Controls.Add(label14);
             Controls.Add(checkBox1);
@@ -439,6 +452,7 @@
         private CheckBox checkBox1;
         private Label label14;
         private Button button8;
-        private Button button9;
+        private Label label15;
+        private CheckBox checkBox2;
     }
 }

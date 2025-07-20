@@ -24,14 +24,16 @@ namespace Chaos_Spear
         private Process proc;
         private int xcoordOff;
         private int ringOff;
+        private int ccOff;
 
-        private IntPtr coordAddress, ringsAddress;
+        private IntPtr coordAddress, ringsAddress, ccAddress;
 
         private ExternalMemory gameMem;
 
         nint coordAdd;
         nint camCoordAdd;
         nint ringAdd;
+        nint ccAdd;
 
         GOCPlayerKinematicParams kParams;
         GOCPlayerKinematicParams savedParams;
@@ -82,13 +84,17 @@ namespace Chaos_Spear
                         MessageBox.Show("SXSG could not be found");
                         return;
                     }
-                    if(currentVersion == "Current"){
+                    if (currentVersion == "Current")
+                    {
                         xcoordOff = 0x029D2C28;
                         ringOff = 0x029D2C28;
                     }
-                    else if(currentVersion == "Old"){
+                    else if (currentVersion == "Old")
+                    {
                         xcoordOff = 0x02993FE8;
                         ringOff = 0x02993FE8;
+                        ccOff = 0x02999C60;
+
                     }
                     coordAddress = IntPtr.Add(proc.MainModule.BaseAddress, xcoordOff);
                     ringsAddress = IntPtr.Add(proc.MainModule.BaseAddress, ringOff);
@@ -99,7 +105,7 @@ namespace Chaos_Spear
                     button1.Text = "Detach";
 
                     timer1.Start();
-                    
+
                     kbHook = new SimpleGlobalHook(true);
                     kbHook.KeyPressed += handle_keys;
                     task = kbHook.RunAsync();
@@ -125,7 +131,8 @@ namespace Chaos_Spear
             if (attached)
             {
                 KeyCode key = e.Data.KeyCode;
-                if (key == KeyCode.VcF8){
+                if (key == KeyCode.VcF8)
+                {
                     button4_Click(sender, e);
                 }
                 else if (key == KeyCode.VcF9)
@@ -147,7 +154,8 @@ namespace Chaos_Spear
                 return;
             }
             gameMem.Read<nint>((nuint)coordAddress, out coordAdd);
-            if (currentVersion == "Current"){
+            if (currentVersion == "Current")
+            {
                 coordAdd += 0x1B0;
                 gameMem.Read<nint>((nuint)coordAdd, out coordAdd);
 
@@ -165,7 +173,8 @@ namespace Chaos_Spear
 
                 coordAdd += 0x48;
             }
-            else if(currentVersion == "Old"){
+            else if (currentVersion == "Old")
+            {
                 coordAdd += 0x88;
                 gameMem.Read<nint>((nuint)coordAdd, out coordAdd);
 
@@ -182,7 +191,7 @@ namespace Chaos_Spear
             }
             gameMem.Read<nint>((nuint)coordAdd, out coordAdd);
             gameMem.Read((nuint)coordAdd, out savedParams);
-            
+
             saveSlots[slotToSave] = savedParams;
         }
 
@@ -215,7 +224,8 @@ namespace Chaos_Spear
 
                 gameMem.Read<nint>((nuint)coordAddress, out coordAdd);
 
-                if (currentVersion == "Current"){
+                if (currentVersion == "Current")
+                {
                     coordAdd += 0x1B0;
                     gameMem.Read<nint>((nuint)coordAdd, out coordAdd);
 
@@ -233,7 +243,8 @@ namespace Chaos_Spear
 
                     coordAdd += 0x48;
                 }
-                else if(currentVersion == "Old"){
+                else if (currentVersion == "Old")
+                {
                     coordAdd += 0x88;
                     gameMem.Read<nint>((nuint)coordAdd, out coordAdd);
 
@@ -266,10 +277,12 @@ namespace Chaos_Spear
                 label5.Text = "Current Y Pos: " + Math.Round(kParams.YPos, 1);
                 label6.Text = "Current Z Pos: " + Math.Round(kParams.ZPos, 1);
                 string speedText;
-                if (checkBox1.Checked){
+                if (checkBox1.Checked)
+                {
                     speedText = "Speed: " + speedHorizontal + " (" + Math.Round(kParams.XSpd, 2) + ", " + Math.Round(kParams.YSpd, 2) + ", " + Math.Round(kParams.ZSpd, 2) + ")";
                 }
-                else{
+                else
+                {
                     speedText = "Speed: " + speedHorizontal;
                 }
 
@@ -307,25 +320,29 @@ namespace Chaos_Spear
         private void comboBox1_changed(object sender, EventArgs e)
         {
             slotToSave = comboBox1.SelectedIndex;
-            
+
         }
         private void comboBox2_changed(object sender, EventArgs e)
         {
             slotToLoad = comboBox2.SelectedIndex;
         }
 
-        private void button5_Click(object sender, EventArgs e){
+        private void button5_Click(object sender, EventArgs e)
+        {
             // I hate this with all of my soul but frankly I dont feel like fixing it
-            try{
+            try
+            {
                 List<dynamic> saveSlotsWithNames = new List<dynamic>();
                 List<string> names = new List<string>();
 
-                for (int x = 0; x < saveSlots.Count; x++){
+                for (int x = 0; x < saveSlots.Count; x++)
+                {
                     names.Add("None");
                 }
                 saveSlotsWithNames.Add(names);
-                foreach (GOCPlayerKinematicParams slot in saveSlots){
-                    saveSlotsWithNames.Add(slot);   
+                foreach (GOCPlayerKinematicParams slot in saveSlots)
+                {
+                    saveSlotsWithNames.Add(slot);
                 }
 
                 File.WriteAllText(Path.GetDirectoryName(Application.ExecutablePath) + "\\saves\\save.json", JsonSerializer.Serialize(saveSlotsWithNames));
@@ -335,21 +352,24 @@ namespace Chaos_Spear
                 MessageBox.Show(ex.Message);
             }
         }
-        private void button6_Click(object sender, EventArgs e){
+        private void button6_Click(object sender, EventArgs e)
+        {
             // I hate this even more
-            try{
-                string jsonString = File.ReadAllText(((KeyValuePair<string,string>)comboBox3.SelectedItem).Key);
+            try
+            {
+                string jsonString = File.ReadAllText(((KeyValuePair<string, string>)comboBox3.SelectedItem).Key);
                 List<dynamic> jsonData = JsonSerializer.Deserialize<List<dynamic>>(jsonString);
                 comboBox1.Items.Clear();
                 comboBox2.Items.Clear();
-                for (int x = 0; x < jsonData.Count - 1; x++){
+                for (int x = 0; x < jsonData.Count - 1; x++)
+                {
                     if (jsonData[0][x].ToString() != "None")
                     {
                         comboBox1.Items.Add(x + " (" + jsonData[0][x] + ")");
                         comboBox2.Items.Add(x + " (" + jsonData[0][x] + ")");
                     }
                     else
-                    {                
+                    {
                         comboBox1.Items.Add(x);
                         comboBox2.Items.Add(x);
                     }
@@ -358,8 +378,9 @@ namespace Chaos_Spear
                 slotToLoad = 0;
                 comboBox1.SelectedIndex = 0;
                 comboBox2.SelectedIndex = 0;
-                for (int x = 1; x < jsonData.Count; x++){
-                    saveSlots[x-1] = JsonSerializer.Deserialize<GOCPlayerKinematicParams>(jsonData[x]);
+                for (int x = 1; x < jsonData.Count; x++)
+                {
+                    saveSlots[x - 1] = JsonSerializer.Deserialize<GOCPlayerKinematicParams>(jsonData[x]);
                 }
             }
             catch (Exception ex)
@@ -367,7 +388,8 @@ namespace Chaos_Spear
                 MessageBox.Show(ex.Message);
             }
         }
-        private void button7_Click(object sender, EventArgs e){
+        private void button7_Click(object sender, EventArgs e)
+        {
             comboBox1.Items.Clear();
             comboBox2.Items.Clear();
             for (int x = 0; x < 10; x++)
@@ -381,7 +403,8 @@ namespace Chaos_Spear
             comboBox1.SelectedIndex = 0;
             comboBox2.SelectedIndex = 0;
         }
-        private void comboBox4_changed(object sender, EventArgs e){
+        private void comboBox4_changed(object sender, EventArgs e)
+        {
             currentVersion = comboBox4.SelectedItem.ToString();
         }
         //This is just copied from Portal Gear, the Sonic Frontiers Save Position Tool
@@ -391,23 +414,39 @@ namespace Chaos_Spear
             bool sign = rotY > 0;
             if (sign)
             {
-                if(angle < Math.PI)
+                if (angle < Math.PI)
                 {
-                    return (float)radiansToDegrees(-angle+Math.PI);
+                    return (float)radiansToDegrees(-angle + Math.PI);
                 }
                 else
                 {
-                    return (float)radiansToDegrees(2* Math.PI - angle + Math.PI);
+                    return (float)radiansToDegrees(2 * Math.PI - angle + Math.PI);
                 }
             }
             else
             {
-                return (float)radiansToDegrees(angle+Math.PI);
+                return (float)radiansToDegrees(angle + Math.PI);
             }
         }
         public double radiansToDegrees(double radians)
         {
             return radians / Math.PI * 180;
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            ccAddress = IntPtr.Add(proc.MainModule.BaseAddress, ccOff);
+            gameMem.Read<nint>((nuint)ccAddress, out ccAdd);
+            gameMem.Read<nint>((nuint)ccAdd + 0x30, out ccAdd);
+            gameMem.Read<nint>((nuint)ccAdd + 0x88, out ccAdd);
+            gameMem.Read<nint>((nuint)ccAdd + 0x28, out ccAdd);
+            gameMem.Read<nint>((nuint)ccAdd + 0x0, out ccAdd);
+            gameMem.Read<nint>((nuint)ccAdd + 0x2D0, out ccAdd);
+            gameMem.Read<nint>((nuint)ccAdd + 0x38, out ccAdd);
+            gameMem.Read<nint>((nuint)ccAdd + 0x108, out ccAdd);
+            gameMem.Read<nint>((nuint)ccAdd + 0x18, out ccAdd);
+            gameMem.Read<nint>((nuint)ccAdd + 0x80, out ccAdd);
+            gameMem.Write<int>((nuint)ccAdd + 0x38, 100);
         }
     }
 }

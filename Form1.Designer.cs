@@ -56,14 +56,16 @@
             comboBox4 = new ComboBox();
             checkBox1 = new CheckBox();
             label14 = new Label();
+            button8 = new Button();
             SuspendLayout();
             // 
             // button1
             // 
             button1.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            button1.Location = new Point(86, 56);
+            button1.Location = new Point(123, 93);
+            button1.Margin = new Padding(4, 5, 4, 5);
             button1.Name = "button1";
-            button1.Size = new Size(235, 115);
+            button1.Size = new Size(336, 192);
             button1.TabIndex = 0;
             button1.Text = "Attach";
             button1.UseVisualStyleBackColor = true;
@@ -71,9 +73,10 @@
             // 
             // button2
             // 
-            button2.Location = new Point(448, 43);
+            button2.Location = new Point(640, 72);
+            button2.Margin = new Padding(4, 5, 4, 5);
             button2.Name = "button2";
-            button2.Size = new Size(303, 70);
+            button2.Size = new Size(433, 117);
             button2.TabIndex = 1;
             button2.Text = "Save Position";
             button2.UseVisualStyleBackColor = true;
@@ -81,9 +84,10 @@
             // 
             // button3
             // 
-            button3.Location = new Point(448, 145);
+            button3.Location = new Point(640, 242);
+            button3.Margin = new Padding(4, 5, 4, 5);
             button3.Name = "button3";
-            button3.Size = new Size(303, 70);
+            button3.Size = new Size(433, 117);
             button3.TabIndex = 2;
             button3.Text = "Load Position";
             button3.UseVisualStyleBackColor = true;
@@ -93,9 +97,10 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
-            label1.Location = new Point(5, 310);
+            label1.Location = new Point(7, 517);
+            label1.Margin = new Padding(4, 0, 4, 0);
             label1.Name = "label1";
-            label1.Size = new Size(158, 32);
+            label1.Size = new Size(233, 48);
             label1.TabIndex = 3;
             label1.Text = "Saved X Pos:";
             // 
@@ -103,9 +108,10 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
-            label2.Location = new Point(5, 342);
+            label2.Location = new Point(7, 570);
+            label2.Margin = new Padding(4, 0, 4, 0);
             label2.Name = "label2";
-            label2.Size = new Size(157, 32);
+            label2.Size = new Size(231, 48);
             label2.TabIndex = 4;
             label2.Text = "Saved Y Pos:";
             // 
@@ -113,9 +119,10 @@
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
-            label3.Location = new Point(5, 373);
+            label3.Location = new Point(7, 622);
+            label3.Margin = new Padding(4, 0, 4, 0);
             label3.Name = "label3";
-            label3.Size = new Size(157, 32);
+            label3.Size = new Size(231, 48);
             label3.TabIndex = 5;
             label3.Text = "Saved Z Pos:";
             // 
@@ -123,9 +130,10 @@
             // 
             label4.AutoSize = true;
             label4.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
-            label4.Location = new Point(448, 310);
+            label4.Location = new Point(640, 517);
+            label4.Margin = new Padding(4, 0, 4, 0);
             label4.Name = "label4";
-            label4.Size = new Size(177, 32);
+            label4.Size = new Size(258, 48);
             label4.TabIndex = 8;
             label4.Text = "Current Z Pos:";
             // 
@@ -133,9 +141,10 @@
             // 
             label5.AutoSize = true;
             label5.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
-            label5.Location = new Point(448, 342);
+            label5.Location = new Point(640, 570);
+            label5.Margin = new Padding(4, 0, 4, 0);
             label5.Name = "label5";
-            label5.Size = new Size(177, 32);
+            label5.Size = new Size(258, 48);
             label5.TabIndex = 7;
             label5.Text = "Current Y Pos:";
             // 
@@ -143,9 +152,10 @@
             // 
             label6.AutoSize = true;
             label6.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
-            label6.Location = new Point(447, 373);
+            label6.Location = new Point(639, 622);
+            label6.Margin = new Padding(4, 0, 4, 0);
             label6.Name = "label6";
-            label6.Size = new Size(178, 32);
+            label6.Size = new Size(260, 48);
             label6.TabIndex = 6;
             label6.Text = "Current X Pos:";
             // 
@@ -157,175 +167,202 @@
             // 
             label7.AutoSize = true;
             label7.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
-            label7.Location = new Point(447, 250);
+            label7.Location = new Point(639, 417);
+            label7.Margin = new Padding(4, 0, 4, 0);
             label7.Name = "label7";
-            label7.Size = new Size(97, 32);
+            label7.Size = new Size(142, 48);
             label7.TabIndex = 9;
             label7.Text = "Speed: ";
             // 
             // button4
             // 
-            button4.Location = new Point(86, 185);
+            button4.Location = new Point(123, 308);
+            button4.Margin = new Padding(4, 5, 4, 5);
             button4.Name = "button4";
-            button4.Size = new Size(235, 70);
+            button4.Size = new Size(336, 117);
             button4.TabIndex = 10;
             button4.Text = "Give 999 Rings";
             button4.UseVisualStyleBackColor = true;
             button4.Click += button4_Click;
             // 
-            // ComboBox1
+            // comboBox1
             // 
-            comboBox1.Location = new Point(700, 120);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(130, 70);
-            comboBox1.TabIndex = 11;
             comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBox1.Location = new Point(1000, 200);
+            comboBox1.Margin = new Padding(4, 5, 4, 5);
+            comboBox1.Name = "comboBox1";
+            comboBox1.Size = new Size(184, 33);
+            comboBox1.TabIndex = 11;
             comboBox1.SelectedValueChanged += comboBox1_changed;
             // 
-            // Label8
+            // label8
             // 
             label8.AutoSize = true;
             label8.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            label8.Location = new Point(450, 117);
+            label8.Location = new Point(643, 195);
+            label8.Margin = new Padding(4, 0, 4, 0);
             label8.Name = "label8";
-            label8.Size = new Size(97, 32);
+            label8.Size = new Size(261, 32);
             label8.TabIndex = 12;
             label8.Text = "Save position to slot: ";
             // 
-            // ComboBox2
+            // comboBox2
             // 
-            comboBox2.Location = new Point(700, 220);
-            comboBox2.Name = "comboBox2";
-            comboBox2.Size = new Size(130, 70);
-            comboBox2.TabIndex = 13;
             comboBox2.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBox2.Location = new Point(1000, 367);
+            comboBox2.Margin = new Padding(4, 5, 4, 5);
+            comboBox2.Name = "comboBox2";
+            comboBox2.Size = new Size(184, 33);
+            comboBox2.TabIndex = 13;
             comboBox2.SelectedValueChanged += comboBox2_changed;
             // 
-            // Label9
+            // label9
             // 
             label9.AutoSize = true;
             label9.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            label9.Location = new Point(450, 217);
+            label9.Location = new Point(643, 362);
+            label9.Margin = new Padding(4, 0, 4, 0);
             label9.Name = "label9";
-            label9.Size = new Size(97, 32);
+            label9.Size = new Size(296, 32);
             label9.TabIndex = 14;
             label9.Text = "Load position from slot: ";
             // 
-            // Label10
+            // label10
             // 
             label10.AutoSize = true;
             label10.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            label10.Location = new Point(5, 290);
+            label10.Location = new Point(7, 483);
+            label10.Margin = new Padding(4, 0, 4, 0);
             label10.Name = "label10";
-            label10.Size = new Size(97, 32);
+            label10.Size = new Size(449, 32);
             label10.TabIndex = 15;
             label10.Text = "Showing positions stored in slots 0 : 0";
-            //
-            // Label11
-            //
+            // 
+            // label11
+            // 
             label11.AutoSize = true;
             label11.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
-            label11.Location = new Point(448, 414);
+            label11.Location = new Point(640, 690);
+            label11.Margin = new Padding(4, 0, 4, 0);
             label11.Name = "label11";
-            label11.Size = new Size(101, 32);
+            label11.Size = new Size(148, 48);
             label11.TabIndex = 16;
-            label11.Text = "Facing: ";  
-            //
-            // Button5
-            //            
-            button5.Location = new Point(10, 415);
+            label11.Text = "Facing: ";
+            // 
+            // button5
+            // 
+            button5.Location = new Point(14, 692);
+            button5.Margin = new Padding(4, 5, 4, 5);
             button5.Name = "button5";
-            button5.Size = new Size(100, 40);
+            button5.Size = new Size(143, 67);
             button5.TabIndex = 17;
             button5.Text = "Save to JSON";
             button5.UseVisualStyleBackColor = true;
             button5.Click += button5_Click;
-            //
-            // Button6
-            //            
-            button6.Location = new Point(150, 415);
+            // 
+            // button6
+            // 
+            button6.Location = new Point(214, 692);
+            button6.Margin = new Padding(4, 5, 4, 5);
             button6.Name = "button6";
-            button6.Size = new Size(100, 40);
+            button6.Size = new Size(143, 67);
             button6.TabIndex = 18;
             button6.Text = "Load JSON";
             button6.UseVisualStyleBackColor = true;
             button6.Click += button6_Click;
-            //
+            // 
             // comboBox3
-            //
-            comboBox3.Location = new Point(150, 465);
-            comboBox3.Name = "comboBox3";
-            comboBox3.Size = new Size(150, 70);
-            comboBox3.TabIndex = 19;
+            // 
             comboBox3.DisplayMember = "Value";
-            comboBox3.ValueMember = "Key";
             comboBox3.DropDownStyle = ComboBoxStyle.DropDownList;
-            //
-            // Label12
-            //
+            comboBox3.Location = new Point(214, 775);
+            comboBox3.Margin = new Padding(4, 5, 4, 5);
+            comboBox3.Name = "comboBox3";
+            comboBox3.Size = new Size(213, 33);
+            comboBox3.TabIndex = 19;
+            comboBox3.ValueMember = "Key";
+            // 
+            // label12
+            // 
             label12.AutoSize = true;
             label12.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            label12.Location = new Point(0, 465);
+            label12.Location = new Point(0, 775);
+            label12.Margin = new Padding(4, 0, 4, 0);
             label12.Name = "label12";
-            label12.Size = new Size(101, 32);
+            label12.Size = new Size(203, 32);
             label12.TabIndex = 20;
             label12.Text = "Load data from: ";
-            //
-            // Button7
-            //  
-            button7.Location = new Point(86, 270);
+            // 
+            // label13
+            // 
+            label13.AutoSize = true;
+            label13.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
+            label13.Location = new Point(640, 767);
+            label13.Margin = new Padding(4, 0, 4, 0);
+            label13.Name = "label13";
+            label13.Size = new Size(212, 38);
+            label13.TabIndex = 23;
+            label13.Text = "Game version: ";
+            // 
+            // button7
+            // 
+            button7.Location = new Point(123, 450);
+            button7.Margin = new Padding(4, 5, 4, 5);
             button7.Name = "button7";
-            button7.Size = new Size(150, 20);
+            button7.Size = new Size(214, 33);
             button7.TabIndex = 22;
             button7.Text = "Wipe save slots";
             button7.UseVisualStyleBackColor = true;
             button7.Click += button7_Click;
-            //
-            // label13
-            //
-            label13.AutoSize = true;
-            label13.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
-            label13.Location = new Point(448, 460);
-            label13.Name = "label13";
-            label13.Size = new Size(101, 32);
-            label13.TabIndex = 23;
-            label13.Text = "Game version: ";
-            //
+            // 
             // comboBox4
-            //
-            comboBox4.Location = new Point(600, 465);
-            comboBox4.Name = "comboBox4";
-            comboBox4.Size = new Size(150, 70);
-            comboBox4.TabIndex = 24;
-            comboBox4.Items.Add("Current");
-            comboBox4.Items.Add("Old");
-            comboBox4.SelectedItem = "Old";
+            // 
             comboBox4.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBox4.Items.AddRange(new object[] { "Current", "Old" });
+            comboBox4.Location = new Point(857, 775);
+            comboBox4.Margin = new Padding(4, 5, 4, 5);
+            comboBox4.Name = "comboBox4";
+            comboBox4.Size = new Size(213, 33);
+            comboBox4.TabIndex = 24;
             comboBox4.SelectedValueChanged += comboBox4_changed;
-            //
+            // 
             // checkBox1
-            //
+            // 
             checkBox1.AutoSize = true;
-            checkBox1.Location = new Point(730, 293);
+            checkBox1.Location = new Point(1043, 488);
+            checkBox1.Margin = new Padding(4, 5, 4, 5);
             checkBox1.Name = "checkBox1";
+            checkBox1.Size = new Size(22, 21);
             checkBox1.TabIndex = 25;
-            //
+            // 
             // label14
-            //
+            // 
             label14.AutoSize = true;
             label14.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
-            label14.Location = new Point(448, 285);
+            label14.Location = new Point(640, 475);
+            label14.Margin = new Padding(4, 0, 4, 0);
             label14.Name = "label14";
-            label14.Size = new Size(101, 32);
+            label14.Size = new Size(393, 38);
             label14.TabIndex = 26;
             label14.Text = "Show detailed speed values: ";
             // 
+            // button8
+            // 
+            button8.Location = new Point(502, 431);
+            button8.Name = "button8";
+            button8.Size = new Size(112, 34);
+            button8.TabIndex = 27;
+            button8.Text = "button8";
+            button8.UseVisualStyleBackColor = true;
+            button8.Click += button8_Click;
+            // 
             // Form1
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.Control;
-            ClientSize = new Size(850, 500);
+            ClientSize = new Size(1214, 833);
+            Controls.Add(button8);
             Controls.Add(label14);
             Controls.Add(checkBox1);
             Controls.Add(comboBox4);
@@ -352,6 +389,7 @@
             Controls.Add(button3);
             Controls.Add(button2);
             Controls.Add(button1);
+            Margin = new Padding(4, 5, 4, 5);
             Name = "Form1";
             Text = "Chaos Spear";
             Load += Form1_Load;
@@ -388,5 +426,6 @@
         private ComboBox comboBox4;
         private CheckBox checkBox1;
         private Label label14;
+        private Button button8;
     }
 }

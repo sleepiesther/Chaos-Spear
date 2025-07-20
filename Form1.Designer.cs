@@ -179,11 +179,6 @@
             comboBox1.Name = "comboBox1";
             comboBox1.Size = new Size(130, 70);
             comboBox1.TabIndex = 11;
-            for (int x = 0; x < 10; x++)
-            {
-                comboBox1.Items.Add(x);
-            }
-            comboBox1.SelectedIndex = 0;
             comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox1.SelectedValueChanged += comboBox1_changed;
             // 
@@ -203,11 +198,6 @@
             comboBox2.Name = "comboBox2";
             comboBox2.Size = new Size(130, 70);
             comboBox2.TabIndex = 13;
-            for (int x = 0; x < 10; x++)
-            {
-                comboBox2.Items.Add(x);
-            }
-            comboBox2.SelectedIndex = 0;
             comboBox2.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox2.SelectedValueChanged += comboBox2_changed;
             // 
@@ -267,12 +257,6 @@
             comboBox3.Name = "comboBox3";
             comboBox3.Size = new Size(150, 70);
             comboBox3.TabIndex = 19;
-            Dictionary<string, string> comboSource = new Dictionary<string, string>();
-            foreach (string file in Directory.GetFiles(Path.GetDirectoryName(Application.ExecutablePath) + "\\saves", "*.json"))
-            {
-                comboSource.Add(file, file.Split('\\')[^1]);
-            }
-            comboBox3.DataSource = new BindingSource(comboSource, null);
             comboBox3.DisplayMember = "Value";
             comboBox3.ValueMember = "Key";
             comboBox3.DropDownStyle = ComboBoxStyle.DropDownList;

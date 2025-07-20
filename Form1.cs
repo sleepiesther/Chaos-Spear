@@ -47,6 +47,7 @@ namespace Chaos_Spear
 
         public Form1()
         {
+            this.Icon = Icon.ExtractAssociatedIcon(System.Reflection.Assembly.GetExecutingAssembly().Location);
             InitializeComponent();
         }
 
@@ -55,6 +56,16 @@ namespace Chaos_Spear
             // Adds 10 instances of the params struct to act as the save/load slots. 10 is a bit of an arbitrary number, but it's nice to be sure the slot index will always be a single digit number. If you want to change the amount of slots, keep in mind that it is also hardcoded into the comboBox initialisations so you'll have to change that too.
             for (int x = 0; x < 10; x++)
             {
+                comboBox1.Items.Add(x);
+                comboBox1.SelectedIndex = 0;
+                comboBox2.Items.Add(x);
+                comboBox2.SelectedIndex = 0;
+                Dictionary<string, string> comboSource = new Dictionary<string, string>();
+                foreach (string file in Directory.GetFiles(Path.GetDirectoryName(Application.ExecutablePath) + "\\saves", "*.json"))
+                {
+                    comboSource.Add(file, file.Split('\\')[^1]);
+                }
+                comboBox3.DataSource = new BindingSource(comboSource, null);
                 saveSlots.Add(new GOCPlayerKinematicParams());
             }
         }

@@ -200,10 +200,10 @@ namespace Chaos_Spear
             gameMem.Write<float>((nuint)coordAdd + 0x84, savedParams.YPos);
             gameMem.Write<float>((nuint)coordAdd + 0x88, savedParams.ZPos);
             //why not rotate the guy
-            gameMem.Write<float>((nuint)coordAdd + 0xC0, savedParams.QRotX);
-            gameMem.Write<float>((nuint)coordAdd + 0xC4, savedParams.QRotY);
-            gameMem.Write<float>((nuint)coordAdd + 0xC8, savedParams.QRotZ);
-            gameMem.Write<float>((nuint)coordAdd + 0xCC, savedParams.QRotW);
+            gameMem.Write<float>((nuint)coordAdd + 0x90, savedParams.QRotX);
+            gameMem.Write<float>((nuint)coordAdd + 0x94, savedParams.QRotY);
+            gameMem.Write<float>((nuint)coordAdd + 0x98, savedParams.QRotZ);
+            gameMem.Write<float>((nuint)coordAdd + 0x9C, savedParams.QRotW);
         }
 
         private void timer1_Tick(object sender, EventArgs e)

@@ -29,365 +29,365 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            button1 = new Button();
-            button2 = new Button();
-            button3 = new Button();
-            label1 = new Label();
-            label2 = new Label();
-            label3 = new Label();
-            label4 = new Label();
-            label5 = new Label();
-            label6 = new Label();
+            attachButton = new Button();
+            savePositionButton = new Button();
+            loadButtonButton = new Button();
+            savedXPosLabel = new Label();
+            savedYPosLabel = new Label();
+            savedZPosLabel = new Label();
+            currentXPosLabel = new Label();
+            currentYPosLabel = new Label();
+            currentZPosLabel = new Label();
             timer1 = new System.Windows.Forms.Timer(components);
-            label7 = new Label();
-            button4 = new Button();
-            comboBox1 = new ComboBox();
-            label8 = new Label();
-            comboBox2 = new ComboBox();
-            label9 = new Label();
-            label10 = new Label();
-            label11 = new Label();
-            button5 = new Button();
-            button6 = new Button();
-            comboBox3 = new ComboBox();
-            label12 = new Label();
-            label13 = new Label();
-            button7 = new Button();
-            comboBox4 = new ComboBox();
-            checkBox1 = new CheckBox();
-            label14 = new Label();
-            button8 = new Button();
-            label15 = new Label();
-            checkBox2 = new CheckBox();
-            label16 = new Label();
+            speedLabel = new Label();
+            maxRingsButton = new Button();
+            saveToSlotDropdown = new ComboBox();
+            saveToSlotLabel = new Label();
+            loadFromSlotDropdown = new ComboBox();
+            loadFromSlotLabel = new Label();
+            loadedSlotsLabel = new Label();
+            facingAngleLabel = new Label();
+            jsonSaveButton = new Button();
+            jsonLoadButton = new Button();
+            loadFromDropdown = new ComboBox();
+            loadFromLabel = new Label();
+            gameVersionLabel = new Label();
+            wipeSavesButton = new Button();
+            gameVersionDropdown = new ComboBox();
+            detailedSpeedToggle = new CheckBox();
+            detailedSpeedLabel = new Label();
+            chargeChaosControlButton = new Button();
+            boostCheatLabel = new Label();
+            boostCheatToggle = new CheckBox();
+            warningLabel = new Label();
             SuspendLayout();
             // 
-            // button1
+            // attachButton
             // 
-            button1.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            button1.Location = new Point(120, 41);
-            button1.Margin = new Padding(4, 5, 4, 5);
-            button1.Name = "button1";
-            button1.Size = new Size(336, 192);
-            button1.TabIndex = 0;
-            button1.Text = "Attach";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
+            attachButton.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            attachButton.Location = new Point(120, 41);
+            attachButton.Margin = new Padding(4, 5, 4, 5);
+            attachButton.Name = "attachButton";
+            attachButton.Size = new Size(336, 192);
+            attachButton.TabIndex = 0;
+            attachButton.Text = "Attach";
+            attachButton.UseVisualStyleBackColor = true;
+            attachButton.Click += attach;
             // 
-            // button2
+            // savePositionButton
             // 
-            button2.Location = new Point(640, 72);
-            button2.Margin = new Padding(4, 5, 4, 5);
-            button2.Name = "button2";
-            button2.Size = new Size(433, 117);
-            button2.TabIndex = 1;
-            button2.Text = "Save Position";
-            button2.UseVisualStyleBackColor = true;
-            button2.Click += button2_Click;
+            savePositionButton.Location = new Point(640, 72);
+            savePositionButton.Margin = new Padding(4, 5, 4, 5);
+            savePositionButton.Name = "savePositionButton";
+            savePositionButton.Size = new Size(433, 117);
+            savePositionButton.TabIndex = 1;
+            savePositionButton.Text = "Save Position";
+            savePositionButton.UseVisualStyleBackColor = true;
+            savePositionButton.Click += savePosition;
             // 
-            // button3
+            // loadButtonButton
             // 
-            button3.Location = new Point(640, 242);
-            button3.Margin = new Padding(4, 5, 4, 5);
-            button3.Name = "button3";
-            button3.Size = new Size(433, 117);
-            button3.TabIndex = 2;
-            button3.Text = "Load Position";
-            button3.UseVisualStyleBackColor = true;
-            button3.Click += button3_Click;
+            loadButtonButton.Location = new Point(640, 242);
+            loadButtonButton.Margin = new Padding(4, 5, 4, 5);
+            loadButtonButton.Name = "loadButtonButton";
+            loadButtonButton.Size = new Size(433, 117);
+            loadButtonButton.TabIndex = 2;
+            loadButtonButton.Text = "Load Position";
+            loadButtonButton.UseVisualStyleBackColor = true;
+            loadButtonButton.Click += loadPosition;
             // 
-            // label1
+            // savedXPosLabel
             // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
-            label1.Location = new Point(4, 681);
-            label1.Margin = new Padding(4, 0, 4, 0);
-            label1.Name = "label1";
-            label1.Size = new Size(233, 48);
-            label1.TabIndex = 3;
-            label1.Text = "Saved X Pos:";
+            savedXPosLabel.AutoSize = true;
+            savedXPosLabel.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
+            savedXPosLabel.Location = new Point(4, 681);
+            savedXPosLabel.Margin = new Padding(4, 0, 4, 0);
+            savedXPosLabel.Name = "savedXPosLabel";
+            savedXPosLabel.Size = new Size(233, 48);
+            savedXPosLabel.TabIndex = 3;
+            savedXPosLabel.Text = "Saved X Pos:";
             // 
-            // label2
+            // savedYPosLabel
             // 
-            label2.AutoSize = true;
-            label2.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
-            label2.Location = new Point(4, 734);
-            label2.Margin = new Padding(4, 0, 4, 0);
-            label2.Name = "label2";
-            label2.Size = new Size(231, 48);
-            label2.TabIndex = 4;
-            label2.Text = "Saved Y Pos:";
+            savedYPosLabel.AutoSize = true;
+            savedYPosLabel.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
+            savedYPosLabel.Location = new Point(4, 734);
+            savedYPosLabel.Margin = new Padding(4, 0, 4, 0);
+            savedYPosLabel.Name = "savedYPosLabel";
+            savedYPosLabel.Size = new Size(231, 48);
+            savedYPosLabel.TabIndex = 4;
+            savedYPosLabel.Text = "Saved Y Pos:";
             // 
-            // label3
+            // savedZPosLabel
             // 
-            label3.AutoSize = true;
-            label3.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
-            label3.Location = new Point(4, 786);
-            label3.Margin = new Padding(4, 0, 4, 0);
-            label3.Name = "label3";
-            label3.Size = new Size(231, 48);
-            label3.TabIndex = 5;
-            label3.Text = "Saved Z Pos:";
+            savedZPosLabel.AutoSize = true;
+            savedZPosLabel.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
+            savedZPosLabel.Location = new Point(4, 786);
+            savedZPosLabel.Margin = new Padding(4, 0, 4, 0);
+            savedZPosLabel.Name = "savedZPosLabel";
+            savedZPosLabel.Size = new Size(231, 48);
+            savedZPosLabel.TabIndex = 5;
+            savedZPosLabel.Text = "Saved Z Pos:";
             // 
-            // label4
+            // currentXPosLabel
             // 
-            label4.AutoSize = true;
-            label4.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
-            label4.Location = new Point(641, 568);
-            label4.Margin = new Padding(4, 0, 4, 0);
-            label4.Name = "label4";
-            label4.Size = new Size(258, 48);
-            label4.TabIndex = 8;
-            label4.Text = "Current Z Pos:";
+            currentXPosLabel.AutoSize = true;
+            currentXPosLabel.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
+            currentXPosLabel.Location = new Point(638, 564);
+            currentXPosLabel.Margin = new Padding(4, 0, 4, 0);
+            currentXPosLabel.Name = "currentXPosLabel";
+            currentXPosLabel.RightToLeft = RightToLeft.No;
+            currentXPosLabel.Size = new Size(260, 48);
+            currentXPosLabel.TabIndex = 8;
+            currentXPosLabel.Text = "Current X Pos:";
             // 
-            // label5
+            // currentYPosLabel
             // 
-            label5.AutoSize = true;
-            label5.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
-            label5.Location = new Point(641, 621);
-            label5.Margin = new Padding(4, 0, 4, 0);
-            label5.Name = "label5";
-            label5.Size = new Size(258, 48);
-            label5.TabIndex = 7;
-            label5.Text = "Current Y Pos:";
+            currentYPosLabel.AutoSize = true;
+            currentYPosLabel.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
+            currentYPosLabel.Location = new Point(641, 621);
+            currentYPosLabel.Margin = new Padding(4, 0, 4, 0);
+            currentYPosLabel.Name = "currentYPosLabel";
+            currentYPosLabel.Size = new Size(258, 48);
+            currentYPosLabel.TabIndex = 7;
+            currentYPosLabel.Text = "Current Y Pos:";
             // 
-            // label6
+            // currentZPosLabel
             // 
-            label6.AutoSize = true;
-            label6.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
-            label6.Location = new Point(640, 673);
-            label6.Margin = new Padding(4, 0, 4, 0);
-            label6.Name = "label6";
-            label6.Size = new Size(260, 48);
-            label6.TabIndex = 6;
-            label6.Text = "Current X Pos:";
+            currentZPosLabel.AutoSize = true;
+            currentZPosLabel.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
+            currentZPosLabel.Location = new Point(640, 673);
+            currentZPosLabel.Margin = new Padding(4, 0, 4, 0);
+            currentZPosLabel.Name = "currentZPosLabel";
+            currentZPosLabel.Size = new Size(258, 48);
+            currentZPosLabel.TabIndex = 6;
+            currentZPosLabel.Text = "Current Z Pos:";
             // 
             // timer1
             // 
             timer1.Tick += timer1_Tick;
             // 
-            // label7
+            // speedLabel
             // 
-            label7.AutoSize = true;
-            label7.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
-            label7.Location = new Point(640, 468);
-            label7.Margin = new Padding(4, 0, 4, 0);
-            label7.Name = "label7";
-            label7.Size = new Size(142, 48);
-            label7.TabIndex = 9;
-            label7.Text = "Speed: ";
+            speedLabel.AutoSize = true;
+            speedLabel.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
+            speedLabel.Location = new Point(640, 468);
+            speedLabel.Margin = new Padding(4, 0, 4, 0);
+            speedLabel.Name = "speedLabel";
+            speedLabel.Size = new Size(142, 48);
+            speedLabel.TabIndex = 9;
+            speedLabel.Text = "Speed: ";
             // 
-            // button4
+            // maxRingsButton
             // 
-            button4.Location = new Point(120, 256);
-            button4.Margin = new Padding(4, 5, 4, 5);
-            button4.Name = "button4";
-            button4.Size = new Size(336, 117);
-            button4.TabIndex = 10;
-            button4.Text = "Give 999 Rings";
-            button4.UseVisualStyleBackColor = true;
-            button4.Click += button4_Click;
+            maxRingsButton.Location = new Point(120, 256);
+            maxRingsButton.Margin = new Padding(4, 5, 4, 5);
+            maxRingsButton.Name = "maxRingsButton";
+            maxRingsButton.Size = new Size(336, 117);
+            maxRingsButton.TabIndex = 10;
+            maxRingsButton.Text = "Give 999 Rings";
+            maxRingsButton.UseVisualStyleBackColor = true;
+            maxRingsButton.Click += giveMaxRings;
             // 
-            // comboBox1
+            // saveToSlotDropdown
             // 
-            comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboBox1.Location = new Point(1000, 200);
-            comboBox1.Margin = new Padding(4, 5, 4, 5);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(184, 33);
-            comboBox1.TabIndex = 11;
-            comboBox1.SelectedValueChanged += comboBox1_changed;
+            saveToSlotDropdown.DropDownStyle = ComboBoxStyle.DropDownList;
+            saveToSlotDropdown.Location = new Point(1000, 200);
+            saveToSlotDropdown.Margin = new Padding(4, 5, 4, 5);
+            saveToSlotDropdown.Name = "saveToSlotDropdown";
+            saveToSlotDropdown.Size = new Size(184, 33);
+            saveToSlotDropdown.TabIndex = 11;
             // 
-            // label8
+            // saveToSlotLabel
             // 
-            label8.AutoSize = true;
-            label8.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            label8.Location = new Point(643, 195);
-            label8.Margin = new Padding(4, 0, 4, 0);
-            label8.Name = "label8";
-            label8.Size = new Size(261, 32);
-            label8.TabIndex = 12;
-            label8.Text = "Save position to slot: ";
+            saveToSlotLabel.AutoSize = true;
+            saveToSlotLabel.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            saveToSlotLabel.Location = new Point(643, 195);
+            saveToSlotLabel.Margin = new Padding(4, 0, 4, 0);
+            saveToSlotLabel.Name = "saveToSlotLabel";
+            saveToSlotLabel.Size = new Size(261, 32);
+            saveToSlotLabel.TabIndex = 12;
+            saveToSlotLabel.Text = "Save position to slot: ";
             // 
-            // comboBox2
+            // loadFromSlotDropdown
             // 
-            comboBox2.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboBox2.Location = new Point(1000, 367);
-            comboBox2.Margin = new Padding(4, 5, 4, 5);
-            comboBox2.Name = "comboBox2";
-            comboBox2.Size = new Size(184, 33);
-            comboBox2.TabIndex = 13;
-            comboBox2.SelectedValueChanged += comboBox2_changed;
+            loadFromSlotDropdown.DropDownStyle = ComboBoxStyle.DropDownList;
+            loadFromSlotDropdown.Location = new Point(1000, 367);
+            loadFromSlotDropdown.Margin = new Padding(4, 5, 4, 5);
+            loadFromSlotDropdown.Name = "loadFromSlotDropdown";
+            loadFromSlotDropdown.Size = new Size(184, 33);
+            loadFromSlotDropdown.TabIndex = 13;
             // 
-            // label9
+            // loadFromSlotLabel
             // 
-            label9.AutoSize = true;
-            label9.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            label9.Location = new Point(643, 362);
-            label9.Margin = new Padding(4, 0, 4, 0);
-            label9.Name = "label9";
-            label9.Size = new Size(296, 32);
-            label9.TabIndex = 14;
-            label9.Text = "Load position from slot: ";
+            loadFromSlotLabel.AutoSize = true;
+            loadFromSlotLabel.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            loadFromSlotLabel.Location = new Point(643, 362);
+            loadFromSlotLabel.Margin = new Padding(4, 0, 4, 0);
+            loadFromSlotLabel.Name = "loadFromSlotLabel";
+            loadFromSlotLabel.Size = new Size(296, 32);
+            loadFromSlotLabel.TabIndex = 14;
+            loadFromSlotLabel.Text = "Load position from slot: ";
             // 
-            // label10
+            // loadedSlotsLabel
             // 
-            label10.AutoSize = true;
-            label10.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            label10.Location = new Point(4, 647);
-            label10.Margin = new Padding(4, 0, 4, 0);
-            label10.Name = "label10";
-            label10.Size = new Size(449, 32);
-            label10.TabIndex = 15;
-            label10.Text = "Showing positions stored in slots 0 : 0";
+            loadedSlotsLabel.AutoSize = true;
+            loadedSlotsLabel.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            loadedSlotsLabel.Location = new Point(4, 647);
+            loadedSlotsLabel.Margin = new Padding(4, 0, 4, 0);
+            loadedSlotsLabel.Name = "loadedSlotsLabel";
+            loadedSlotsLabel.Size = new Size(449, 32);
+            loadedSlotsLabel.TabIndex = 15;
+            loadedSlotsLabel.Text = "Showing positions stored in slots 0 : 0";
             // 
-            // label11
+            // facingAngleLabel
             // 
-            label11.AutoSize = true;
-            label11.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
-            label11.Location = new Point(641, 741);
-            label11.Margin = new Padding(4, 0, 4, 0);
-            label11.Name = "label11";
-            label11.Size = new Size(148, 48);
-            label11.TabIndex = 16;
-            label11.Text = "Facing: ";
+            facingAngleLabel.AutoSize = true;
+            facingAngleLabel.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
+            facingAngleLabel.Location = new Point(641, 741);
+            facingAngleLabel.Margin = new Padding(4, 0, 4, 0);
+            facingAngleLabel.Name = "facingAngleLabel";
+            facingAngleLabel.Size = new Size(148, 48);
+            facingAngleLabel.TabIndex = 16;
+            facingAngleLabel.Text = "Facing: ";
             // 
-            // button5
+            // jsonSaveButton
             // 
-            button5.Location = new Point(11, 856);
-            button5.Margin = new Padding(4, 5, 4, 5);
-            button5.Name = "button5";
-            button5.Size = new Size(143, 67);
-            button5.TabIndex = 17;
-            button5.Text = "Save to JSON";
-            button5.UseVisualStyleBackColor = true;
-            button5.Click += button5_Click;
+            jsonSaveButton.Location = new Point(11, 856);
+            jsonSaveButton.Margin = new Padding(4, 5, 4, 5);
+            jsonSaveButton.Name = "jsonSaveButton";
+            jsonSaveButton.Size = new Size(143, 67);
+            jsonSaveButton.TabIndex = 17;
+            jsonSaveButton.Text = "Save to JSON";
+            jsonSaveButton.UseVisualStyleBackColor = true;
+            jsonSaveButton.Click += saveToJSON;
             // 
-            // button6
+            // jsonLoadButton
             // 
-            button6.Location = new Point(211, 856);
-            button6.Margin = new Padding(4, 5, 4, 5);
-            button6.Name = "button6";
-            button6.Size = new Size(143, 67);
-            button6.TabIndex = 18;
-            button6.Text = "Load JSON";
-            button6.UseVisualStyleBackColor = true;
-            button6.Click += button6_Click;
+            jsonLoadButton.Location = new Point(211, 856);
+            jsonLoadButton.Margin = new Padding(4, 5, 4, 5);
+            jsonLoadButton.Name = "jsonLoadButton";
+            jsonLoadButton.Size = new Size(143, 67);
+            jsonLoadButton.TabIndex = 18;
+            jsonLoadButton.Text = "Load JSON";
+            jsonLoadButton.UseVisualStyleBackColor = true;
+            jsonLoadButton.Click += loadJSON;
             // 
-            // comboBox3
+            // loadFromDropdown
             // 
-            comboBox3.DisplayMember = "Value";
-            comboBox3.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboBox3.Location = new Point(211, 939);
-            comboBox3.Margin = new Padding(4, 5, 4, 5);
-            comboBox3.Name = "comboBox3";
-            comboBox3.Size = new Size(213, 33);
-            comboBox3.TabIndex = 19;
-            comboBox3.ValueMember = "Key";
+            loadFromDropdown.DisplayMember = "Value";
+            loadFromDropdown.DropDownStyle = ComboBoxStyle.DropDownList;
+            loadFromDropdown.Location = new Point(211, 939);
+            loadFromDropdown.Margin = new Padding(4, 5, 4, 5);
+            loadFromDropdown.Name = "loadFromDropdown";
+            loadFromDropdown.Size = new Size(213, 33);
+            loadFromDropdown.TabIndex = 19;
+            loadFromDropdown.ValueMember = "Key";
             // 
-            // label12
+            // loadFromLabel
             // 
-            label12.AutoSize = true;
-            label12.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            label12.Location = new Point(-3, 939);
-            label12.Margin = new Padding(4, 0, 4, 0);
-            label12.Name = "label12";
-            label12.Size = new Size(203, 32);
-            label12.TabIndex = 20;
-            label12.Text = "Load data from: ";
+            loadFromLabel.AutoSize = true;
+            loadFromLabel.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            loadFromLabel.Location = new Point(-3, 939);
+            loadFromLabel.Margin = new Padding(4, 0, 4, 0);
+            loadFromLabel.Name = "loadFromLabel";
+            loadFromLabel.Size = new Size(203, 32);
+            loadFromLabel.TabIndex = 20;
+            loadFromLabel.Text = "Load data from: ";
             // 
-            // label13
+            // gameVersionLabel
             // 
-            label13.AutoSize = true;
-            label13.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
-            label13.Location = new Point(641, 818);
-            label13.Margin = new Padding(4, 0, 4, 0);
-            label13.Name = "label13";
-            label13.Size = new Size(212, 38);
-            label13.TabIndex = 23;
-            label13.Text = "Game version: ";
+            gameVersionLabel.AutoSize = true;
+            gameVersionLabel.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
+            gameVersionLabel.Location = new Point(641, 818);
+            gameVersionLabel.Margin = new Padding(4, 0, 4, 0);
+            gameVersionLabel.Name = "gameVersionLabel";
+            gameVersionLabel.Size = new Size(212, 38);
+            gameVersionLabel.TabIndex = 23;
+            gameVersionLabel.Text = "Game version: ";
             // 
-            // button7
+            // wipeSavesButton
             // 
-            button7.Location = new Point(120, 614);
-            button7.Margin = new Padding(4, 5, 4, 5);
-            button7.Name = "button7";
-            button7.Size = new Size(214, 33);
-            button7.TabIndex = 22;
-            button7.Text = "Wipe save slots";
-            button7.UseVisualStyleBackColor = true;
-            button7.Click += button7_Click;
+            wipeSavesButton.Location = new Point(120, 614);
+            wipeSavesButton.Margin = new Padding(4, 5, 4, 5);
+            wipeSavesButton.Name = "wipeSavesButton";
+            wipeSavesButton.Size = new Size(214, 33);
+            wipeSavesButton.TabIndex = 22;
+            wipeSavesButton.Text = "Wipe save slots";
+            wipeSavesButton.UseVisualStyleBackColor = true;
+            wipeSavesButton.Click += wipeSaves;
             // 
-            // comboBox4
+            // gameVersionDropdown
             // 
-            comboBox4.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboBox4.Items.AddRange(new object[] { "Current", "Old" });
-            comboBox4.Location = new Point(858, 826);
-            comboBox4.Margin = new Padding(4, 5, 4, 5);
-            comboBox4.Name = "comboBox4";
-            comboBox4.Size = new Size(213, 33);
-            comboBox4.TabIndex = 24;
-            comboBox4.SelectedValueChanged += comboBox4_changed;
+            gameVersionDropdown.DropDownStyle = ComboBoxStyle.DropDownList;
+            gameVersionDropdown.Items.AddRange(new object[] { "Current", "Old" });
+            gameVersionDropdown.Location = new Point(858, 826);
+            gameVersionDropdown.Margin = new Padding(4, 5, 4, 5);
+            gameVersionDropdown.Name = "gameVersionDropdown";
+            gameVersionDropdown.Size = new Size(213, 33);
+            gameVersionDropdown.TabIndex = 24;
+            gameVersionDropdown.SelectedValueChanged += gameVersionDropdown_changed;
             // 
-            // checkBox1
+            // detailedSpeedToggle
             // 
-            checkBox1.AutoSize = true;
-            checkBox1.Location = new Point(1044, 539);
-            checkBox1.Margin = new Padding(4, 5, 4, 5);
-            checkBox1.Name = "checkBox1";
-            checkBox1.Size = new Size(22, 21);
-            checkBox1.TabIndex = 25;
+            detailedSpeedToggle.AutoSize = true;
+            detailedSpeedToggle.Location = new Point(1044, 539);
+            detailedSpeedToggle.Margin = new Padding(4, 5, 4, 5);
+            detailedSpeedToggle.Name = "detailedSpeedToggle";
+            detailedSpeedToggle.Size = new Size(22, 21);
+            detailedSpeedToggle.TabIndex = 25;
             // 
-            // label14
+            // detailedSpeedLabel
             // 
-            label14.AutoSize = true;
-            label14.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
-            label14.Location = new Point(641, 526);
-            label14.Margin = new Padding(4, 0, 4, 0);
-            label14.Name = "label14";
-            label14.Size = new Size(393, 38);
-            label14.TabIndex = 26;
-            label14.Text = "Show detailed speed values: ";
+            detailedSpeedLabel.AutoSize = true;
+            detailedSpeedLabel.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
+            detailedSpeedLabel.Location = new Point(641, 526);
+            detailedSpeedLabel.Margin = new Padding(4, 0, 4, 0);
+            detailedSpeedLabel.Name = "detailedSpeedLabel";
+            detailedSpeedLabel.Size = new Size(393, 38);
+            detailedSpeedLabel.TabIndex = 26;
+            detailedSpeedLabel.Text = "Show detailed speed values: ";
             // 
-            // button8
+            // chargeChaosControlButton
             // 
-            button8.Location = new Point(120, 399);
-            button8.Name = "button8";
-            button8.Size = new Size(336, 117);
-            button8.TabIndex = 27;
-            button8.Text = "Charge Chaos Control";
-            button8.UseVisualStyleBackColor = true;
-            button8.Click += button8_Click;
+            chargeChaosControlButton.Location = new Point(120, 399);
+            chargeChaosControlButton.Name = "chargeChaosControlButton";
+            chargeChaosControlButton.Size = new Size(336, 117);
+            chargeChaosControlButton.TabIndex = 27;
+            chargeChaosControlButton.Text = "Charge Chaos Control";
+            chargeChaosControlButton.UseVisualStyleBackColor = true;
+            chargeChaosControlButton.Click += chargeChaosControl;
             // 
-            // label15
+            // boostCheatLabel
             // 
-            label15.AutoSize = true;
-            label15.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
-            label15.Location = new Point(120, 547);
-            label15.Margin = new Padding(4, 0, 4, 0);
-            label15.Name = "label15";
-            label15.Size = new Size(203, 38);
-            label15.TabIndex = 29;
-            label15.Text = "Infinite boost:";
+            boostCheatLabel.AutoSize = true;
+            boostCheatLabel.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
+            boostCheatLabel.Location = new Point(120, 547);
+            boostCheatLabel.Margin = new Padding(4, 0, 4, 0);
+            boostCheatLabel.Name = "boostCheatLabel";
+            boostCheatLabel.Size = new Size(203, 38);
+            boostCheatLabel.TabIndex = 29;
+            boostCheatLabel.Text = "Infinite boost:";
             // 
-            // checkBox2
+            // boostCheatToggle
             // 
-            checkBox2.AutoSize = true;
-            checkBox2.Location = new Point(332, 561);
-            checkBox2.Name = "checkBox2";
-            checkBox2.Size = new Size(22, 21);
-            checkBox2.TabIndex = 30;
-            checkBox2.UseVisualStyleBackColor = true;
+            boostCheatToggle.AutoSize = true;
+            boostCheatToggle.Location = new Point(332, 561);
+            boostCheatToggle.Name = "boostCheatToggle";
+            boostCheatToggle.Size = new Size(22, 21);
+            boostCheatToggle.TabIndex = 30;
+            boostCheatToggle.UseVisualStyleBackColor = true;
             // 
-            // label16
+            // warningLabel
             // 
-            label16.AutoSize = true;
-            label16.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            label16.Location = new Point(609, 885);
-            label16.Margin = new Padding(4, 0, 4, 0);
-            label16.Name = "label16";
-            label16.Size = new Size(0, 32);
-            label16.TabIndex = 31;
+            warningLabel.AutoSize = true;
+            warningLabel.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            warningLabel.Location = new Point(609, 885);
+            warningLabel.Margin = new Padding(4, 0, 4, 0);
+            warningLabel.Name = "warningLabel";
+            warningLabel.Size = new Size(55, 32);
+            warningLabel.TabIndex = 31;
+            warningLabel.Text = "aga";
             // 
             // Form1
             // 
@@ -395,36 +395,36 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.Control;
             ClientSize = new Size(1214, 980);
-            Controls.Add(label16);
-            Controls.Add(checkBox2);
-            Controls.Add(label15);
-            Controls.Add(button8);
-            Controls.Add(label14);
-            Controls.Add(checkBox1);
-            Controls.Add(comboBox4);
-            Controls.Add(button7);
-            Controls.Add(label13);
-            Controls.Add(label12);
-            Controls.Add(button6);
-            Controls.Add(comboBox3);
-            Controls.Add(button5);
-            Controls.Add(label11);
-            Controls.Add(label10);
-            Controls.Add(label9);
-            Controls.Add(comboBox2);
-            Controls.Add(label8);
-            Controls.Add(comboBox1);
-            Controls.Add(button4);
-            Controls.Add(label7);
-            Controls.Add(label4);
-            Controls.Add(label5);
-            Controls.Add(label6);
-            Controls.Add(label3);
-            Controls.Add(label2);
-            Controls.Add(label1);
-            Controls.Add(button3);
-            Controls.Add(button2);
-            Controls.Add(button1);
+            Controls.Add(warningLabel);
+            Controls.Add(boostCheatToggle);
+            Controls.Add(boostCheatLabel);
+            Controls.Add(chargeChaosControlButton);
+            Controls.Add(detailedSpeedLabel);
+            Controls.Add(detailedSpeedToggle);
+            Controls.Add(gameVersionDropdown);
+            Controls.Add(wipeSavesButton);
+            Controls.Add(gameVersionLabel);
+            Controls.Add(loadFromLabel);
+            Controls.Add(jsonLoadButton);
+            Controls.Add(loadFromDropdown);
+            Controls.Add(jsonSaveButton);
+            Controls.Add(facingAngleLabel);
+            Controls.Add(loadedSlotsLabel);
+            Controls.Add(loadFromSlotLabel);
+            Controls.Add(loadFromSlotDropdown);
+            Controls.Add(saveToSlotLabel);
+            Controls.Add(saveToSlotDropdown);
+            Controls.Add(maxRingsButton);
+            Controls.Add(speedLabel);
+            Controls.Add(currentXPosLabel);
+            Controls.Add(currentYPosLabel);
+            Controls.Add(currentZPosLabel);
+            Controls.Add(savedZPosLabel);
+            Controls.Add(savedYPosLabel);
+            Controls.Add(savedXPosLabel);
+            Controls.Add(loadButtonButton);
+            Controls.Add(savePositionButton);
+            Controls.Add(attachButton);
             Margin = new Padding(4, 5, 4, 5);
             Name = "Form1";
             Text = "Chaos Spear";
@@ -435,36 +435,36 @@
 
         #endregion
 
-        private Button button1;
-        private Button button2;
-        private Button button3;
-        private Label label1;
-        private Label label2;
-        private Label label3;
-        private Label label4;
-        private Label label5;
-        private Label label6;
+        private Button attachButton;
+        private Button savePositionButton;
+        private Button loadButtonButton;
+        private Label savedXPosLabel;
+        private Label savedYPosLabel;
+        private Label savedZPosLabel;
+        private Label currentXPosLabel;
+        private Label currentYPosLabel;
+        private Label currentZPosLabel;
         private System.Windows.Forms.Timer timer1;
-        private Label label7;
-        private Button button4;
-        private ComboBox comboBox1;
-        private Label label8;
-        private ComboBox comboBox2;
-        private Label label9;
-        private Label label10;
-        private Label label11;
-        private Button button5;
-        private Button button6;
-        private ComboBox comboBox3;
-        private Label label12;
-        private Label label13;
-        private Button button7;
-        private ComboBox comboBox4;
-        private CheckBox checkBox1;
-        private Label label14;
-        private Button button8;
-        private Label label15;
-        private CheckBox checkBox2;
-        private Label label16;
+        private Label speedLabel;
+        private Button maxRingsButton;
+        private ComboBox saveToSlotDropdown;
+        private Label saveToSlotLabel;
+        private ComboBox loadFromSlotDropdown;
+        private Label loadFromSlotLabel;
+        private Label loadedSlotsLabel;
+        private Label facingAngleLabel;
+        private Button jsonSaveButton;
+        private Button jsonLoadButton;
+        private ComboBox loadFromDropdown;
+        private Label loadFromLabel;
+        private Label gameVersionLabel;
+        private Button wipeSavesButton;
+        private ComboBox gameVersionDropdown;
+        private CheckBox detailedSpeedToggle;
+        private Label detailedSpeedLabel;
+        private Button chargeChaosControlButton;
+        private Label boostCheatLabel;
+        private CheckBox boostCheatToggle;
+        private Label warningLabel;
     }
 }

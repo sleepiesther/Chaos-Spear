@@ -1,20 +1,22 @@
 using System;
 using System.ComponentModel;
-using System.Windows;
+using System.ComponentModel.Design;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Text.Json;
 using System.Threading.Tasks;
-using System.Xml.Serialization;
+using System.Windows;
 using System.Windows.Forms;
+using System.Xml.Linq;
+using System.Xml.Serialization;
 using Reloaded.Memory;
 using Reloaded.Memory.Sigscan;
+using Reloaded.Memory.Sigscan.Definitions;
 using SharpHook;
 using SharpHook.Native;
-using Reloaded.Memory.Sigscan.Definitions;
-using System.ComponentModel.Design;
-using System.Text.Json;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Chaos_Spear
 {
@@ -40,8 +42,6 @@ namespace Chaos_Spear
         GOCPlayerKinematicParams kParams;
         GOCPlayerKinematicParams savedParams;
         List<GOCPlayerKinematicParams> saveSlots = new List<GOCPlayerKinematicParams>();
-        int slotToSave = 0;
-        int slotToLoad = 0;
         string currentVersion = "Old";
         private float[] savedPos = new float[3];
 
@@ -57,25 +57,25 @@ namespace Chaos_Spear
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            // Adds 10 instances of the params struct to act as the save/load slots. 10 is a bit of an arbitrary number, but it's nice to be sure the slot index will always be a single digit number. If you want to change the amount of slots, keep in mind that it is also hardcoded into the comboBox initialisations so you'll have to change that too.
+            // Adds 10 instances of the params struct to act as the save/load slots. 10 is a bit of an arbitrary number, but it's nice to be sure the slot index will always be a single digit number.
             for (int x = 0; x < 10; x++)
             {
-                comboBox1.Items.Add(x);
-                comboBox1.SelectedIndex = 0;
-                comboBox2.Items.Add(x);
-                comboBox2.SelectedIndex = 0;
-                Dictionary<string, string> comboSource = new Dictionary<string, string>();
+                saveToSlotDropdown.Items.Add(x);
+                loadFromSlotDropdown.Items.Add(x);
+                Dictionary<string, string> jsonFiles = new();
                 foreach (string file in Directory.GetFiles(Path.GetDirectoryName(Application.ExecutablePath) + "\\saves", "*.json"))
                 {
-                    comboSource.Add(file, file.Split('\\')[^1]);
+                    jsonFiles.Add(file, file.Split('\\')[^1]);
                 }
-                comboBox3.DataSource = new BindingSource(comboSource, null);
+                loadFromDropdown.DataSource = new BindingSource(jsonFiles, null);
                 saveSlots.Add(new GOCPlayerKinematicParams());
             }
-            comboBox4.SelectedIndex = 1;
+            saveToSlotDropdown.SelectedIndex = 0;
+            loadFromSlotDropdown.SelectedIndex = 0;
+            gameVersionDropdown.SelectedIndex = 1;
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void attach(object sender, EventArgs e)
         {
             try
             {
@@ -87,12 +87,12 @@ namespace Chaos_Spear
                         MessageBox.Show("SXSG could not be found");
                         return;
                     }
-                    if (currentVersion == "Current")
+                    if (gameVersionDropdown.SelectedItem.ToString() == "Current")
                     {
                         xcoordOff = 0x029D2C28;
                         ringOff = 0x029D2C28;
                     }
-                    else if (currentVersion == "Old")
+                    else if (gameVersionDropdown.SelectedItem.ToString() == "Old")
                     {
                         xcoordOff = 0x02993FE8;
                         ringOff = 0x02993FE8;
@@ -105,7 +105,7 @@ namespace Chaos_Spear
                     gameMem = new ExternalMemory(proc);
 
                     attached = true;
-                    button1.Text = "Detach";
+                    attachButton.Text = "Detach";
 
                     timer1.Start();
 
@@ -116,7 +116,7 @@ namespace Chaos_Spear
                 else
                 {
                     attached = false;
-                    button1.Text = "Attach";
+                    attachButton.Text = "Attach";
                     timer1.Stop();
 
                     //kbHook.Dispose();
@@ -136,73 +136,55 @@ namespace Chaos_Spear
                 KeyCode key = e.Data.KeyCode;
                 if (key == KeyCode.VcF7)
                 {
-                    button8_Click(sender, e);
+                    chargeChaosControl(sender, e);
                 }
                 else if (key == KeyCode.VcF8)
                 {
-                    button4_Click(sender, e);
+                    giveMaxRings(sender, e);
                 }
                 else if (key == KeyCode.VcF9)
                 {
-                    button2_Click(sender, e);
+                    savePosition(sender, e);
                 }
                 else if (key == KeyCode.VcF10)
                 {
-                    button3_Click(sender, e);
+                    loadPosition(sender, e);
                 }
             }
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void savePosition(object sender, EventArgs e)
         {
             if (!attached)
             {
                 MessageBox.Show("Attach program to SXSG first");
                 return;
             }
-            gameMem.Read<nint>((nuint)coordAddress, out coordAdd);
+            List<Int32> kParamOffsets = new();
+            if (gameVersionDropdown.InvokeRequired)
+            {
+                gameVersionDropdown.Invoke(new MethodInvoker(delegate { currentVersion = gameVersionDropdown.SelectedItem.ToString(); }));
+            }
             if (currentVersion == "Current")
             {
-                coordAdd += 0x1B0;
-                gameMem.Read<nint>((nuint)coordAdd, out coordAdd);
-
-                coordAdd += 0x20;
-                gameMem.Read<nint>((nuint)coordAdd, out coordAdd);
-
-                coordAdd += 0x168;
-                gameMem.Read<nint>((nuint)coordAdd, out coordAdd);
-
-                coordAdd += 0x0;
-                gameMem.Read<nint>((nuint)coordAdd, out coordAdd);
-
-                coordAdd += 0x20;
-                gameMem.Read<nint>((nuint)coordAdd, out coordAdd);
-
-                coordAdd += 0x48;
+                kParamOffsets = [0x1B0, 0x20, 0x168, 0x0, 0x20, 0x48, 0x0];
             }
             else if (currentVersion == "Old")
             {
-                coordAdd += 0x88;
-                gameMem.Read<nint>((nuint)coordAdd, out coordAdd);
-
-                coordAdd += 0x28;
-                gameMem.Read<nint>((nuint)coordAdd, out coordAdd);
-
-                coordAdd += 0x0;
-                gameMem.Read<nint>((nuint)coordAdd, out coordAdd);
-
-                coordAdd += 0x58;
-                gameMem.Read<nint>((nuint)coordAdd, out coordAdd);
-
-                coordAdd += 0x1A8;
+                kParamOffsets = [0x88, 0x28, 0x0, 0x58, 0x1A8, 0x0];
             }
-            gameMem.Read<nint>((nuint)coordAdd, out coordAdd);
+            gameMem.Read<nint>((nuint)coordAddress, out coordAdd);
+            coordAdd = followPointerChain(coordAddress, kParamOffsets);
             gameMem.Read((nuint)coordAdd, out savedParams);
 
-            saveSlots[slotToSave] = savedParams;
+            if (saveToSlotDropdown.InvokeRequired)
+            {
+                saveToSlotDropdown.Invoke(new MethodInvoker(delegate { saveSlots[saveToSlotDropdown.SelectedIndex] = savedParams; }));
+            }
+            
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void loadPosition(object sender, EventArgs e)
         {
             if (!attached)
             {
@@ -210,7 +192,10 @@ namespace Chaos_Spear
                 return;
             }
 
-            savedParams = saveSlots[slotToLoad];
+            if (loadFromSlotDropdown.InvokeRequired)
+            {
+                saveToSlotDropdown.Invoke(new MethodInvoker(delegate { savedParams = saveSlots[loadFromSlotDropdown.SelectedIndex]; }));
+            }
             gameMem.Write<float>((nuint)coordAdd + 0x80, savedParams.XPos);
             gameMem.Write<float>((nuint)coordAdd + 0x84, savedParams.YPos);
             gameMem.Write<float>((nuint)coordAdd + 0x88, savedParams.ZPos);
@@ -225,66 +210,36 @@ namespace Chaos_Spear
         {
             try
             {
-                //if is in a level
-                float[] curPos = new float[3];
                 float speedHorizontal;
+                List<Int32> kParamOffsets = new();
 
+                if (gameVersionDropdown.SelectedItem.ToString() == "Current")
+                {
+                    kParamOffsets = [0x1B0, 0x20, 0x168, 0x0, 0x20, 0x48, 0x0];
+                }
+                else
+                {
+                    kParamOffsets = [0x88, 0x28, 0x0, 0x58, 0x1A8, 0x0];
+                }
                 gameMem.Read<nint>((nuint)coordAddress, out coordAdd);
-
-                if (currentVersion == "Current")
-                {
-                    coordAdd += 0x1B0;
-                    gameMem.Read<nint>((nuint)coordAdd, out coordAdd);
-
-                    coordAdd += 0x20;
-                    gameMem.Read<nint>((nuint)coordAdd, out coordAdd);
-
-                    coordAdd += 0x168;
-                    gameMem.Read<nint>((nuint)coordAdd, out coordAdd);
-
-                    coordAdd += 0x0;
-                    gameMem.Read<nint>((nuint)coordAdd, out coordAdd);
-
-                    coordAdd += 0x20;
-                    gameMem.Read<nint>((nuint)coordAdd, out coordAdd);
-
-                    coordAdd += 0x48;
-                }
-                else if (currentVersion == "Old")
-                {
-                    coordAdd += 0x88;
-                    gameMem.Read<nint>((nuint)coordAdd, out coordAdd);
-
-                    coordAdd += 0x28;
-                    gameMem.Read<nint>((nuint)coordAdd, out coordAdd);
-
-                    coordAdd += 0x0;
-                    gameMem.Read<nint>((nuint)coordAdd, out coordAdd);
-
-                    coordAdd += 0x58;
-                    gameMem.Read<nint>((nuint)coordAdd, out coordAdd);
-
-                    coordAdd += 0x1A8;
-                }
-
-                gameMem.Read<nint>((nuint)coordAdd, out coordAdd);
+                coordAdd = followPointerChain(coordAddress, kParamOffsets);
                 gameMem.Read((nuint)coordAdd, out kParams);
 
                 speedHorizontal = (float)Math.Round(Math.Sqrt(Math.Pow(kParams.XSpd, 2) + Math.Pow(kParams.ZSpd, 2)), 1);
 
-                label10.Text = "Showing positions stored in slots " + slotToSave + " : " + slotToLoad;
+                loadedSlotsLabel.Text = "Showing positions stored in slots " + saveToSlotDropdown.SelectedIndex + " : " + loadFromSlotDropdown.SelectedIndex;
 
-                label1.Text = "Saved X Pos: " + Math.Round(saveSlots[slotToSave].XPos, 3) + " : " + Math.Round(saveSlots[slotToLoad].XPos, 3);
+                savedXPosLabel.Text = "Saved X Pos: " + Math.Round(saveSlots[saveToSlotDropdown.SelectedIndex].XPos, 3) + " : " + Math.Round(saveSlots[loadFromSlotDropdown.SelectedIndex].XPos, 3);
 
-                label2.Text = "Saved Y Pos: " + Math.Round(saveSlots[slotToSave].YPos, 3) + " : " + Math.Round(saveSlots[slotToLoad].YPos, 3);
+                savedYPosLabel.Text = "Saved Y Pos: " + Math.Round(saveSlots[saveToSlotDropdown.SelectedIndex].YPos, 3) + " : " + Math.Round(saveSlots[loadFromSlotDropdown.SelectedIndex].YPos, 3);
 
-                label3.Text = "Saved Z Pos: " + Math.Round(saveSlots[slotToSave].ZPos, 3) + " : " + Math.Round(saveSlots[slotToLoad].ZPos, 3);
+                savedZPosLabel.Text = "Saved Z Pos: " + Math.Round(saveSlots[saveToSlotDropdown.SelectedIndex].ZPos, 3) + " : " + Math.Round(saveSlots[loadFromSlotDropdown.SelectedIndex].ZPos, 3);
 
-                label4.Text = "Current X Pos: " + Math.Round(kParams.XPos, 1);
-                label5.Text = "Current Y Pos: " + Math.Round(kParams.YPos, 1);
-                label6.Text = "Current Z Pos: " + Math.Round(kParams.ZPos, 1);
+                currentXPosLabel.Text = "Current X Pos: " + Math.Round(kParams.XPos, 1);
+                currentYPosLabel.Text = "Current Y Pos: " + Math.Round(kParams.YPos, 1);
+                currentZPosLabel.Text = "Current Z Pos: " + Math.Round(kParams.ZPos, 1);
                 string speedText;
-                if (checkBox1.Checked)
+                if (detailedSpeedToggle.Checked)
                 {
                     speedText = "Speed: " + speedHorizontal + " (" + Math.Round(kParams.XSpd, 2) + ", " + Math.Round(kParams.YSpd, 2) + ", " + Math.Round(kParams.ZSpd, 2) + ")";
                 }
@@ -293,23 +248,15 @@ namespace Chaos_Spear
                     speedText = "Speed: " + speedHorizontal;
                 }
 
-                label7.Text = speedText;
+                speedLabel.Text = speedText;
 
-                label11.Text = "Facing: " + Math.Round(heading(kParams.QRotW, kParams.QRotY), 1);
+                facingAngleLabel.Text = "Facing: " + Math.Round(heading(kParams.QRotW, kParams.QRotY), 1);
 
-                if (checkBox2.Checked && currentVersion == "Old") {
+                if (boostCheatToggle.Checked && gameVersionDropdown.SelectedItem.ToString() == "Old")
+                {
                     boostAddress = IntPtr.Add(proc.MainModule.BaseAddress, boostOff);
-                    gameMem.Read<nint>((nuint)boostAddress, out boostAdd);
-                    gameMem.Read<nint>((nuint)boostAdd + 0x88, out boostAdd);
-                    gameMem.Read<nint>((nuint)boostAdd + 0x28, out boostAdd);
-                    gameMem.Read<nint>((nuint)boostAdd + 0x0, out boostAdd);
-                    gameMem.Read<nint>((nuint)boostAdd + 0x130, out boostAdd);
-                    gameMem.Read<nint>((nuint)boostAdd + 0x18, out boostAdd);
-                    gameMem.Read<nint>((nuint)boostAdd + 0xA8, out boostAdd);
-                    gameMem.Read<nint>((nuint)boostAdd + 0x40, out boostAdd);
-                    gameMem.Read<nint>((nuint)boostAdd + 0x18, out boostAdd);
-                    gameMem.Read<nint>((nuint)boostAdd + 0x18, out boostAdd);
-                    gameMem.Write<float>((nuint)boostAdd + 0x68, 100);
+                    boostAdd = followPointerChain(boostAddress, [0x88, 0x28, 0x0, 0x130, 0x18, 0xA8, 0x40, 0x18, 0x18, 0x60]);
+                    gameMem.Write<float>((nuint)boostAdd, 100);
                 }
 
             }
@@ -320,68 +267,43 @@ namespace Chaos_Spear
                 MessageBox.Show(exception.ToString());*/
                 //Nothing happens here LOOOOL
             }
-            finally
-            {
-
-            }
-
         }
-        private void button4_Click(object sender, EventArgs e)
+        private void giveMaxRings(object sender, EventArgs e)
         {
+            List<Int32> ringOffsets = new();
             if (!attached)
             {
                 MessageBox.Show("Attach program to SXSG first");
                 return;
             }
+            if (gameVersionDropdown.InvokeRequired)
+            {
+                gameVersionDropdown.Invoke(new MethodInvoker(delegate { currentVersion = gameVersionDropdown.SelectedItem.ToString(); }));
+            }
             if (currentVersion == "Old")
             {
-                ringsAddress = IntPtr.Add(proc.MainModule.BaseAddress, ringOff);
-                gameMem.Read<nint>((nuint)ringsAddress, out ringAdd);
-                gameMem.Read<nint>((nuint)ringAdd + 0x150, out ringAdd);
-                gameMem.Read<nint>((nuint)ringAdd + 0x460, out ringAdd);
-                gameMem.Read<nint>((nuint)ringAdd + 0x48, out ringAdd);
-                gameMem.Read<nint>((nuint)ringAdd + 0x88, out ringAdd);
-                gameMem.Read<nint>((nuint)ringAdd + 0x28, out ringAdd);
-                gameMem.Read<nint>((nuint)ringAdd + 0x0, out ringAdd);
-                gameMem.Read<nint>((nuint)ringAdd + 0x2D0, out ringAdd);
-                gameMem.Read<nint>((nuint)ringAdd + 0x30, out ringAdd);
-                gameMem.Write<int>((nuint)ringAdd + 0x28, 999);
+                ringOffsets = [0x150, 0x460, 0x48, 0x88, 0x28, 0x0, 0x2D0, 0x30, 0x28];
             }
-            else if (currentVersion == "Current")
+            else
             {
-                ringsAddress = IntPtr.Add(proc.MainModule.BaseAddress, ringOff);
-                gameMem.Read<nint>((nuint)ringsAddress, out ringAdd);
-                gameMem.Read<nint>((nuint)ringAdd + 0x10, out ringAdd);
-                gameMem.Read<nint>((nuint)ringAdd + 0x20, out ringAdd);
-                gameMem.Read<nint>((nuint)ringAdd + 0x168, out ringAdd);
-                gameMem.Read<nint>((nuint)ringAdd + 0x0, out ringAdd);
-                gameMem.Read<nint>((nuint)ringAdd + 0x20, out ringAdd);
-                gameMem.Read<nint>((nuint)ringAdd + 0x30, out ringAdd);
-                gameMem.Write<int>((nuint)ringAdd + 0x28, 999);
+                ringOffsets = [0x10, 0x20, 0x168, 0x0, 0x20, 0x30, 0x28];
             }
+            ringsAddress = IntPtr.Add(proc.MainModule.BaseAddress, ringOff);
+            ringAdd = followPointerChain(ringsAddress, ringOffsets);
+            gameMem.Write<int>((nuint)ringAdd, 999);
 
         }
-        private void comboBox1_changed(object sender, EventArgs e)
-        {
-            slotToSave = comboBox1.SelectedIndex;
 
-        }
-        private void comboBox2_changed(object sender, EventArgs e)
+        private void saveToJSON(object sender, EventArgs e)
         {
-            slotToLoad = comboBox2.SelectedIndex;
-        }
-
-        private void button5_Click(object sender, EventArgs e)
-        {
-            // I hate this with all of my soul but frankly I dont feel like fixing it
             try
             {
-                List<dynamic> saveSlotsWithNames = new List<dynamic>();
-                List<string> names = new List<string>();
+                List<dynamic> saveSlotsWithNames = new();
+                List<string> names = new();
 
                 for (int x = 0; x < saveSlots.Count; x++)
                 {
-                    names.Add("None");
+                    names.Add("");
                 }
                 saveSlotsWithNames.Add(names);
                 foreach (GOCPlayerKinematicParams slot in saveSlots)
@@ -396,32 +318,29 @@ namespace Chaos_Spear
                 MessageBox.Show(ex.Message);
             }
         }
-        private void button6_Click(object sender, EventArgs e)
+        private void loadJSON(object sender, EventArgs e)
         {
-            // I hate this even more
             try
             {
-                string jsonString = File.ReadAllText(((KeyValuePair<string, string>)comboBox3.SelectedItem).Key);
+                string jsonString = File.ReadAllText(loadFromDropdown.SelectedValue.ToString());
                 List<dynamic> jsonData = JsonSerializer.Deserialize<List<dynamic>>(jsonString);
-                comboBox1.Items.Clear();
-                comboBox2.Items.Clear();
+                saveToSlotDropdown.Items.Clear();
+                loadFromSlotDropdown.Items.Clear();
                 for (int x = 0; x < jsonData.Count - 1; x++)
                 {
-                    if (jsonData[0][x].ToString() != "None")
+                    if (jsonData[0][x].ToString() != "")
                     {
-                        comboBox1.Items.Add(x + " (" + jsonData[0][x] + ")");
-                        comboBox2.Items.Add(x + " (" + jsonData[0][x] + ")");
+                        saveToSlotDropdown.Items.Add(x + " (" + jsonData[0][x] + ")");
+                        loadFromSlotDropdown.Items.Add(x + " (" + jsonData[0][x] + ")");
                     }
                     else
                     {
-                        comboBox1.Items.Add(x);
-                        comboBox2.Items.Add(x);
+                        saveToSlotDropdown.Items.Add(x);
+                        loadFromSlotDropdown.Items.Add(x);
                     }
                 }
-                slotToSave = 0;
-                slotToLoad = 0;
-                comboBox1.SelectedIndex = 0;
-                comboBox2.SelectedIndex = 0;
+                saveToSlotDropdown.SelectedIndex = 0;
+                loadFromSlotDropdown.SelectedIndex = 0;
                 for (int x = 1; x < jsonData.Count; x++)
                 {
                     saveSlots[x - 1] = JsonSerializer.Deserialize<GOCPlayerKinematicParams>(jsonData[x]);
@@ -432,33 +351,68 @@ namespace Chaos_Spear
                 MessageBox.Show(ex.Message);
             }
         }
-        private void button7_Click(object sender, EventArgs e)
+        private void wipeSaves(object sender, EventArgs e)
         {
-            comboBox1.Items.Clear();
-            comboBox2.Items.Clear();
+            saveToSlotDropdown.Items.Clear();
+            loadFromSlotDropdown.Items.Clear();
             for (int x = 0; x < 10; x++)
             {
                 saveSlots[x] = new GOCPlayerKinematicParams();
-                comboBox1.Items.Add(x);
-                comboBox2.Items.Add(x);
+                saveToSlotDropdown.Items.Add(x);
+                loadFromSlotDropdown.Items.Add(x);
             }
-            slotToSave = 0;
-            slotToLoad = 0;
-            comboBox1.SelectedIndex = 0;
-            comboBox2.SelectedIndex = 0;
+            saveToSlotDropdown.SelectedIndex = 0;
+            loadFromSlotDropdown.SelectedIndex = 0;
         }
-        private void comboBox4_changed(object sender, EventArgs e)
+        private void gameVersionDropdown_changed(object sender, EventArgs e)
         {
-            currentVersion = comboBox4.SelectedItem.ToString();
-            if (currentVersion == "Current")
+            if (gameVersionDropdown.SelectedItem.ToString() == "Current")
             {
-                label16.Text = "Boost and Chaos Control don't work on this version. \nIf you find the pointers make a pull request :)";
+                warningLabel.Text = "Boost and Chaos Control don't work on this version. \nIf you find the pointers make a pull request :)";
             }
             else
             {
-                label16.Text = "";
+                warningLabel.Text = "";
             }
         }
+        private void chargeChaosControl(object sender, EventArgs e)
+        {
+            if (!attached)
+            {
+                MessageBox.Show("Attach program to SXSG first");
+                return;
+            }
+            if (gameVersionDropdown.InvokeRequired)
+            {
+                gameVersionDropdown.Invoke(new MethodInvoker(delegate { currentVersion = gameVersionDropdown.SelectedItem.ToString(); }));
+            }
+            if (currentVersion == "Old")
+            {
+                ccAddress = IntPtr.Add(proc.MainModule.BaseAddress, ccOff);
+                ccAdd = followPointerChain(ccAddress, [0x30, 0x88, 0x28, 0x0, 0x2D0, 0x38, 0x108, 0x18, 0x80, 0x38]);
+                gameMem.Write<int>((nuint)ccAdd, 100);
+            }
+        }
+
+        /// <summary>
+        /// Follows a pointer chain to find the address in memory that it points to
+        /// </summary>
+        /// <param name="baseAddress">The base address of the process added to the initial offset of the pointer chain</param>
+        /// <param name="offsets">List of the additional offsets in the pointer chain</param>
+        /// <returns>The address that the pointer chain results in</returns>
+        public nint followPointerChain(nint baseAddress, List<Int32> offsets)
+        {
+            nint addressWithOffset;
+            gameMem.Read<nint>((nuint)baseAddress, out addressWithOffset);
+            addressWithOffset += offsets[0];
+            for (int x = 1; x < offsets.Count; x++)
+            {
+                gameMem.Read<nint>((nuint)addressWithOffset, out addressWithOffset);
+                addressWithOffset += offsets[x];
+            }
+            return addressWithOffset;
+        }
+
         //This is just copied from Portal Gear, the Sonic Frontiers Save Position Tool
         public float heading(float rotW, float rotY)
         {
@@ -485,28 +439,6 @@ namespace Chaos_Spear
             return radians / Math.PI * 180;
         }
 
-        private void button8_Click(object sender, EventArgs e)
-        {
-            if (!attached)
-            {
-                MessageBox.Show("Attach program to SXSG first");
-                return;
-            }
-            if (currentVersion == "Old")
-            {
-                ccAddress = IntPtr.Add(proc.MainModule.BaseAddress, ccOff);
-                gameMem.Read<nint>((nuint)ccAddress, out ccAdd);
-                gameMem.Read<nint>((nuint)ccAdd + 0x30, out ccAdd);
-                gameMem.Read<nint>((nuint)ccAdd + 0x88, out ccAdd);
-                gameMem.Read<nint>((nuint)ccAdd + 0x28, out ccAdd);
-                gameMem.Read<nint>((nuint)ccAdd + 0x0, out ccAdd);
-                gameMem.Read<nint>((nuint)ccAdd + 0x2D0, out ccAdd);
-                gameMem.Read<nint>((nuint)ccAdd + 0x38, out ccAdd);
-                gameMem.Read<nint>((nuint)ccAdd + 0x108, out ccAdd);
-                gameMem.Read<nint>((nuint)ccAdd + 0x18, out ccAdd);
-                gameMem.Read<nint>((nuint)ccAdd + 0x80, out ccAdd);
-                gameMem.Write<int>((nuint)ccAdd + 0x38, 100);
-            }
-        }
+
     }
 }

@@ -32,6 +32,7 @@ namespace Chaos_Spear
         private IntPtr coordAddress, ringsAddress, ccAddress, boostAddress;
 
         private ExternalMemory gameMem;
+        private Scanner sigScanner;
 
         nint coordAdd;
         nint camCoordAdd;
@@ -100,6 +101,14 @@ namespace Chaos_Spear
                     ringsAddress = IntPtr.Add(proc.MainModule.BaseAddress, ringOff);
 
                     gameMem = new ExternalMemory(proc);
+                    sigScanner = new Scanner(proc);
+
+                    var runInBackgroundSig = sigScanner.FindPattern("75 4A C0 E8 03");
+                    if (runInBackgroundSig.Found)
+                    {
+                        nint runInBackgroundAddress = proc.MainModule.BaseAddress + runInBackgroundSig.Offset;
+                        gameMem.Write<byte>((nuint)runInBackgroundAddress, 0xEB);
+                    }
 
                     attached = true;
                     attachButton.Text = "Detach";

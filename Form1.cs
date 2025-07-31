@@ -43,9 +43,6 @@ namespace Chaos_Spear
         GOCPlayerKinematicParams savedParams;
         List<GOCPlayerKinematicParams> saveSlots = new List<GOCPlayerKinematicParams>();
         string currentVersion = "Old";
-        private float[] savedPos = new float[3];
-
-        float[] oldPos = { 0, 0, 0 };
         private SimpleGlobalHook kbHook;
         private Task task;
 
@@ -181,7 +178,7 @@ namespace Chaos_Spear
             {
                 saveToSlotDropdown.Invoke(new MethodInvoker(delegate { saveSlots[saveToSlotDropdown.SelectedIndex] = savedParams; }));
             }
-            
+
         }
 
         private void loadPosition(object sender, EventArgs e)
@@ -394,6 +391,29 @@ namespace Chaos_Spear
             }
         }
 
+        private void manualTeleport(object sender, EventArgs e)
+        {
+            if (!attached)
+            {
+                MessageBox.Show("Attach program to SXSG first");
+                return;
+            }
+            try
+            {
+                gameMem.Write<float>((nuint)coordAdd + 0x80, float.Parse(xPosInput.Text));
+                gameMem.Write<float>((nuint)coordAdd + 0x84, float.Parse(yPosInput.Text));
+                gameMem.Write<float>((nuint)coordAdd + 0x88, float.Parse(zPosInput.Text));
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("Please input a number into every box :3");
+            }
+            catch (Exception ex) 
+            { 
+                MessageBox.Show(ex.Message);
+            }
+        }
+
         /// <summary>
         /// Follows a pointer chain to find the address in memory that it points to
         /// </summary>
@@ -438,7 +458,5 @@ namespace Chaos_Spear
         {
             return radians / Math.PI * 180;
         }
-
-
     }
 }

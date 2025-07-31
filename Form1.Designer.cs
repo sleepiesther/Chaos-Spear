@@ -60,6 +60,13 @@
             boostCheatLabel = new Label();
             boostCheatToggle = new CheckBox();
             warningLabel = new Label();
+            xPosInput = new TextBox();
+            yPosInput = new TextBox();
+            zPosInput = new TextBox();
+            manualTeleportButton = new Button();
+            xPosInputLabel = new Label();
+            yPosInputLabel = new Label();
+            zPosInputLabel = new Label();
             SuspendLayout();
             // 
             // attachButton
@@ -133,7 +140,7 @@
             // 
             currentXPosLabel.AutoSize = true;
             currentXPosLabel.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
-            currentXPosLabel.Location = new Point(638, 564);
+            currentXPosLabel.Location = new Point(638, 536);
             currentXPosLabel.Margin = new Padding(4, 0, 4, 0);
             currentXPosLabel.Name = "currentXPosLabel";
             currentXPosLabel.RightToLeft = RightToLeft.No;
@@ -145,7 +152,7 @@
             // 
             currentYPosLabel.AutoSize = true;
             currentYPosLabel.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
-            currentYPosLabel.Location = new Point(641, 621);
+            currentYPosLabel.Location = new Point(641, 593);
             currentYPosLabel.Margin = new Padding(4, 0, 4, 0);
             currentYPosLabel.Name = "currentYPosLabel";
             currentYPosLabel.Size = new Size(258, 48);
@@ -156,7 +163,7 @@
             // 
             currentZPosLabel.AutoSize = true;
             currentZPosLabel.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
-            currentZPosLabel.Location = new Point(640, 673);
+            currentZPosLabel.Location = new Point(640, 645);
             currentZPosLabel.Margin = new Padding(4, 0, 4, 0);
             currentZPosLabel.Name = "currentZPosLabel";
             currentZPosLabel.Size = new Size(258, 48);
@@ -171,7 +178,7 @@
             // 
             speedLabel.AutoSize = true;
             speedLabel.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
-            speedLabel.Location = new Point(640, 468);
+            speedLabel.Location = new Point(640, 440);
             speedLabel.Margin = new Padding(4, 0, 4, 0);
             speedLabel.Name = "speedLabel";
             speedLabel.Size = new Size(142, 48);
@@ -244,7 +251,7 @@
             // 
             facingAngleLabel.AutoSize = true;
             facingAngleLabel.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
-            facingAngleLabel.Location = new Point(641, 741);
+            facingAngleLabel.Location = new Point(641, 713);
             facingAngleLabel.Margin = new Padding(4, 0, 4, 0);
             facingAngleLabel.Name = "facingAngleLabel";
             facingAngleLabel.Size = new Size(148, 48);
@@ -299,7 +306,7 @@
             // 
             gameVersionLabel.AutoSize = true;
             gameVersionLabel.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
-            gameVersionLabel.Location = new Point(641, 818);
+            gameVersionLabel.Location = new Point(641, 790);
             gameVersionLabel.Margin = new Padding(4, 0, 4, 0);
             gameVersionLabel.Name = "gameVersionLabel";
             gameVersionLabel.Size = new Size(212, 38);
@@ -321,7 +328,7 @@
             // 
             gameVersionDropdown.DropDownStyle = ComboBoxStyle.DropDownList;
             gameVersionDropdown.Items.AddRange(new object[] { "Current", "Old" });
-            gameVersionDropdown.Location = new Point(858, 826);
+            gameVersionDropdown.Location = new Point(858, 798);
             gameVersionDropdown.Margin = new Padding(4, 5, 4, 5);
             gameVersionDropdown.Name = "gameVersionDropdown";
             gameVersionDropdown.Size = new Size(213, 33);
@@ -331,7 +338,7 @@
             // detailedSpeedToggle
             // 
             detailedSpeedToggle.AutoSize = true;
-            detailedSpeedToggle.Location = new Point(1044, 539);
+            detailedSpeedToggle.Location = new Point(1044, 511);
             detailedSpeedToggle.Margin = new Padding(4, 5, 4, 5);
             detailedSpeedToggle.Name = "detailedSpeedToggle";
             detailedSpeedToggle.Size = new Size(22, 21);
@@ -341,7 +348,7 @@
             // 
             detailedSpeedLabel.AutoSize = true;
             detailedSpeedLabel.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
-            detailedSpeedLabel.Location = new Point(641, 526);
+            detailedSpeedLabel.Location = new Point(641, 498);
             detailedSpeedLabel.Margin = new Padding(4, 0, 4, 0);
             detailedSpeedLabel.Name = "detailedSpeedLabel";
             detailedSpeedLabel.Size = new Size(393, 38);
@@ -382,19 +389,91 @@
             // 
             warningLabel.AutoSize = true;
             warningLabel.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            warningLabel.Location = new Point(609, 885);
+            warningLabel.Location = new Point(609, 857);
             warningLabel.Margin = new Padding(4, 0, 4, 0);
             warningLabel.Name = "warningLabel";
             warningLabel.Size = new Size(55, 32);
             warningLabel.TabIndex = 31;
             warningLabel.Text = "aga";
             // 
+            // xPosInput
+            // 
+            xPosInput.Location = new Point(603, 973);
+            xPosInput.Name = "xPosInput";
+            xPosInput.Size = new Size(106, 31);
+            xPosInput.TabIndex = 32;
+            // 
+            // yPosInput
+            // 
+            yPosInput.Location = new Point(747, 973);
+            yPosInput.Name = "yPosInput";
+            yPosInput.Size = new Size(106, 31);
+            yPosInput.TabIndex = 33;
+            // 
+            // zPosInput
+            // 
+            zPosInput.Location = new Point(895, 973);
+            zPosInput.Name = "zPosInput";
+            zPosInput.Size = new Size(106, 31);
+            zPosInput.TabIndex = 34;
+            // 
+            // manualTeleportButton
+            // 
+            manualTeleportButton.Location = new Point(1044, 973);
+            manualTeleportButton.Margin = new Padding(4, 5, 4, 5);
+            manualTeleportButton.Name = "manualTeleportButton";
+            manualTeleportButton.Size = new Size(138, 33);
+            manualTeleportButton.TabIndex = 35;
+            manualTeleportButton.Text = "Teleport";
+            manualTeleportButton.UseVisualStyleBackColor = true;
+            manualTeleportButton.Click += manualTeleport;
+            // 
+            // xPosInputLabel
+            // 
+            xPosInputLabel.AutoSize = true;
+            xPosInputLabel.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            xPosInputLabel.Location = new Point(640, 940);
+            xPosInputLabel.Margin = new Padding(4, 0, 4, 0);
+            xPosInputLabel.Name = "xPosInputLabel";
+            xPosInputLabel.Size = new Size(30, 32);
+            xPosInputLabel.TabIndex = 36;
+            xPosInputLabel.Text = "X";
+            // 
+            // yPosInputLabel
+            // 
+            yPosInputLabel.AutoSize = true;
+            yPosInputLabel.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            yPosInputLabel.Location = new Point(784, 940);
+            yPosInputLabel.Margin = new Padding(4, 0, 4, 0);
+            yPosInputLabel.Name = "yPosInputLabel";
+            yPosInputLabel.Size = new Size(29, 32);
+            yPosInputLabel.TabIndex = 37;
+            yPosInputLabel.Text = "Y";
+            // 
+            // zPosInputLabel
+            // 
+            zPosInputLabel.AutoSize = true;
+            zPosInputLabel.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            zPosInputLabel.Location = new Point(936, 940);
+            zPosInputLabel.Margin = new Padding(4, 0, 4, 0);
+            zPosInputLabel.Name = "zPosInputLabel";
+            zPosInputLabel.Size = new Size(29, 32);
+            zPosInputLabel.TabIndex = 38;
+            zPosInputLabel.Text = "Z";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.Control;
-            ClientSize = new Size(1214, 980);
+            ClientSize = new Size(1214, 1016);
+            Controls.Add(zPosInputLabel);
+            Controls.Add(yPosInputLabel);
+            Controls.Add(xPosInputLabel);
+            Controls.Add(manualTeleportButton);
+            Controls.Add(zPosInput);
+            Controls.Add(yPosInput);
+            Controls.Add(xPosInput);
             Controls.Add(warningLabel);
             Controls.Add(boostCheatToggle);
             Controls.Add(boostCheatLabel);
@@ -466,5 +545,12 @@
         private Label boostCheatLabel;
         private CheckBox boostCheatToggle;
         private Label warningLabel;
+        private TextBox xPosInput;
+        private TextBox yPosInput;
+        private TextBox zPosInput;
+        private Button manualTeleportButton;
+        private Label xPosInputLabel;
+        private Label yPosInputLabel;
+        private Label zPosInputLabel;
     }
 }

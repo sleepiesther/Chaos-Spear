@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.Diagnostics;
 using System.Linq;
+using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text.Json;
@@ -261,10 +262,9 @@ namespace Chaos_Spear
                 if (boostCheatToggle.Checked && gameVersionDropdown.SelectedItem.ToString() == "Old")
                 {
                     boostAddress = IntPtr.Add(proc.MainModule.BaseAddress, boostOff);
-                    boostAdd = followPointerChain(boostAddress, [0x88, 0x28, 0x0, 0x130, 0x18, 0xA8, 0x40, 0x18, 0x18, 0x60]);
+                    boostAdd = followPointerChain(boostAddress, [0x88, 0x28, 0x0, 0x130, 0x18, 0xA8, 0x40, 0x18, 0x18, 0x68]);
                     gameMem.Write<float>((nuint)boostAdd, 100);
                 }
-
             }
             catch (Exception exception)
             {

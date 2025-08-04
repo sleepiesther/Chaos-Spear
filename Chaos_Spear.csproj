@@ -7,11 +7,12 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
-    <ApplicationIcon>Chaos Spear.ico</ApplicationIcon>
+    <ApplicationIcon>images\Chaos Spear.ico</ApplicationIcon>
+	<ForceDesignerDpiUnaware>true</ForceDesignerDpiUnaware>
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="Chaos Spear.ico" />
+    <Content Include="images\Chaos Spear.ico" />
     <PackageReference Include="Reloaded.Memory" Version="9.4.2" />
     <PackageReference Include="Reloaded.Memory.Sigscan" Version="3.1.9" />
     <PackageReference Include="SharpHook" Version="5.3.8" />

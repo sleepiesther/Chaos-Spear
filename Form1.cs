@@ -18,6 +18,7 @@ using Reloaded.Memory.Sigscan.Definitions;
 using SharpHook;
 using SharpHook.Native;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ToolBar;
 
 namespace Chaos_Spear
 {
@@ -40,11 +41,14 @@ namespace Chaos_Spear
         nint ringAdd;
         nint ccAdd;
         nint boostAdd;
-
+        Dictionary<string, KeyCode> hotkeys;
+        string hotKeyToChange;
         GOCPlayerKinematicParams kParams;
         GOCPlayerKinematicParams savedParams;
         List<GOCPlayerKinematicParams> saveSlots = new List<GOCPlayerKinematicParams>();
         string currentVersion = "Old";
+        bool boostCheat = false;
+
         private SimpleGlobalHook kbHook;
         private Task task;
 
@@ -72,6 +76,25 @@ namespace Chaos_Spear
             saveToSlotDropdown.SelectedIndex = 0;
             loadFromSlotDropdown.SelectedIndex = 0;
             gameVersionDropdown.SelectedIndex = 1;
+
+            hotkeys = new()
+            {
+                { "boostCheatHotkey", KeyCode.VcF6 },
+                { "fillCCHotkey", KeyCode.VcF7 },
+                { "maxRingsHotkey", KeyCode.VcF8 },
+                { "savePosHotkey", KeyCode.VcF9 },
+                { "loadPosHotkey", KeyCode.VcF10 }
+            };
+
+            boostCheatHotkeyButton.Text = hotkeys["boostCheatHotkey"].ToString();
+            fillCCHotkeyButton.Text = hotkeys["fillCCHotkey"].ToString();
+            maxRingsHotkeyButton.Text = hotkeys["maxRingsHotkey"].ToString();
+            savePosHotkeyButton.Text = hotkeys["savePosHotkey"].ToString();
+            loadPosHotkeyButton.Text = hotkeys["loadPosHotkey"].ToString();
+
+            kbHook = new SimpleGlobalHook(true);
+            kbHook.KeyPressed += handle_keys;
+            task = kbHook.RunAsync();
         }
 
         private void attach(object sender, EventArgs e)
@@ -112,18 +135,16 @@ namespace Chaos_Spear
                     }
 
                     attached = true;
-                    attachButton.Text = "Detach";
+                    attachLabel.Text = "Detach";
+                    attachButton.Image = Image.FromFile("images\\attachiconglowyellow.png");
 
                     timer1.Start();
-
-                    kbHook = new SimpleGlobalHook(true);
-                    kbHook.KeyPressed += handle_keys;
-                    task = kbHook.RunAsync();
                 }
                 else
                 {
                     attached = false;
-                    attachButton.Text = "Attach";
+                    attachLabel.Text = "Attach";
+                    attachButton.Image = Image.FromFile("images\\attachiconsmall.png");
                     timer1.Stop();
 
                     //kbHook.Dispose();
@@ -136,30 +157,47 @@ namespace Chaos_Spear
             }
         }
 
-        private void handle_keys(Object sender, KeyboardHookEventArgs e)
+        private void handle_keys(object sender, KeyboardHookEventArgs e)
         {
             if (attached)
             {
                 KeyCode key = e.Data.KeyCode;
-                if (key == KeyCode.VcF7)
+                if (key == hotkeys["fillCCHotkey"])
                 {
                     chargeChaosControl(sender, e);
                 }
-                else if (key == KeyCode.VcF8)
+                else if (key == hotkeys["maxRingsHotkey"])
                 {
                     giveMaxRings(sender, e);
                 }
-                else if (key == KeyCode.VcF9)
+                else if (key == hotkeys["savePosHotkey"])
                 {
                     savePosition(sender, e);
                 }
-                else if (key == KeyCode.VcF10)
+                else if (key == hotkeys["loadPosHotkey"])
                 {
                     loadPosition(sender, e);
                 }
             }
         }
+        private void changeHotkey(object sender, EventArgs e)
+        {
+            System.Windows.Forms.Button senderButton = sender as System.Windows.Forms.Button;
+            hotKeyToChange = senderButton.Name.Replace("Button", "");
+            kbHook.KeyPressed -= handle_keys;
+            kbHook.KeyPressed += receiveNewHotkey;
+            MessageBox.Show("Please press the key you would like to assign to this button, then press ok.", "Change hotkey", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            kbHook.KeyPressed += handle_keys;
+            kbHook.KeyPressed -= receiveNewHotkey;
+        }
 
+        private void receiveNewHotkey(object sender, KeyboardHookEventArgs e)
+        {
+            KeyCode key = e.Data.KeyCode;
+            hotkeys[hotKeyToChange] = key;
+            System.Windows.Forms.Control hotkeyButton = this.Controls.Find(hotKeyToChange + "Button", true).First();
+            hotkeyButton.Invoke(new MethodInvoker(delegate { hotkeyButton.Text = key.ToString(); }));
+        }
         private void savePosition(object sender, EventArgs e)
         {
             if (!attached)
@@ -172,6 +210,10 @@ namespace Chaos_Spear
             {
                 gameVersionDropdown.Invoke(new MethodInvoker(delegate { currentVersion = gameVersionDropdown.SelectedItem.ToString(); }));
             }
+            else
+            {
+                currentVersion = gameVersionDropdown.SelectedItem.ToString();
+            }
             if (currentVersion == "Current")
             {
                 kParamOffsets = [0x1B0, 0x20, 0x168, 0x0, 0x20, 0x48, 0x0];
@@ -180,7 +222,6 @@ namespace Chaos_Spear
             {
                 kParamOffsets = [0x88, 0x28, 0x0, 0x58, 0x1A8, 0x0];
             }
-            gameMem.Read<nint>((nuint)coordAddress, out coordAdd);
             coordAdd = followPointerChain(coordAddress, kParamOffsets);
             gameMem.Read((nuint)coordAdd, out savedParams);
 
@@ -188,7 +229,10 @@ namespace Chaos_Spear
             {
                 saveToSlotDropdown.Invoke(new MethodInvoker(delegate { saveSlots[saveToSlotDropdown.SelectedIndex] = savedParams; }));
             }
-
+            else
+            {
+                saveSlots[saveToSlotDropdown.SelectedIndex] = savedParams;
+            }
         }
 
         private void loadPosition(object sender, EventArgs e)
@@ -202,6 +246,10 @@ namespace Chaos_Spear
             if (loadFromSlotDropdown.InvokeRequired)
             {
                 saveToSlotDropdown.Invoke(new MethodInvoker(delegate { savedParams = saveSlots[loadFromSlotDropdown.SelectedIndex]; }));
+            }
+            else
+            {
+                savedParams = saveSlots[loadFromSlotDropdown.SelectedIndex];
             }
             gameMem.Write<float>((nuint)coordAdd + 0x80, savedParams.XPos);
             gameMem.Write<float>((nuint)coordAdd + 0x84, savedParams.YPos);
@@ -232,39 +280,36 @@ namespace Chaos_Spear
                 coordAdd = followPointerChain(coordAddress, kParamOffsets);
                 gameMem.Read((nuint)coordAdd, out kParams);
 
+                loadedSlotsLabel.Text = "Saved Positions (Slots " + saveToSlotDropdown.SelectedIndex + " : " + loadFromSlotDropdown.SelectedIndex + ")";
+
+                savedXPosLabel.Text = "X: " + Math.Round(saveSlots[saveToSlotDropdown.SelectedIndex].XPos, 3) + " : " + Math.Round(saveSlots[loadFromSlotDropdown.SelectedIndex].XPos, 3);
+
+                savedYPosLabel.Text = "Y: " + Math.Round(saveSlots[saveToSlotDropdown.SelectedIndex].YPos, 3) + " : " + Math.Round(saveSlots[loadFromSlotDropdown.SelectedIndex].YPos, 3);
+
+                savedZPosLabel.Text = "Z: " + Math.Round(saveSlots[saveToSlotDropdown.SelectedIndex].ZPos, 3) + " : " + Math.Round(saveSlots[loadFromSlotDropdown.SelectedIndex].ZPos, 3);
+
+                currentXPosLabel.Text = "X: " + Math.Round(kParams.XPos, 1);
+                currentYPosLabel.Text = "Y: " + Math.Round(kParams.YPos, 1);
+                currentZPosLabel.Text = "Z: " + Math.Round(kParams.ZPos, 1);
+
                 speedHorizontal = (float)Math.Round(Math.Sqrt(Math.Pow(kParams.XSpd, 2) + Math.Pow(kParams.ZSpd, 2)), 1);
 
-                loadedSlotsLabel.Text = "Showing positions stored in slots " + saveToSlotDropdown.SelectedIndex + " : " + loadFromSlotDropdown.SelectedIndex;
-
-                savedXPosLabel.Text = "Saved X Pos: " + Math.Round(saveSlots[saveToSlotDropdown.SelectedIndex].XPos, 3) + " : " + Math.Round(saveSlots[loadFromSlotDropdown.SelectedIndex].XPos, 3);
-
-                savedYPosLabel.Text = "Saved Y Pos: " + Math.Round(saveSlots[saveToSlotDropdown.SelectedIndex].YPos, 3) + " : " + Math.Round(saveSlots[loadFromSlotDropdown.SelectedIndex].YPos, 3);
-
-                savedZPosLabel.Text = "Saved Z Pos: " + Math.Round(saveSlots[saveToSlotDropdown.SelectedIndex].ZPos, 3) + " : " + Math.Round(saveSlots[loadFromSlotDropdown.SelectedIndex].ZPos, 3);
-
-                currentXPosLabel.Text = "Current X Pos: " + Math.Round(kParams.XPos, 1);
-                currentYPosLabel.Text = "Current Y Pos: " + Math.Round(kParams.YPos, 1);
-                currentZPosLabel.Text = "Current Z Pos: " + Math.Round(kParams.ZPos, 1);
-                string speedText;
-                if (detailedSpeedToggle.Checked)
-                {
-                    speedText = "Speed: " + speedHorizontal + " (" + Math.Round(kParams.XSpd, 2) + ", " + Math.Round(kParams.YSpd, 2) + ", " + Math.Round(kParams.ZSpd, 2) + ")";
-                }
-                else
-                {
-                    speedText = "Speed: " + speedHorizontal;
-                }
-
-                speedLabel.Text = speedText;
+                speedLabel.Text = "Speed: " + speedHorizontal + " (" + Math.Round(kParams.XSpd, 2) + ", " + Math.Round(kParams.YSpd, 2) + ", " + Math.Round(kParams.ZSpd, 2) + ")";
 
                 facingAngleLabel.Text = "Facing: " + Math.Round(heading(kParams.QRotW, kParams.QRotY), 1);
 
-                if (boostCheatToggle.Checked && gameVersionDropdown.SelectedItem.ToString() == "Old")
+                if (boostCheat && gameVersionDropdown.SelectedItem.ToString() == "Old")
                 {
                     boostAddress = IntPtr.Add(proc.MainModule.BaseAddress, boostOff);
                     boostAdd = followPointerChain(boostAddress, [0x88, 0x28, 0x0, 0x130, 0x18, 0xA8, 0x40, 0x18, 0x18, 0x68]);
                     gameMem.Write<float>((nuint)boostAdd, 100);
                 }
+                boostCheatHotkeyButton.Text = hotkeys["boostCheatHotkey"].ToString();
+                fillCCHotkeyButton.Text = hotkeys["fillCCHotkey"].ToString();
+                maxRingsHotkeyButton.Text = hotkeys["maxRingsHotkey"].ToString();
+                savePosHotkeyButton.Text = hotkeys["savePosHotkey"].ToString();
+                loadPosHotkeyButton.Text = hotkeys["loadPosHotkey"].ToString();
+
             }
             catch (Exception exception)
             {
@@ -417,9 +462,26 @@ namespace Chaos_Spear
             {
                 MessageBox.Show("Please input a number into every box :3");
             }
-            catch (Exception ex) 
-            { 
+            catch (Exception ex)
+            {
                 MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void toggleBoostCheat(object sender, EventArgs e)
+        {
+            if (attached)
+            {
+                if (boostCheat)
+                {
+                    boostCheat = false;
+                    boostCheatButton.Image = Image.FromFile("images\\infboostsmall.png");
+                }
+                else
+                {
+                    boostCheat = true;
+                    boostCheatButton.Image = Image.FromFile("images\\infboostglowyellow.png");
+                }
             }
         }
 

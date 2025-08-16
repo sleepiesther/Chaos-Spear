@@ -198,7 +198,7 @@ namespace Chaos_Spear
         {
             KeyCode key = e.Data.KeyCode;
             hotkeys[hotKeyToChange] = key;
-            System.Windows.Forms.Control hotkeyButton = this.Controls.Find(hotKeyToChange + "Button", true).First();
+            Control hotkeyButton = this.Controls.Find(hotKeyToChange + "Button", true).First();
             hotkeyButton.Invoke(new MethodInvoker(delegate { hotkeyButton.Text = key.ToString(); }));
         }
         private void savePosition(object sender, EventArgs e)

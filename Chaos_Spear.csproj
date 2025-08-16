@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <Content Include="images\Chaos Spear.ico" />
+	<PackageReference Include="Reloaded.Assembler" Version="1.0.16" />
     <PackageReference Include="Reloaded.Memory" Version="9.4.2" />
     <PackageReference Include="Reloaded.Memory.Sigscan" Version="3.1.9" />
     <PackageReference Include="SharpHook" Version="5.3.8" />

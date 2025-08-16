@@ -639,6 +639,7 @@
             Controls.Add(attachButton);
             Name = "Form1";
             Text = "Chaos Spear";
+            FormClosed += formClosed;
             Load += Form1_Load;
             cheatsGroupBox.ResumeLayout(false);
             cheatsGroupBox.PerformLayout();

@@ -6,12 +6,16 @@ using System.Linq;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Runtime.Intrinsics.Arm;
+using System.Security.Cryptography;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using System.Xml.Serialization;
+using Microsoft.VisualBasic.Devices;
+using Reloaded.Assembler;
 using Reloaded.Memory;
 using Reloaded.Memory.Sigscan;
 using Reloaded.Memory.Sigscan.Definitions;
@@ -26,27 +30,19 @@ namespace Chaos_Spear
     {
         private bool attached = false;
         private Process proc;
-        private int xcoordOff;
-        private int ringOff;
-        private int ccOff;
-        private int boostOff;
-
-        private IntPtr coordAddress, ringsAddress, ccAddress, boostAddress;
 
         private ExternalMemory gameMem;
         private Scanner sigScanner;
 
-        nint coordAdd;
-        nint camCoordAdd;
-        nint ringAdd;
-        nint ccAdd;
-        nint boostAdd;
+        ulong boostMemAddress;
+        ulong CCMemAddress;
+        ulong ringsMemAddress;
+        ulong kParamsMemAddress;
         Dictionary<string, KeyCode> hotkeys;
         string hotKeyToChange;
         GOCPlayerKinematicParams kParams;
         GOCPlayerKinematicParams savedParams;
         List<GOCPlayerKinematicParams> saveSlots = new List<GOCPlayerKinematicParams>();
-        string currentVersion = "Old";
         bool boostCheat = false;
 
         private SimpleGlobalHook kbHook;
@@ -108,20 +104,6 @@ namespace Chaos_Spear
                         MessageBox.Show("SXSG could not be found");
                         return;
                     }
-                    if (gameVersionDropdown.SelectedItem.ToString() == "Current")
-                    {
-                        xcoordOff = 0x029D2C28;
-                        ringOff = 0x029D2C28;
-                    }
-                    else if (gameVersionDropdown.SelectedItem.ToString() == "Old")
-                    {
-                        xcoordOff = 0x02993FE8;
-                        ringOff = 0x02993FE8;
-                        ccOff = 0x02999C60;
-                        boostOff = 0x02993FE8;
-                    }
-                    coordAddress = IntPtr.Add(proc.MainModule.BaseAddress, xcoordOff);
-                    ringsAddress = IntPtr.Add(proc.MainModule.BaseAddress, ringOff);
 
                     gameMem = new ExternalMemory(proc);
                     sigScanner = new Scanner(proc);
@@ -132,7 +114,59 @@ namespace Chaos_Spear
                         nint runInBackgroundAddress = proc.MainModule.BaseAddress + runInBackgroundSig.Offset;
                         gameMem.Write<byte>((nuint)runInBackgroundAddress, 0xEB);
                     }
+                    var assembler = new Assembler();
+                    var boostSig = sigScanner.FindPattern("F3 0F 10 49 08 48 8D 44 24 10 F3 0F 5C CB C7 44 24 18");
+                    if (boostSig.Found)
+                    {
+                        nuint boostAllocLoc = gameMem.Allocate(128).Address;
+                        boostMemAddress = gameMem.Allocate(128).Address;
 
+                        nint boostHookAddress = proc.MainModule.BaseAddress + boostSig.Offset + 14;
+                        byte[] hook = assembler.Assemble(["use64", "push rdx", $"mov rdx, 0x{(ulong)boostAllocLoc:x}", "jmp rdx", "pop rdx", "NOP", "NOP"]);
+                        byte[] stealRCX = assembler.Assemble(["use64", $"mov rdx, 0x{boostMemAddress:x}", "mov [rdx], rcx", "mov [rsp + 0x18],dword 0x3F800000", "lea rcx,[rsp + 0x08]", $"mov rdx, 0x{(ulong)boostHookAddress + 0xA:x}", "jmp rdx"]);
+
+                        gameMem.WriteRaw(boostAllocLoc, stealRCX);
+                        gameMem.WriteRaw((nuint)boostHookAddress, hook);
+                    }
+                    var CCSig = sigScanner.FindPattern("8B 4E 30 4C 8D 76 60 8B 56 38 4C 8B E7 3B CA");
+                    if (CCSig.Found)
+                    {
+                        nuint CCAllocLoc = gameMem.Allocate(128).Address;
+                        CCMemAddress = gameMem.Allocate(128).Address;
+
+                        nint CCHookAddress = proc.MainModule.BaseAddress + CCSig.Offset;
+                        byte[] hook = assembler.Assemble(["use64", "push rax", $"mov rax, 0x{(ulong)CCAllocLoc:x}", "jmp rax", "pop rax", "NOP", "NOP"]);
+                        byte[] stealRSI = assembler.Assemble(["use64", $"mov rax, 0x{CCMemAddress:x}", "mov [rax], rsi", "mov ecx, [rsi + 0x30]", "lea r14, [rsi + 0x60]", "mov edx, [rsi + 0x38]", "mov r12, rdi", $"mov rax, 0x{(ulong)CCHookAddress + 0xA:x}", "jmp rax"]);
+
+                        gameMem.WriteRaw(CCAllocLoc, stealRSI);
+                        gameMem.WriteRaw((nuint)CCHookAddress, hook);
+                    }
+                    var kParamsSig = sigScanner.FindPattern("48 8D 54 24 30 0F 10 B3 80 00 00 00 41 B8 01 00 00 00 48 8B CB");
+                    if (kParamsSig.Found)
+                    {
+                        nuint kParamsAllocLoc = gameMem.Allocate(128).Address;
+                        kParamsMemAddress = gameMem.Allocate(128).Address;
+
+                        nint kParamsHookAddress = proc.MainModule.BaseAddress + kParamsSig.Offset + 5;
+                        byte[] hook = assembler.Assemble(["use64", "push rax", $"mov rax, 0x{(ulong)kParamsAllocLoc:x}", "jmp rax", "pop rax", "NOP", "NOP"]);
+                        byte[] stealRBX = assembler.Assemble(["use64", $"mov rax, 0x{kParamsMemAddress:x}", "mov [rax], rbx", "movups xmm6,[rbx + 0x00000080]", "mov r8d,0x00000001", $"mov rax, 0x{(ulong)kParamsHookAddress + 0xA:x}", "jmp rax"]);
+
+                        gameMem.WriteRaw(kParamsAllocLoc, stealRBX);
+                        gameMem.WriteRaw((nuint)kParamsHookAddress, hook);
+                    }
+                    var ringsSig = sigScanner.FindPattern("48 8B 7B 48 0F B6 87 B0 05 00 00 C0 E8 03 A8 01");
+                    if (ringsSig.Found) 
+                    {
+                        nuint ringsAllocLoc = gameMem.Allocate(128).Address;
+                        ringsMemAddress = gameMem.Allocate(128).Address;
+
+                        nint ringsHookAddress = proc.MainModule.BaseAddress + ringsSig.Offset;
+                        byte[] hook = assembler.Assemble(["use64", "push rsi", $"mov rsi, 0x{(ulong)ringsAllocLoc:x}", "jmp rsi", "pop rsi"]);
+                        byte[] stealRBX = assembler.Assemble(["use64", "mov rsi, [rbx+0x30]", "add rsi, 0x28", $"mov [qword 0x{ringsMemAddress:x}], rsi", "mov rdi,[rbx + 0x48]", "movzx eax,byte [rdi + 0x000005B0]", $"mov rsi, 0x{(ulong)ringsHookAddress + 0xA:x}", "jmp rsi"]);
+
+                        gameMem.WriteRaw(ringsAllocLoc, stealRBX);
+                        gameMem.WriteRaw((nuint)ringsHookAddress, hook);
+                    }
                     attached = true;
                     attachLabel.Text = "Detach";
                     attachButton.Image = Image.FromFile("images\\attachiconglowyellow.png");
@@ -208,25 +242,9 @@ namespace Chaos_Spear
                 MessageBox.Show("Attach program to SXSG first");
                 return;
             }
-            List<Int32> kParamOffsets = new();
-            if (gameVersionDropdown.InvokeRequired)
-            {
-                gameVersionDropdown.Invoke(new MethodInvoker(delegate { currentVersion = gameVersionDropdown.SelectedItem.ToString(); }));
-            }
-            else
-            {
-                currentVersion = gameVersionDropdown.SelectedItem.ToString();
-            }
-            if (currentVersion == "Current")
-            {
-                kParamOffsets = [0x1B0, 0x20, 0x168, 0x0, 0x20, 0x48, 0x0];
-            }
-            else if (currentVersion == "Old")
-            {
-                kParamOffsets = [0x88, 0x28, 0x0, 0x58, 0x1A8, 0x0];
-            }
-            coordAdd = followPointerChain(coordAddress, kParamOffsets);
-            gameMem.Read((nuint)coordAdd, out savedParams);
+            nint kParamsMemoryAddress;
+            gameMem.Read((nuint)kParamsMemAddress, out kParamsMemoryAddress);
+            gameMem.Read((nuint)kParamsMemoryAddress, out savedParams);
 
             if (saveToSlotDropdown.InvokeRequired)
             {
@@ -254,14 +272,17 @@ namespace Chaos_Spear
             {
                 savedParams = saveSlots[loadFromSlotDropdown.SelectedIndex];
             }
-            gameMem.Write<float>((nuint)coordAdd + 0x80, savedParams.XPos);
-            gameMem.Write<float>((nuint)coordAdd + 0x84, savedParams.YPos);
-            gameMem.Write<float>((nuint)coordAdd + 0x88, savedParams.ZPos);
+
+            nint kParamsMemoryAddress;
+            gameMem.Read((nuint)kParamsMemAddress, out kParamsMemoryAddress);
+            gameMem.Write<float>((nuint)kParamsMemoryAddress + 0x80, savedParams.XPos);
+            gameMem.Write<float>((nuint)kParamsMemoryAddress + 0x84, savedParams.YPos);
+            gameMem.Write<float>((nuint)kParamsMemoryAddress + 0x88, savedParams.ZPos);
             //why not rotate the guy
-            gameMem.Write<float>((nuint)coordAdd + 0x90, savedParams.QRotX);
-            gameMem.Write<float>((nuint)coordAdd + 0x94, savedParams.QRotY);
-            gameMem.Write<float>((nuint)coordAdd + 0x98, savedParams.QRotZ);
-            gameMem.Write<float>((nuint)coordAdd + 0x9C, savedParams.QRotW);
+            gameMem.Write<float>((nuint)kParamsMemoryAddress + 0x90, savedParams.QRotX);
+            gameMem.Write<float>((nuint)kParamsMemoryAddress + 0x94, savedParams.QRotY);
+            gameMem.Write<float>((nuint)kParamsMemoryAddress + 0x98, savedParams.QRotZ);
+            gameMem.Write<float>((nuint)kParamsMemoryAddress + 0x9C, savedParams.QRotW);
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -269,19 +290,10 @@ namespace Chaos_Spear
             try
             {
                 float speedHorizontal;
-                List<Int32> kParamOffsets = new();
 
-                if (gameVersionDropdown.SelectedItem.ToString() == "Current")
-                {
-                    kParamOffsets = [0x1B0, 0x20, 0x168, 0x0, 0x20, 0x48, 0x0];
-                }
-                else
-                {
-                    kParamOffsets = [0x88, 0x28, 0x0, 0x58, 0x1A8, 0x0];
-                }
-                gameMem.Read<nint>((nuint)coordAddress, out coordAdd);
-                coordAdd = followPointerChain(coordAddress, kParamOffsets);
-                gameMem.Read((nuint)coordAdd, out kParams);
+                nint kParamsMemoryAddress;
+                gameMem.Read((nuint)kParamsMemAddress, out kParamsMemoryAddress);
+                gameMem.Read((nuint)kParamsMemoryAddress, out kParams);
 
                 loadedSlotsLabel.Text = "Saved Positions (Slots " + saveToSlotDropdown.SelectedIndex + " : " + loadFromSlotDropdown.SelectedIndex + ")";
 
@@ -301,12 +313,6 @@ namespace Chaos_Spear
 
                 facingAngleLabel.Text = "Facing: " + Math.Round(heading(kParams.QRotW, kParams.QRotY), 1);
 
-                if (boostCheat && gameVersionDropdown.SelectedItem.ToString() == "Old")
-                {
-                    boostAddress = IntPtr.Add(proc.MainModule.BaseAddress, boostOff);
-                    boostAdd = followPointerChain(boostAddress, [0x88, 0x28, 0x0, 0x130, 0x18, 0xA8, 0x40, 0x18, 0x18, 0x68]);
-                    gameMem.Write<float>((nuint)boostAdd, 100);
-                }
                 boostCheatHotkeyButton.Text = hotkeys["boostCheatHotkey"].ToString();
                 fillCCHotkeyButton.Text = hotkeys["fillCCHotkey"].ToString();
                 maxRingsHotkeyButton.Text = hotkeys["maxRingsHotkey"].ToString();
@@ -324,27 +330,9 @@ namespace Chaos_Spear
         }
         private void giveMaxRings(object sender, EventArgs e)
         {
-            List<Int32> ringOffsets = new();
-            if (!attached)
-            {
-                MessageBox.Show("Attach program to SXSG first");
-                return;
-            }
-            if (gameVersionDropdown.InvokeRequired)
-            {
-                gameVersionDropdown.Invoke(new MethodInvoker(delegate { currentVersion = gameVersionDropdown.SelectedItem.ToString(); }));
-            }
-            if (currentVersion == "Old")
-            {
-                ringOffsets = [0x150, 0x460, 0x48, 0x88, 0x28, 0x0, 0x2D0, 0x30, 0x28];
-            }
-            else
-            {
-                ringOffsets = [0x10, 0x20, 0x168, 0x0, 0x20, 0x30, 0x28];
-            }
-            ringsAddress = IntPtr.Add(proc.MainModule.BaseAddress, ringOff);
-            ringAdd = followPointerChain(ringsAddress, ringOffsets);
-            gameMem.Write<int>((nuint)ringAdd, 999);
+            nint ringsMemoryAddress;
+            gameMem.Read((nuint)ringsMemAddress, out ringsMemoryAddress);
+            gameMem.Write<int>((nuint)ringsMemoryAddress, 999);
 
         }
 
@@ -441,21 +429,9 @@ namespace Chaos_Spear
         }
         private void chargeChaosControl(object sender, EventArgs e)
         {
-            if (!attached)
-            {
-                MessageBox.Show("Attach program to SXSG first");
-                return;
-            }
-            if (gameVersionDropdown.InvokeRequired)
-            {
-                gameVersionDropdown.Invoke(new MethodInvoker(delegate { currentVersion = gameVersionDropdown.SelectedItem.ToString(); }));
-            }
-            if (currentVersion == "Old")
-            {
-                ccAddress = IntPtr.Add(proc.MainModule.BaseAddress, ccOff);
-                ccAdd = followPointerChain(ccAddress, [0x30, 0x88, 0x28, 0x0, 0x2D0, 0x38, 0x108, 0x18, 0x80, 0x38]);
-                gameMem.Write<int>((nuint)ccAdd, 100);
-            }
+            nint CCMemoryAddress;
+            gameMem.Read((nuint)CCMemAddress, out CCMemoryAddress);
+            gameMem.Write<int>((nuint)CCMemoryAddress + 0x38, 100);
         }
 
         private void manualTeleport(object sender, EventArgs e)
@@ -467,9 +443,11 @@ namespace Chaos_Spear
             }
             try
             {
-                gameMem.Write<float>((nuint)coordAdd + 0x80, float.Parse(xPosInput.Text));
-                gameMem.Write<float>((nuint)coordAdd + 0x84, float.Parse(yPosInput.Text));
-                gameMem.Write<float>((nuint)coordAdd + 0x88, float.Parse(zPosInput.Text));
+                nint kParamsMemoryAddress;
+                gameMem.Read((nuint)kParamsMemAddress, out kParamsMemoryAddress);
+                gameMem.Write<float>((nuint)kParamsMemoryAddress + 0x80, float.Parse(xPosInput.Text));
+                gameMem.Write<float>((nuint)kParamsMemoryAddress + 0x84, float.Parse(yPosInput.Text));
+                gameMem.Write<float>((nuint)kParamsMemoryAddress + 0x88, float.Parse(zPosInput.Text));
             }
             catch (FormatException)
             {
@@ -485,13 +463,67 @@ namespace Chaos_Spear
         {
             if (attached)
             {
+                bool currentPatch = false;
                 if (boostCheat)
                 {
+                    // Scans for the instructions that were NOPed and restores them so the cheat is removed
+                    var NOPedGroundBoostChunk = sigScanner.FindPattern("F3 0F 5F CA F3 0F 58 4E 68 ?? ?? ?? ?? ?? 49 8B 47 40");
+                    if (!NOPedGroundBoostChunk.Found)
+                    {
+                        NOPedGroundBoostChunk = sigScanner.FindPattern("D0 F3 0F 58 56 68 49 8B CE ?? ?? ?? ?? ?? E8 ?? ?? ?? ??");
+                        currentPatch = true;
+                    }
+                    var NOPedGroundBoostContinuous = sigScanner.FindPattern("F3 0F 5F CA F3 0F 58 4F 68 ?? ?? ?? ?? ?? 48 8B CE");
+                    var NOPedAirBoostChunk = sigScanner.FindPattern("F3 0F 5F CA F3 0F 58 4F 68 ?? ?? ?? ?? ?? 8B 40 28");
+
+                    MessageBox.Show((proc.MainModule.BaseAddress + NOPedGroundBoostChunk.Offset + 9).ToString("x") + " " + (proc.MainModule.BaseAddress + NOPedGroundBoostContinuous.Offset + 9).ToString("x") + " " + (proc.MainModule.BaseAddress + NOPedAirBoostChunk.Offset + 9).ToString("x"));
+
+                    if ((NOPedGroundBoostChunk.Found || currentPatch) && NOPedGroundBoostContinuous.Found && NOPedAirBoostChunk.Found)
+                    {
+                        if (!currentPatch)
+                        {
+                            gameMem.WriteRaw((nuint)(proc.MainModule.BaseAddress + NOPedGroundBoostChunk.Offset + 9), [0xF3, 0x0F, 0x11, 0x4E, 0x68]);
+                        }
+                        else
+                        {
+                            gameMem.WriteRaw((nuint)(proc.MainModule.BaseAddress + NOPedGroundBoostChunk.Offset + 9), [0xF3, 0x0F, 0x11, 0x56, 0x68]);
+                        }
+                        gameMem.WriteRaw((nuint)(proc.MainModule.BaseAddress + NOPedGroundBoostContinuous.Offset + 9), [0xF3, 0x0F, 0x11, 0x4F, 0x68]);
+                        gameMem.WriteRaw((nuint)(proc.MainModule.BaseAddress + NOPedAirBoostChunk.Offset + 9), [0xF3, 0x0F, 0x11, 0x4F, 0x68]);
+                    }
+
                     boostCheat = false;
                     boostCheatButton.Image = Image.FromFile("images\\infboostsmall.png");
                 }
                 else
                 {
+                    if (boostMemAddress == 0)
+                    {
+                        return;
+                    }
+                    // Scans for the instructions that cause the initial chunk of boost to be lost when starting a boost, and the instruction that causes boost to gradually drain
+                    var groundBoostChunk = sigScanner.FindPattern("F3 0F 5F CA F3 0F 58 4E 68 F3 0F 11 4E 68 49 8B 47 40");
+                    if (!groundBoostChunk.Found)
+                    {
+                        groundBoostChunk = sigScanner.FindPattern("D0 F3 0F 58 56 68 49 8B CE F3 0F 11 56 68 E8 ?? ?? ?? ??");
+                    }
+                    var groundBoostContinuous = sigScanner.FindPattern("F3 0F 5F CA F3 0F 58 4F 68 F3 0F 11 4F 68 48 8B CE");
+                    var airBoostChunk = sigScanner.FindPattern("F3 0F 5F CA F3 0F 58 4F 68 F3 0F 11 4F 68 8B 40 28");
+
+                    if (groundBoostChunk.Found && groundBoostContinuous.Found && airBoostChunk.Found)
+                    {
+                        Span<byte> NOP = [0x90, 0x90, 0x90, 0x90, 0x90];
+                        gameMem.WriteRaw((nuint)(proc.MainModule.BaseAddress + groundBoostChunk.Offset + 9), NOP);
+                        gameMem.WriteRaw((nuint)(proc.MainModule.BaseAddress + groundBoostContinuous.Offset + 9), NOP);
+                        gameMem.WriteRaw((nuint)(proc.MainModule.BaseAddress + airBoostChunk.Offset + 9), NOP);
+                    }
+
+
+                    // Sets boost to 100. The previous NOPs should prevent boost from ever draining, so this only needs to be done once
+                    nint boostMemoryAddress;
+                    gameMem.Read((nuint)boostMemAddress, out boostMemoryAddress);
+                    gameMem.Write<float>((nuint)boostMemoryAddress + 0x08, 100);
+
                     boostCheat = true;
                     boostCheatButton.Image = Image.FromFile("images\\infboostglowyellow.png");
                 }
@@ -541,6 +573,33 @@ namespace Chaos_Spear
         public double radiansToDegrees(double radians)
         {
             return radians / Math.PI * 180;
+        }
+
+        private void formClosed(object sender, FormClosedEventArgs e)
+        {
+            if (sigScanner != null)
+            {
+                var boostSig = sigScanner.FindPattern("F3 0F 10 49 08 48 8D 44 24 10 F3 0F 5C CB C7 44 24 18");
+                if (boostSig.Found)
+                {
+                    gameMem.WriteRaw((nuint)(proc.MainModule.BaseAddress + boostSig.Offset + 14), [0xC7, 0x44, 0x24, 0x18, 0x00, 0x00, 0x80, 0x3F, 0x48, 0x8D, 0x4C, 0x24, 0x08]);
+                }
+                var CCSig = sigScanner.FindPattern("50 48 C7 C0 ?? ?? ?? ?? FF E0 58 90 90 3B CA");
+                if (CCSig.Found)
+                {
+                    gameMem.WriteRaw((nuint)(proc.MainModule.BaseAddress + CCSig.Offset), [0x8B, 0x4E, 0x30, 0x4C, 0x8D, 0x76, 0x60, 0x8B, 0x56, 0x38, 0x4C, 0x8B, 0xE7]);
+                }
+                var kParamsSig = sigScanner.FindPattern("48 8D 54 24 30 50 48 C7 C0 ?? ?? ?? ?? FF E0 58 90 90 48 8B CB");
+                if (kParamsSig.Found)
+                {
+                    gameMem.WriteRaw((nuint)(proc.MainModule.BaseAddress + kParamsSig.Offset + 5), [0x0F, 0x10, 0xB3, 0x80, 0x00, 0x00, 0x00, 0x41, 0xB8, 0x01, 0x00, 0x00, 0x00]);
+                }
+                var ringsSig = sigScanner.FindPattern("56 48 C7 C6 ?? ?? ?? ?? FF E6 5E C0 E8 03 A8 01");
+                if (ringsSig.Found)
+                {
+                    gameMem.WriteRaw((nuint)(proc.MainModule.BaseAddress + ringsSig.Offset), [0x48, 0x8B, 0x7B, 0x48, 0x0F, 0xB6, 0x87, 0xB0, 0x05, 0x00, 0x00, 0xC0, 0xE8, 0x03, 0xA8, 0x01]);
+                }
+            }
         }
     }
 }

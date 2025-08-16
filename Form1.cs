@@ -162,7 +162,11 @@ namespace Chaos_Spear
             if (attached)
             {
                 KeyCode key = e.Data.KeyCode;
-                if (key == hotkeys["fillCCHotkey"])
+                if (key == hotkeys["boostCheatHotkey"])
+                {
+                    toggleBoostCheat(sender, e);
+                }
+                else if (key == hotkeys["fillCCHotkey"])
                 {
                     chargeChaosControl(sender, e);
                 }

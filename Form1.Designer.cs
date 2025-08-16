@@ -50,8 +50,6 @@
             facingAngleLabel = new Label();
             jsonSaveButton = new Button();
             jsonLoadButton = new Button();
-            loadFromDropdown = new ComboBox();
-            loadFromLabel = new Label();
             gameVersionLabel = new Label();
             wipeSavesButton = new Button();
             gameVersionDropdown = new ComboBox();
@@ -279,26 +277,6 @@
             jsonLoadButton.Text = "Load JSON";
             jsonLoadButton.UseVisualStyleBackColor = true;
             jsonLoadButton.Click += loadJSON;
-            // 
-            // loadFromDropdown
-            // 
-            loadFromDropdown.DisplayMember = "Value";
-            loadFromDropdown.DropDownStyle = ComboBoxStyle.DropDownList;
-            loadFromDropdown.Location = new Point(509, 546);
-            loadFromDropdown.Name = "loadFromDropdown";
-            loadFromDropdown.Size = new Size(150, 23);
-            loadFromDropdown.TabIndex = 19;
-            loadFromDropdown.ValueMember = "Key";
-            // 
-            // loadFromLabel
-            // 
-            loadFromLabel.AutoSize = true;
-            loadFromLabel.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            loadFromLabel.Location = new Point(369, 544);
-            loadFromLabel.Name = "loadFromLabel";
-            loadFromLabel.Size = new Size(134, 21);
-            loadFromLabel.TabIndex = 20;
-            loadFromLabel.Text = "Load data from: ";
             // 
             // gameVersionLabel
             // 
@@ -641,9 +619,7 @@
             Controls.Add(gameVersionDropdown);
             Controls.Add(wipeSavesButton);
             Controls.Add(gameVersionLabel);
-            Controls.Add(loadFromLabel);
             Controls.Add(jsonLoadButton);
-            Controls.Add(loadFromDropdown);
             Controls.Add(jsonSaveButton);
             Controls.Add(facingAngleLabel);
             Controls.Add(loadedSlotsLabel);
@@ -692,8 +668,6 @@
         private Label facingAngleLabel;
         private Button jsonSaveButton;
         private Button jsonLoadButton;
-        private ComboBox loadFromDropdown;
-        private Label loadFromLabel;
         private Label gameVersionLabel;
         private Button wipeSavesButton;
         private ComboBox gameVersionDropdown;

@@ -70,7 +70,6 @@ namespace Chaos_Spear
                 {
                     jsonFiles.Add(file, file.Split('\\')[^1]);
                 }
-                loadFromDropdown.DataSource = new BindingSource(jsonFiles, null);
                 saveSlots.Add(new GOCPlayerKinematicParams());
             }
             saveToSlotDropdown.SelectedIndex = 0;
@@ -366,7 +365,11 @@ namespace Chaos_Spear
                     saveSlotsWithNames.Add(slot);
                 }
 
-                File.WriteAllText(Path.GetDirectoryName(Application.ExecutablePath) + "\\saves\\save.json", JsonSerializer.Serialize(saveSlotsWithNames));
+                SaveFileDialog saveFileDialog = new SaveFileDialog();
+                saveFileDialog.Filter = "JSON file|*.json";
+                saveFileDialog.Title = "Save a JSON file";
+                saveFileDialog.ShowDialog();
+                File.WriteAllText(saveFileDialog.FileName, JsonSerializer.Serialize(saveSlotsWithNames));
             }
             catch (Exception ex)
             {
@@ -377,7 +380,13 @@ namespace Chaos_Spear
         {
             try
             {
-                string jsonString = File.ReadAllText(loadFromDropdown.SelectedValue.ToString());
+                OpenFileDialog openFileDialog = new OpenFileDialog();
+                openFileDialog.InitialDirectory = Application.ExecutablePath + "\\saves";
+                openFileDialog.Filter = "JSON file|*.json";
+                openFileDialog.Title = "Open a JSON file";
+                openFileDialog.ShowDialog();
+
+                string jsonString = File.ReadAllText(openFileDialog.FileName);
                 List<dynamic> jsonData = JsonSerializer.Deserialize<List<dynamic>>(jsonString);
                 saveToSlotDropdown.Items.Clear();
                 loadFromSlotDropdown.Items.Clear();

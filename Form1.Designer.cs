@@ -62,8 +62,6 @@
             xPosInputLabel = new Label();
             yPosInputLabel = new Label();
             zPosInputLabel = new Label();
-            setSpeedInput = new TextBox();
-            setSpeedButton = new Button();
             cheatsGroupBox = new GroupBox();
             fillCCHotkeyButton = new Button();
             maxRingsHotkeyButton = new Button();
@@ -394,23 +392,6 @@
             zPosInputLabel.TabIndex = 38;
             zPosInputLabel.Text = "Z:";
             // 
-            // setSpeedInput
-            // 
-            setSpeedInput.Location = new Point(17, 508);
-            setSpeedInput.Margin = new Padding(2);
-            setSpeedInput.Name = "setSpeedInput";
-            setSpeedInput.Size = new Size(179, 23);
-            setSpeedInput.TabIndex = 39;
-            // 
-            // setSpeedButton
-            // 
-            setSpeedButton.Location = new Point(255, 508);
-            setSpeedButton.Name = "setSpeedButton";
-            setSpeedButton.Size = new Size(97, 23);
-            setSpeedButton.TabIndex = 40;
-            setSpeedButton.Text = "Set speed";
-            setSpeedButton.UseVisualStyleBackColor = true;
-            // 
             // cheatsGroupBox
             // 
             cheatsGroupBox.BackColor = SystemColors.ControlLight;
@@ -606,8 +587,6 @@
             Controls.Add(manualTeleportHeaderLabel);
             Controls.Add(currentPositionHeaderLabel);
             Controls.Add(cheatsGroupBox);
-            Controls.Add(setSpeedButton);
-            Controls.Add(setSpeedInput);
             Controls.Add(zPosInputLabel);
             Controls.Add(yPosInputLabel);
             Controls.Add(xPosInputLabel);
@@ -681,8 +660,6 @@
         private Label xPosInputLabel;
         private Label yPosInputLabel;
         private Label zPosInputLabel;
-        private TextBox setSpeedInput;
-        private Button setSpeedButton;
         private GroupBox cheatsGroupBox;
         private Label cheatsHeadingLabel;
         private Label currentPositionHeaderLabel;

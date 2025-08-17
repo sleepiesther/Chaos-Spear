@@ -165,7 +165,7 @@ namespace Chaos_Spear
                         gameMem.WriteRaw((nuint)kParamsHookAddress, hook);
                     }
                     var ringsSig = sigScanner.FindPattern("48 8B 7B 48 0F B6 87 B0 05 00 00 C0 E8 03 A8 01");
-                    if (ringsSig.Found) 
+                    if (ringsSig.Found)
                     {
                         nuint ringsAllocLoc = gameMem.Allocate(128).Address;
                         ringsMemAddress = gameMem.Allocate(128).Address;

@@ -62,11 +62,6 @@ namespace Chaos_Spear
             {
                 saveToSlotDropdown.Items.Add(x);
                 loadFromSlotDropdown.Items.Add(x);
-                Dictionary<string, string> jsonFiles = new();
-                foreach (string file in Directory.GetFiles(Path.GetDirectoryName(Application.ExecutablePath) + "\\saves", "*.json"))
-                {
-                    jsonFiles.Add(file, file.Split('\\')[^1]);
-                }
                 saveSlots.Add(new GOCPlayerKinematicParams());
             }
             saveToSlotDropdown.SelectedIndex = 0;

@@ -44,6 +44,7 @@ namespace Chaos_Spear
         GOCPlayerKinematicParams savedParams;
         List<GOCPlayerKinematicParams> saveSlots = new List<GOCPlayerKinematicParams>();
         bool boostCheat = false;
+        string gameVersion;
 
         private SimpleGlobalHook kbHook;
         private Task task;
@@ -107,6 +108,15 @@ namespace Chaos_Spear
 
                     gameMem = new ExternalMemory(proc);
                     sigScanner = new Scanner(proc);
+
+                    // I dont wanna reinstall 1.10.0.0 just for this so its the default case. 1.1.0.0 and 1.1.0.1 values are sourced from the shad gens autosplitter (ty jujstme ^v^)
+                    gameVersion = proc.MainModule.ModuleMemorySize switch
+                    {
+                        0x1CA2A000 => "1.1.0.0",
+                        0x18BEC000 => "1.1.0.1",
+                        0x17E19000 => "1.10.0.1",
+                        _ => "1.10.0.0"
+                    };
 
                     var runInBackgroundSig = sigScanner.FindPattern("75 4A C0 E8 03");
                     if (runInBackgroundSig.Found)

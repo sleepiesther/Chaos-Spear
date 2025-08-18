@@ -33,4 +33,9 @@ namespace Chaos_Spear
         public float YSpd {get => ySpd; set => ySpd = value;}
         public float ZSpd {get => zSpd; set => zSpd = value;}
     }
+    public struct JSONSave
+    {
+        public List<string> names { get; set;}
+        public List<GOCPlayerKinematicParams> saves { get; set;}
+    }
 }

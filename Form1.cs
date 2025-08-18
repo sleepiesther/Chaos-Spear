@@ -42,7 +42,8 @@ namespace Chaos_Spear
         string hotKeyToChange;
         GOCPlayerKinematicParams kParams;
         GOCPlayerKinematicParams savedParams;
-        List<GOCPlayerKinematicParams> saveSlots = new List<GOCPlayerKinematicParams>();
+        List<GOCPlayerKinematicParams> saveSlots = new();
+        List<string> saveNames = new();
         bool boostCheat = false;
         string gameVersion;
 
@@ -62,11 +63,13 @@ namespace Chaos_Spear
             {
                 saveToSlotDropdown.Items.Add(x);
                 loadFromSlotDropdown.Items.Add(x);
+                renameSaveSlotDropdown.Items.Add(x);
                 saveSlots.Add(new GOCPlayerKinematicParams());
+                saveNames.Add("");
             }
             saveToSlotDropdown.SelectedIndex = 0;
             loadFromSlotDropdown.SelectedIndex = 0;
-            gameVersionDropdown.SelectedIndex = 1;
+            renameSaveSlotDropdown.SelectedIndex = 0;
 
             hotkeys = new()
             {
@@ -112,6 +115,7 @@ namespace Chaos_Spear
                         0x17E19000 => "1.10.0.1",
                         _ => "1.10.0.0"
                     };
+                    gameVersionLabel.Text = "Game version: " + gameVersion;
 
                     var runInBackgroundSig = sigScanner.FindPattern("75 4A C0 E8 03");
                     if (runInBackgroundSig.Found)
@@ -345,24 +349,20 @@ namespace Chaos_Spear
         {
             try
             {
-                List<dynamic> saveSlotsWithNames = new();
-                List<string> names = new();
+                JSONSave dataToSave = new();
+                dataToSave.names = saveNames;
+                dataToSave.saves = saveSlots;
 
-                for (int x = 0; x < saveSlots.Count; x++)
+                JsonSerializerOptions options = new()
                 {
-                    names.Add("");
-                }
-                saveSlotsWithNames.Add(names);
-                foreach (GOCPlayerKinematicParams slot in saveSlots)
-                {
-                    saveSlotsWithNames.Add(slot);
-                }
+                    WriteIndented = true
+                };
 
                 SaveFileDialog saveFileDialog = new SaveFileDialog();
                 saveFileDialog.Filter = "JSON file|*.json";
                 saveFileDialog.Title = "Save a JSON file";
                 saveFileDialog.ShowDialog();
-                File.WriteAllText(saveFileDialog.FileName, JsonSerializer.Serialize(saveSlotsWithNames));
+                File.WriteAllText(saveFileDialog.FileName, JsonSerializer.Serialize(dataToSave, options));
             }
             catch (Exception ex)
             {
@@ -380,29 +380,29 @@ namespace Chaos_Spear
                 openFileDialog.ShowDialog();
 
                 string jsonString = File.ReadAllText(openFileDialog.FileName);
-                List<dynamic> jsonData = JsonSerializer.Deserialize<List<dynamic>>(jsonString);
+                JSONSave loadedJSONData = JsonSerializer.Deserialize<JSONSave>(jsonString);
                 saveToSlotDropdown.Items.Clear();
                 loadFromSlotDropdown.Items.Clear();
-                for (int x = 0; x < jsonData.Count - 1; x++)
+                renameSaveSlotDropdown.Items.Clear();
+                saveNames = loadedJSONData.names;
+                saveSlots = loadedJSONData.saves;
+                for (int x = 0; x < saveSlots.Count - 1; x++)
                 {
-                    if (jsonData[0][x].ToString() != "")
+                    if (saveNames[x] != "")
                     {
-                        saveToSlotDropdown.Items.Add(x + " (" + jsonData[0][x] + ")");
-                        loadFromSlotDropdown.Items.Add(x + " (" + jsonData[0][x] + ")");
+                        saveToSlotDropdown.Items.Add(x + " (" + saveNames[x] + ")");
+                        loadFromSlotDropdown.Items.Add(x + " (" + saveNames[x] + ")");
+                        renameSaveSlotDropdown.Items.Add(x + " (" + saveNames[x] + ")");
                     }
                     else
                     {
                         saveToSlotDropdown.Items.Add(x);
                         loadFromSlotDropdown.Items.Add(x);
+                        renameSaveSlotDropdown.Items.Add(x);
                     }
                 }
-                saveToSlotDropdown.SelectedIndex = 0;
-                loadFromSlotDropdown.SelectedIndex = 0;
-                for (int x = 1; x < jsonData.Count; x++)
-                {
-                    saveSlots[x - 1] = JsonSerializer.Deserialize<GOCPlayerKinematicParams>(jsonData[x]);
+                saveToSlotDropdown.SelectedIndex = loadFromSlotDropdown.SelectedIndex = renameSaveSlotDropdown.SelectedIndex = 0;
                 }
-            }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
@@ -412,24 +412,34 @@ namespace Chaos_Spear
         {
             saveToSlotDropdown.Items.Clear();
             loadFromSlotDropdown.Items.Clear();
+            renameSaveSlotDropdown.Items.Clear();
             for (int x = 0; x < 10; x++)
             {
                 saveSlots[x] = new GOCPlayerKinematicParams();
                 saveToSlotDropdown.Items.Add(x);
                 loadFromSlotDropdown.Items.Add(x);
+                renameSaveSlotDropdown.Items.Add(x);
             }
-            saveToSlotDropdown.SelectedIndex = 0;
-            loadFromSlotDropdown.SelectedIndex = 0;
+            saveToSlotDropdown.SelectedIndex = loadFromSlotDropdown.SelectedIndex = renameSaveSlotDropdown.SelectedIndex = 0;
         }
-        private void gameVersionDropdown_changed(object sender, EventArgs e)
+        private void renameSaveSlots(object sender, EventArgs e)
         {
-            if (gameVersionDropdown.SelectedItem.ToString() == "Current")
+            int renamedSlot = renameSaveSlotDropdown.SelectedIndex;
+            string newName = renameSaveSlotInput.Text;
+
+            saveNames[renamedSlot] = newName;
+
+            if (newName != "")
             {
-                warningLabel.Text = "Boost and Chaos Control don't work on this version. \nIf you find the pointers make a pull request :)";
-            }
+            saveToSlotDropdown.Items[renamedSlot] = renamedSlot + "(" + newName + ")";
+            loadFromSlotDropdown.Items[renamedSlot] = renamedSlot + "(" + newName + ")";
+            renameSaveSlotDropdown.Items[renamedSlot] = renamedSlot + "(" + newName + ")";
+        }
             else
             {
-                warningLabel.Text = "";
+                saveToSlotDropdown.Items[renamedSlot] = renamedSlot;
+                loadFromSlotDropdown.Items[renamedSlot] = renamedSlot;
+                renameSaveSlotDropdown.Items[renamedSlot] = renamedSlot;
             }
         }
         private void chargeChaosControl(object sender, EventArgs e)

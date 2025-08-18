@@ -52,9 +52,7 @@
             jsonLoadButton = new Button();
             gameVersionLabel = new Label();
             wipeSavesButton = new Button();
-            gameVersionDropdown = new ComboBox();
             chargeChaosControlButton = new Button();
-            warningLabel = new Label();
             xPosInput = new TextBox();
             yPosInput = new TextBox();
             zPosInput = new TextBox();
@@ -79,6 +77,11 @@
             currentPositionHeaderLabel = new Label();
             manualTeleportHeaderLabel = new Label();
             attachLabel = new Label();
+            renameSaveSlotsButton = new Button();
+            emptyAutoSave = new CheckBox();
+            renameSaveSlotLabel = new Label();
+            renameSaveSlotDropdown = new ComboBox();
+            renameSaveSlotInput = new TextBox();
             cheatsGroupBox.SuspendLayout();
             SuspendLayout();
             // 
@@ -96,7 +99,7 @@
             // savePositionButton
             // 
             savePositionButton.Font = new Font("Segoe UI", 13F);
-            savePositionButton.Location = new Point(30, 149);
+            savePositionButton.Location = new Point(30, 115);
             savePositionButton.Name = "savePositionButton";
             savePositionButton.Size = new Size(178, 60);
             savePositionButton.TabIndex = 1;
@@ -107,7 +110,7 @@
             // loadButtonButton
             // 
             loadButtonButton.Font = new Font("Segoe UI", 13F);
-            loadButtonButton.Location = new Point(265, 149);
+            loadButtonButton.Location = new Point(265, 115);
             loadButtonButton.Name = "loadButtonButton";
             loadButtonButton.Size = new Size(178, 60);
             loadButtonButton.TabIndex = 2;
@@ -119,7 +122,7 @@
             // 
             savedXPosLabel.AutoSize = true;
             savedXPosLabel.Font = new Font("Segoe UI", 12F);
-            savedXPosLabel.Location = new Point(30, 319);
+            savedXPosLabel.Location = new Point(30, 285);
             savedXPosLabel.Name = "savedXPosLabel";
             savedXPosLabel.Size = new Size(22, 21);
             savedXPosLabel.TabIndex = 3;
@@ -129,7 +132,7 @@
             // 
             savedYPosLabel.AutoSize = true;
             savedYPosLabel.Font = new Font("Segoe UI", 12F);
-            savedYPosLabel.Location = new Point(30, 349);
+            savedYPosLabel.Location = new Point(30, 315);
             savedYPosLabel.Name = "savedYPosLabel";
             savedYPosLabel.Size = new Size(22, 21);
             savedYPosLabel.TabIndex = 4;
@@ -139,7 +142,7 @@
             // 
             savedZPosLabel.AutoSize = true;
             savedZPosLabel.Font = new Font("Segoe UI", 12F);
-            savedZPosLabel.Location = new Point(30, 379);
+            savedZPosLabel.Location = new Point(30, 345);
             savedZPosLabel.Name = "savedZPosLabel";
             savedZPosLabel.Size = new Size(22, 21);
             savedZPosLabel.TabIndex = 5;
@@ -149,7 +152,7 @@
             // 
             currentXPosLabel.AutoSize = true;
             currentXPosLabel.Font = new Font("Segoe UI", 12F);
-            currentXPosLabel.Location = new Point(265, 319);
+            currentXPosLabel.Location = new Point(265, 285);
             currentXPosLabel.Name = "currentXPosLabel";
             currentXPosLabel.RightToLeft = RightToLeft.No;
             currentXPosLabel.Size = new Size(22, 21);
@@ -160,7 +163,7 @@
             // 
             currentYPosLabel.AutoSize = true;
             currentYPosLabel.Font = new Font("Segoe UI", 12F);
-            currentYPosLabel.Location = new Point(265, 349);
+            currentYPosLabel.Location = new Point(265, 315);
             currentYPosLabel.Name = "currentYPosLabel";
             currentYPosLabel.Size = new Size(22, 21);
             currentYPosLabel.TabIndex = 7;
@@ -170,7 +173,7 @@
             // 
             currentZPosLabel.AutoSize = true;
             currentZPosLabel.Font = new Font("Segoe UI", 12F);
-            currentZPosLabel.Location = new Point(265, 379);
+            currentZPosLabel.Location = new Point(265, 345);
             currentZPosLabel.Name = "currentZPosLabel";
             currentZPosLabel.Size = new Size(22, 21);
             currentZPosLabel.TabIndex = 6;
@@ -184,7 +187,7 @@
             // 
             speedLabel.AutoSize = true;
             speedLabel.Font = new Font("Segoe UI", 16F);
-            speedLabel.Location = new Point(13, 454);
+            speedLabel.Location = new Point(13, 420);
             speedLabel.Name = "speedLabel";
             speedLabel.Size = new Size(86, 30);
             speedLabel.TabIndex = 9;
@@ -193,7 +196,7 @@
             // maxRingsButton
             // 
             maxRingsButton.Image = (Image)resources.GetObject("maxRingsButton.Image");
-            maxRingsButton.Location = new Point(32, 85);
+            maxRingsButton.Location = new Point(32, 250);
             maxRingsButton.Name = "maxRingsButton";
             maxRingsButton.Size = new Size(87, 76);
             maxRingsButton.TabIndex = 10;
@@ -203,16 +206,16 @@
             // saveToSlotDropdown
             // 
             saveToSlotDropdown.DropDownStyle = ComboBoxStyle.DropDownList;
-            saveToSlotDropdown.Location = new Point(59, 236);
+            saveToSlotDropdown.Location = new Point(30, 202);
             saveToSlotDropdown.Name = "saveToSlotDropdown";
-            saveToSlotDropdown.Size = new Size(130, 23);
+            saveToSlotDropdown.Size = new Size(178, 23);
             saveToSlotDropdown.TabIndex = 11;
             // 
             // saveToSlotLabel
             // 
             saveToSlotLabel.AutoSize = true;
             saveToSlotLabel.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            saveToSlotLabel.Location = new Point(40, 212);
+            saveToSlotLabel.Location = new Point(35, 178);
             saveToSlotLabel.Name = "saveToSlotLabel";
             saveToSlotLabel.Size = new Size(173, 21);
             saveToSlotLabel.TabIndex = 12;
@@ -221,16 +224,16 @@
             // loadFromSlotDropdown
             // 
             loadFromSlotDropdown.DropDownStyle = ComboBoxStyle.DropDownList;
-            loadFromSlotDropdown.Location = new Point(289, 236);
+            loadFromSlotDropdown.Location = new Point(265, 202);
             loadFromSlotDropdown.Name = "loadFromSlotDropdown";
-            loadFromSlotDropdown.Size = new Size(130, 23);
+            loadFromSlotDropdown.Size = new Size(178, 23);
             loadFromSlotDropdown.TabIndex = 13;
             // 
             // loadFromSlotLabel
             // 
             loadFromSlotLabel.AutoSize = true;
             loadFromSlotLabel.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            loadFromSlotLabel.Location = new Point(259, 212);
+            loadFromSlotLabel.Location = new Point(259, 178);
             loadFromSlotLabel.Name = "loadFromSlotLabel";
             loadFromSlotLabel.Size = new Size(195, 21);
             loadFromSlotLabel.TabIndex = 14;
@@ -240,7 +243,7 @@
             // 
             loadedSlotsLabel.AutoSize = true;
             loadedSlotsLabel.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            loadedSlotsLabel.Location = new Point(30, 292);
+            loadedSlotsLabel.Location = new Point(30, 258);
             loadedSlotsLabel.Name = "loadedSlotsLabel";
             loadedSlotsLabel.Size = new Size(209, 21);
             loadedSlotsLabel.TabIndex = 15;
@@ -250,7 +253,7 @@
             // 
             facingAngleLabel.AutoSize = true;
             facingAngleLabel.Font = new Font("Segoe UI", 16F);
-            facingAngleLabel.Location = new Point(369, 454);
+            facingAngleLabel.Location = new Point(369, 420);
             facingAngleLabel.Name = "facingAngleLabel";
             facingAngleLabel.Size = new Size(85, 30);
             facingAngleLabel.TabIndex = 16;
@@ -258,7 +261,7 @@
             // 
             // jsonSaveButton
             // 
-            jsonSaveButton.Location = new Point(17, 536);
+            jsonSaveButton.Location = new Point(17, 502);
             jsonSaveButton.Name = "jsonSaveButton";
             jsonSaveButton.Size = new Size(100, 40);
             jsonSaveButton.TabIndex = 17;
@@ -268,7 +271,7 @@
             // 
             // jsonLoadButton
             // 
-            jsonLoadButton.Location = new Point(137, 536);
+            jsonLoadButton.Location = new Point(137, 502);
             jsonLoadButton.Name = "jsonLoadButton";
             jsonLoadButton.Size = new Size(100, 40);
             jsonLoadButton.TabIndex = 18;
@@ -280,15 +283,16 @@
             // 
             gameVersionLabel.AutoSize = true;
             gameVersionLabel.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
-            gameVersionLabel.Location = new Point(372, 7);
+            gameVersionLabel.Location = new Point(459, 7);
             gameVersionLabel.Name = "gameVersionLabel";
-            gameVersionLabel.Size = new Size(143, 25);
+            gameVersionLabel.Size = new Size(236, 25);
             gameVersionLabel.TabIndex = 23;
-            gameVersionLabel.Text = "Game version: ";
+            gameVersionLabel.Text = "Game version:  Unknown";
+            gameVersionLabel.TextAlign = ContentAlignment.TopRight;
             // 
             // wipeSavesButton
             // 
-            wipeSavesButton.Location = new Point(255, 536);
+            wipeSavesButton.Location = new Point(257, 502);
             wipeSavesButton.Name = "wipeSavesButton";
             wipeSavesButton.Size = new Size(100, 40);
             wipeSavesButton.TabIndex = 22;
@@ -296,20 +300,10 @@
             wipeSavesButton.UseVisualStyleBackColor = true;
             wipeSavesButton.Click += wipeSaves;
             // 
-            // gameVersionDropdown
-            // 
-            gameVersionDropdown.DropDownStyle = ComboBoxStyle.DropDownList;
-            gameVersionDropdown.Items.AddRange(new object[] { "Current", "Old" });
-            gameVersionDropdown.Location = new Point(521, 12);
-            gameVersionDropdown.Name = "gameVersionDropdown";
-            gameVersionDropdown.Size = new Size(150, 23);
-            gameVersionDropdown.TabIndex = 24;
-            gameVersionDropdown.SelectedValueChanged += gameVersionDropdown_changed;
-            // 
             // chargeChaosControlButton
             // 
             chargeChaosControlButton.Image = (Image)resources.GetObject("chargeChaosControlButton.Image");
-            chargeChaosControlButton.Location = new Point(32, 179);
+            chargeChaosControlButton.Location = new Point(32, 154);
             chargeChaosControlButton.Margin = new Padding(2);
             chargeChaosControlButton.Name = "chargeChaosControlButton";
             chargeChaosControlButton.Size = new Size(87, 76);
@@ -317,19 +311,9 @@
             chargeChaosControlButton.UseVisualStyleBackColor = true;
             chargeChaosControlButton.Click += chargeChaosControl;
             // 
-            // warningLabel
-            // 
-            warningLabel.AutoSize = true;
-            warningLabel.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            warningLabel.Location = new Point(369, 48);
-            warningLabel.Name = "warningLabel";
-            warningLabel.Size = new Size(38, 21);
-            warningLabel.TabIndex = 31;
-            warningLabel.Text = "aga";
-            // 
             // xPosInput
             // 
-            xPosInput.Location = new Point(518, 319);
+            xPosInput.Location = new Point(518, 285);
             xPosInput.Margin = new Padding(2);
             xPosInput.Name = "xPosInput";
             xPosInput.Size = new Size(149, 23);
@@ -337,7 +321,7 @@
             // 
             // yPosInput
             // 
-            yPosInput.Location = new Point(518, 349);
+            yPosInput.Location = new Point(518, 315);
             yPosInput.Margin = new Padding(2);
             yPosInput.Name = "yPosInput";
             yPosInput.Size = new Size(150, 23);
@@ -345,7 +329,7 @@
             // 
             // zPosInput
             // 
-            zPosInput.Location = new Point(518, 379);
+            zPosInput.Location = new Point(518, 345);
             zPosInput.Margin = new Padding(2);
             zPosInput.Name = "zPosInput";
             zPosInput.Size = new Size(150, 23);
@@ -354,7 +338,7 @@
             // manualTeleportButton
             // 
             manualTeleportButton.Font = new Font("Segoe UI", 13F);
-            manualTeleportButton.Location = new Point(499, 149);
+            manualTeleportButton.Location = new Point(499, 115);
             manualTeleportButton.Name = "manualTeleportButton";
             manualTeleportButton.Size = new Size(178, 60);
             manualTeleportButton.TabIndex = 35;
@@ -366,7 +350,7 @@
             // 
             xPosInputLabel.AutoSize = true;
             xPosInputLabel.Font = new Font("Segoe UI", 12F);
-            xPosInputLabel.Location = new Point(489, 319);
+            xPosInputLabel.Location = new Point(489, 285);
             xPosInputLabel.Name = "xPosInputLabel";
             xPosInputLabel.Size = new Size(22, 21);
             xPosInputLabel.TabIndex = 36;
@@ -376,7 +360,7 @@
             // 
             yPosInputLabel.AutoSize = true;
             yPosInputLabel.Font = new Font("Segoe UI", 12F);
-            yPosInputLabel.Location = new Point(489, 349);
+            yPosInputLabel.Location = new Point(489, 315);
             yPosInputLabel.Name = "yPosInputLabel";
             yPosInputLabel.Size = new Size(22, 21);
             yPosInputLabel.TabIndex = 37;
@@ -386,7 +370,7 @@
             // 
             zPosInputLabel.AutoSize = true;
             zPosInputLabel.Font = new Font("Segoe UI", 12F);
-            zPosInputLabel.Location = new Point(489, 379);
+            zPosInputLabel.Location = new Point(489, 345);
             zPosInputLabel.Name = "zPosInputLabel";
             zPosInputLabel.Size = new Size(22, 21);
             zPosInputLabel.TabIndex = 38;
@@ -419,7 +403,7 @@
             // fillCCHotkeyButton
             // 
             fillCCHotkeyButton.Font = new Font("Segoe UI", 7F);
-            fillCCHotkeyButton.Location = new Point(80, 450);
+            fillCCHotkeyButton.Location = new Point(80, 425);
             fillCCHotkeyButton.Name = "fillCCHotkeyButton";
             fillCCHotkeyButton.Size = new Size(64, 27);
             fillCCHotkeyButton.TabIndex = 53;
@@ -429,7 +413,7 @@
             // maxRingsHotkeyButton
             // 
             maxRingsHotkeyButton.Font = new Font("Segoe UI", 7F);
-            maxRingsHotkeyButton.Location = new Point(80, 491);
+            maxRingsHotkeyButton.Location = new Point(80, 466);
             maxRingsHotkeyButton.Name = "maxRingsHotkeyButton";
             maxRingsHotkeyButton.Size = new Size(64, 27);
             maxRingsHotkeyButton.TabIndex = 52;
@@ -439,7 +423,7 @@
             // savePosHotkeyButton
             // 
             savePosHotkeyButton.Font = new Font("Segoe UI", 7F);
-            savePosHotkeyButton.Location = new Point(80, 528);
+            savePosHotkeyButton.Location = new Point(80, 503);
             savePosHotkeyButton.Name = "savePosHotkeyButton";
             savePosHotkeyButton.Size = new Size(64, 27);
             savePosHotkeyButton.TabIndex = 51;
@@ -449,7 +433,7 @@
             // loadPosHotkeyButton
             // 
             loadPosHotkeyButton.Font = new Font("Segoe UI", 7F);
-            loadPosHotkeyButton.Location = new Point(80, 565);
+            loadPosHotkeyButton.Location = new Point(80, 540);
             loadPosHotkeyButton.Name = "loadPosHotkeyButton";
             loadPosHotkeyButton.Size = new Size(64, 27);
             loadPosHotkeyButton.TabIndex = 50;
@@ -459,7 +443,7 @@
             // boostCheatHotkeyButton
             // 
             boostCheatHotkeyButton.Font = new Font("Segoe UI", 7F);
-            boostCheatHotkeyButton.Location = new Point(80, 417);
+            boostCheatHotkeyButton.Location = new Point(80, 392);
             boostCheatHotkeyButton.Name = "boostCheatHotkeyButton";
             boostCheatHotkeyButton.Size = new Size(64, 27);
             boostCheatHotkeyButton.TabIndex = 49;
@@ -470,7 +454,7 @@
             // 
             loadPosHotkeyLabel.AutoSize = true;
             loadPosHotkeyLabel.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            loadPosHotkeyLabel.Location = new Point(6, 568);
+            loadPosHotkeyLabel.Location = new Point(6, 543);
             loadPosHotkeyLabel.Name = "loadPosHotkeyLabel";
             loadPosHotkeyLabel.Size = new Size(70, 19);
             loadPosHotkeyLabel.TabIndex = 48;
@@ -480,7 +464,7 @@
             // 
             maxRingsHotkeyLabel.AutoSize = true;
             maxRingsHotkeyLabel.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            maxRingsHotkeyLabel.Location = new Point(6, 494);
+            maxRingsHotkeyLabel.Location = new Point(6, 469);
             maxRingsHotkeyLabel.Name = "maxRingsHotkeyLabel";
             maxRingsHotkeyLabel.Size = new Size(70, 19);
             maxRingsHotkeyLabel.TabIndex = 47;
@@ -490,7 +474,7 @@
             // 
             savePosHotkeyLabel.AutoSize = true;
             savePosHotkeyLabel.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            savePosHotkeyLabel.Location = new Point(6, 531);
+            savePosHotkeyLabel.Location = new Point(6, 506);
             savePosHotkeyLabel.Name = "savePosHotkeyLabel";
             savePosHotkeyLabel.Size = new Size(69, 19);
             savePosHotkeyLabel.TabIndex = 46;
@@ -500,7 +484,7 @@
             // 
             boostCheatHotkeyLabel.AutoSize = true;
             boostCheatHotkeyLabel.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            boostCheatHotkeyLabel.Location = new Point(6, 420);
+            boostCheatHotkeyLabel.Location = new Point(6, 395);
             boostCheatHotkeyLabel.Name = "boostCheatHotkeyLabel";
             boostCheatHotkeyLabel.Size = new Size(68, 19);
             boostCheatHotkeyLabel.TabIndex = 45;
@@ -510,7 +494,7 @@
             // 
             fillCCHotkeyLabel.AutoSize = true;
             fillCCHotkeyLabel.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            fillCCHotkeyLabel.Location = new Point(6, 454);
+            fillCCHotkeyLabel.Location = new Point(6, 429);
             fillCCHotkeyLabel.Name = "fillCCHotkeyLabel";
             fillCCHotkeyLabel.Size = new Size(50, 19);
             fillCCHotkeyLabel.TabIndex = 44;
@@ -520,7 +504,7 @@
             // 
             hotkeyHeaderLabel.AutoSize = true;
             hotkeyHeaderLabel.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            hotkeyHeaderLabel.Location = new Point(22, 377);
+            hotkeyHeaderLabel.Location = new Point(22, 352);
             hotkeyHeaderLabel.Name = "hotkeyHeaderLabel";
             hotkeyHeaderLabel.Size = new Size(106, 32);
             hotkeyHeaderLabel.TabIndex = 33;
@@ -529,7 +513,7 @@
             // boostCheatButton
             // 
             boostCheatButton.Image = (Image)resources.GetObject("boostCheatButton.Image");
-            boostCheatButton.Location = new Point(32, 275);
+            boostCheatButton.Location = new Point(32, 60);
             boostCheatButton.Margin = new Padding(2);
             boostCheatButton.Name = "boostCheatButton";
             boostCheatButton.Size = new Size(87, 76);
@@ -551,7 +535,7 @@
             // 
             currentPositionHeaderLabel.AutoSize = true;
             currentPositionHeaderLabel.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            currentPositionHeaderLabel.Location = new Point(265, 292);
+            currentPositionHeaderLabel.Location = new Point(265, 258);
             currentPositionHeaderLabel.Name = "currentPositionHeaderLabel";
             currentPositionHeaderLabel.Size = new Size(134, 21);
             currentPositionHeaderLabel.TabIndex = 42;
@@ -561,7 +545,7 @@
             // 
             manualTeleportHeaderLabel.AutoSize = true;
             manualTeleportHeaderLabel.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            manualTeleportHeaderLabel.Location = new Point(489, 292);
+            manualTeleportHeaderLabel.Location = new Point(489, 258);
             manualTeleportHeaderLabel.Name = "manualTeleportHeaderLabel";
             manualTeleportHeaderLabel.Size = new Size(135, 21);
             manualTeleportHeaderLabel.TabIndex = 43;
@@ -577,12 +561,63 @@
             attachLabel.TabIndex = 32;
             attachLabel.Text = "Attach";
             // 
+            // renameSaveSlotsButton
+            // 
+            renameSaveSlotsButton.Location = new Point(613, 231);
+            renameSaveSlotsButton.Name = "renameSaveSlotsButton";
+            renameSaveSlotsButton.Size = new Size(64, 23);
+            renameSaveSlotsButton.TabIndex = 48;
+            renameSaveSlotsButton.Text = "Rename";
+            renameSaveSlotsButton.UseVisualStyleBackColor = true;
+            renameSaveSlotsButton.Click += renameSaveSlots;
+            // 
+            // emptyAutoSave
+            // 
+            emptyAutoSave.AutoSize = true;
+            emptyAutoSave.Location = new Point(511, 514);
+            emptyAutoSave.Name = "emptyAutoSave";
+            emptyAutoSave.Size = new Size(156, 19);
+            emptyAutoSave.TabIndex = 49;
+            emptyAutoSave.Text = "Auto save to empty slots";
+            emptyAutoSave.UseVisualStyleBackColor = true;
+            // 
+            // renameSaveSlotLabel
+            // 
+            renameSaveSlotLabel.AutoSize = true;
+            renameSaveSlotLabel.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            renameSaveSlotLabel.Location = new Point(517, 178);
+            renameSaveSlotLabel.Name = "renameSaveSlotLabel";
+            renameSaveSlotLabel.Size = new Size(150, 21);
+            renameSaveSlotLabel.TabIndex = 51;
+            renameSaveSlotLabel.Text = "Rename save slot: ";
+            // 
+            // renameSaveSlotDropdown
+            // 
+            renameSaveSlotDropdown.DropDownStyle = ComboBoxStyle.DropDownList;
+            renameSaveSlotDropdown.Location = new Point(499, 202);
+            renameSaveSlotDropdown.Name = "renameSaveSlotDropdown";
+            renameSaveSlotDropdown.Size = new Size(178, 23);
+            renameSaveSlotDropdown.TabIndex = 50;
+            // 
+            // renameSaveSlotInput
+            // 
+            renameSaveSlotInput.Location = new Point(499, 233);
+            renameSaveSlotInput.Margin = new Padding(2);
+            renameSaveSlotInput.Name = "renameSaveSlotInput";
+            renameSaveSlotInput.Size = new Size(109, 23);
+            renameSaveSlotInput.TabIndex = 52;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.Control;
-            ClientSize = new Size(850, 589);
+            ClientSize = new Size(850, 563);
+            Controls.Add(renameSaveSlotInput);
+            Controls.Add(renameSaveSlotLabel);
+            Controls.Add(renameSaveSlotDropdown);
+            Controls.Add(emptyAutoSave);
+            Controls.Add(renameSaveSlotsButton);
             Controls.Add(attachLabel);
             Controls.Add(manualTeleportHeaderLabel);
             Controls.Add(currentPositionHeaderLabel);
@@ -594,8 +629,6 @@
             Controls.Add(zPosInput);
             Controls.Add(yPosInput);
             Controls.Add(xPosInput);
-            Controls.Add(warningLabel);
-            Controls.Add(gameVersionDropdown);
             Controls.Add(wipeSavesButton);
             Controls.Add(gameVersionLabel);
             Controls.Add(jsonLoadButton);
@@ -650,9 +683,7 @@
         private Button jsonLoadButton;
         private Label gameVersionLabel;
         private Button wipeSavesButton;
-        private ComboBox gameVersionDropdown;
         private Button chargeChaosControlButton;
-        private Label warningLabel;
         private TextBox xPosInput;
         private TextBox yPosInput;
         private TextBox zPosInput;
@@ -677,5 +708,11 @@
         private Button savePosHotkeyButton;
         private Button loadPosHotkeyButton;
         private Button boostCheatHotkeyButton;
+        private Button renameSaveSlotsButton;
+        private CheckBox checkBox1;
+        private CheckBox emptyAutoSave;
+        private Label renameSaveSlotLabel;
+        private ComboBox renameSaveSlotDropdown;
+        private TextBox renameSaveSlotInput;
     }
 }

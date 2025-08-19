@@ -1,1 +1,162 @@
-[["Missile CC skip/FPS skip","Final tube jump","","","","","","","",""],{"XPos":-624.304,"YPos":299.0635,"ZPos":-303.7231,"QRotX":-5.519004E-08,"QRotY":1,"QRotZ":-8.199287E-15,"QRotW":-1.525879E-07,"XSpd":0,"YSpd":0,"ZSpd":0},{"XPos":-1032.44,"YPos":362.06702,"ZPos":-790.1496,"QRotX":0,"QRotY":1,"QRotZ":0,"QRotW":2.0215565E-07,"XSpd":0,"YSpd":0,"ZSpd":0},{"XPos":0,"YPos":0,"ZPos":0,"QRotX":0,"QRotY":0,"QRotZ":0,"QRotW":0,"XSpd":0,"YSpd":0,"ZSpd":0},{"XPos":0,"YPos":0,"ZPos":0,"QRotX":0,"QRotY":0,"QRotZ":0,"QRotW":0,"XSpd":0,"YSpd":0,"ZSpd":0},{"XPos":0,"YPos":0,"ZPos":0,"QRotX":0,"QRotY":0,"QRotZ":0,"QRotW":0,"XSpd":0,"YSpd":0,"ZSpd":0},{"XPos":0,"YPos":0,"ZPos":0,"QRotX":0,"QRotY":0,"QRotZ":0,"QRotW":0,"XSpd":0,"YSpd":0,"ZSpd":0},{"XPos":0,"YPos":0,"ZPos":0,"QRotX":0,"QRotY":0,"QRotZ":0,"QRotW":0,"XSpd":0,"YSpd":0,"ZSpd":0},{"XPos":0,"YPos":0,"ZPos":0,"QRotX":0,"QRotY":0,"QRotZ":0,"QRotW":0,"XSpd":0,"YSpd":0,"ZSpd":0},{"XPos":0,"YPos":0,"ZPos":0,"QRotX":0,"QRotY":0,"QRotZ":0,"QRotW":0,"XSpd":0,"YSpd":0,"ZSpd":0},{"XPos":0,"YPos":0,"ZPos":0,"QRotX":0,"QRotY":0,"QRotZ":0,"QRotW":0,"XSpd":0,"YSpd":0,"ZSpd":0}]
+[
+  {
+    "name": "Missile CC skip/FPS skip",
+    "hasSaveData": true,
+    "data": {
+      "XPos": -624.304,
+      "YPos": 299.0635,
+      "ZPos": -303.7231,
+      "QRotX": -5.519004E-08,
+      "QRotY": 1,
+      "QRotZ": -8.199287E-15,
+      "QRotW": -1.525879E-07,
+      "XSpd": 0,
+      "YSpd": 0,
+      "ZSpd": 0
+    }
+  },
+  {
+    "name": "Final tube jump",
+    "hasSaveData": true,
+    "data": {
+      "XPos": -1032.44,
+      "YPos": 362.06702,
+      "ZPos": -790.1496,
+      "QRotX": 0,
+      "QRotY": 1,
+      "QRotZ": 0,
+      "QRotW": 2.0215565E-07,
+      "XSpd": 0,
+      "YSpd": 0,
+      "ZSpd": 0
+    }
+  },
+  {
+    "name": "",
+    "hasSaveData": false,
+    "data": {
+      "XPos": 0,
+      "YPos": 0,
+      "ZPos": 0,
+      "QRotX": 0,
+      "QRotY": 0,
+      "QRotZ": 0,
+      "QRotW": 0,
+      "XSpd": 0,
+      "YSpd": 0,
+      "ZSpd": 0
+    }
+  },
+  {
+    "name": "",
+    "hasSaveData": false,
+    "data": {
+      "XPos": 0,
+      "YPos": 0,
+      "ZPos": 0,
+      "QRotX": 0,
+      "QRotY": 0,
+      "QRotZ": 0,
+      "QRotW": 0,
+      "XSpd": 0,
+      "YSpd": 0,
+      "ZSpd": 0
+    }
+  },
+  {
+    "name": "",
+    "hasSaveData": false,
+    "data": {
+      "XPos": 0,
+      "YPos": 0,
+      "ZPos": 0,
+      "QRotX": 0,
+      "QRotY": 0,
+      "QRotZ": 0,
+      "QRotW": 0,
+      "XSpd": 0,
+      "YSpd": 0,
+      "ZSpd": 0
+    }
+  },
+  {
+    "name": "",
+    "hasSaveData": false,
+    "data": {
+      "XPos": 0,
+      "YPos": 0,
+      "ZPos": 0,
+      "QRotX": 0,
+      "QRotY": 0,
+      "QRotZ": 0,
+      "QRotW": 0,
+      "XSpd": 0,
+      "YSpd": 0,
+      "ZSpd": 0
+    }
+  },
+  {
+    "name": "",
+    "hasSaveData": false,
+    "data": {
+      "XPos": 0,
+      "YPos": 0,
+      "ZPos": 0,
+      "QRotX": 0,
+      "QRotY": 0,
+      "QRotZ": 0,
+      "QRotW": 0,
+      "XSpd": 0,
+      "YSpd": 0,
+      "ZSpd": 0
+    }
+  },
+  {
+    "name": "",
+    "hasSaveData": false,
+    "data": {
+      "XPos": 0,
+      "YPos": 0,
+      "ZPos": 0,
+      "QRotX": 0,
+      "QRotY": 0,
+      "QRotZ": 0,
+      "QRotW": 0,
+      "XSpd": 0,
+      "YSpd": 0,
+      "ZSpd": 0
+    }
+  },
+  {
+    "name": "",
+    "hasSaveData": false,
+    "data": {
+      "XPos": 0,
+      "YPos": 0,
+      "ZPos": 0,
+      "QRotX": 0,
+      "QRotY": 0,
+      "QRotZ": 0,
+      "QRotW": 0,
+      "XSpd": 0,
+      "YSpd": 0,
+      "ZSpd": 0
+    }
+  },
+  {
+    "name": "",
+    "hasSaveData": false,
+    "data": {
+      "XPos": 0,
+      "YPos": 0,
+      "ZPos": 0,
+      "QRotX": 0,
+      "QRotY": 0,
+      "QRotZ": 0,
+      "QRotW": 0,
+      "XSpd": 0,
+      "YSpd": 0,
+      "ZSpd": 0
+    }
+  }
+]

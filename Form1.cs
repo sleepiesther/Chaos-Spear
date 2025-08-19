@@ -42,8 +42,7 @@ namespace Chaos_Spear
         string hotKeyToChange;
         GOCPlayerKinematicParams kParams;
         GOCPlayerKinematicParams savedParams;
-        List<GOCPlayerKinematicParams> saveSlots = new();
-        List<string> saveNames = new();
+        List<saveSlot> saveSlots = new();
         bool boostCheat = false;
         string gameVersion;
 
@@ -64,8 +63,7 @@ namespace Chaos_Spear
                 saveToSlotDropdown.Items.Add(x);
                 loadFromSlotDropdown.Items.Add(x);
                 renameSaveSlotDropdown.Items.Add(x);
-                saveSlots.Add(new GOCPlayerKinematicParams());
-                saveNames.Add("");
+                saveSlots.Add(new saveSlot());
             }
             saveToSlotDropdown.SelectedIndex = 0;
             loadFromSlotDropdown.SelectedIndex = 0;
@@ -246,52 +244,54 @@ namespace Chaos_Spear
         }
         private void savePosition(object sender, EventArgs e)
         {
+            if (saveToSlotDropdown.InvokeRequired)
+            {
+                saveToSlotDropdown.Invoke(savePosition, new Object[] {saveToSlotDropdown, new EventArgs()});
+                return;
+            }
             if (!attached)
             {
                 MessageBox.Show("Attach program to SXSG first");
                 return;
             }
+
             nint kParamsMemoryAddress;
             gameMem.Read((nuint)kParamsMemAddress, out kParamsMemoryAddress);
             gameMem.Read((nuint)kParamsMemoryAddress, out savedParams);
+            savedParams.XSpd = savedParams.YSpd = savedParams.ZSpd = 0;
 
-            if (saveToSlotDropdown.InvokeRequired)
+            if (emptyAutoSave.Checked)
             {
-                saveToSlotDropdown.Invoke(new MethodInvoker(delegate { saveSlots[saveToSlotDropdown.SelectedIndex] = savedParams; }));
-            }
-            else
+                for (int x = 0; x < saveSlots.Count; x++)
             {
-                saveSlots[saveToSlotDropdown.SelectedIndex] = savedParams;
+                    if (!saveSlots[x].hasSaveData)
+                    {
+                        saveToSlotDropdown.SelectedIndex = x;
+                        break;
             }
+        }
+            }
+            saveSlots[saveToSlotDropdown.SelectedIndex].data = savedParams;
+            saveSlots[saveToSlotDropdown.SelectedIndex].hasSaveData = true;
         }
 
         private void loadPosition(object sender, EventArgs e)
         {
+            if (loadFromSlotDropdown.InvokeRequired)
+            {
+                loadFromSlotDropdown.Invoke(loadPosition, new Object[] { loadFromSlotDropdown, new EventArgs() });
+                return;
+            }
             if (!attached)
             {
                 MessageBox.Show("Attach program to SXSG first");
                 return;
             }
 
-            if (loadFromSlotDropdown.InvokeRequired)
-            {
-                saveToSlotDropdown.Invoke(new MethodInvoker(delegate { savedParams = saveSlots[loadFromSlotDropdown.SelectedIndex]; }));
-            }
-            else
-            {
-                savedParams = saveSlots[loadFromSlotDropdown.SelectedIndex];
-            }
-
+            savedParams = saveSlots[loadFromSlotDropdown.SelectedIndex].data;
             nint kParamsMemoryAddress;
             gameMem.Read((nuint)kParamsMemAddress, out kParamsMemoryAddress);
-            gameMem.Write<float>((nuint)kParamsMemoryAddress + 0x80, savedParams.XPos);
-            gameMem.Write<float>((nuint)kParamsMemoryAddress + 0x84, savedParams.YPos);
-            gameMem.Write<float>((nuint)kParamsMemoryAddress + 0x88, savedParams.ZPos);
-            //why not rotate the guy
-            gameMem.Write<float>((nuint)kParamsMemoryAddress + 0x90, savedParams.QRotX);
-            gameMem.Write<float>((nuint)kParamsMemoryAddress + 0x94, savedParams.QRotY);
-            gameMem.Write<float>((nuint)kParamsMemoryAddress + 0x98, savedParams.QRotZ);
-            gameMem.Write<float>((nuint)kParamsMemoryAddress + 0x9C, savedParams.QRotW);
+            gameMem.Write<GOCPlayerKinematicParams>((nuint)kParamsMemoryAddress, savedParams);
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -306,11 +306,11 @@ namespace Chaos_Spear
 
                 loadedSlotsLabel.Text = "Saved Positions (Slots " + saveToSlotDropdown.SelectedIndex + " : " + loadFromSlotDropdown.SelectedIndex + ")";
 
-                savedXPosLabel.Text = "X: " + Math.Round(saveSlots[saveToSlotDropdown.SelectedIndex].XPos, 3) + " : " + Math.Round(saveSlots[loadFromSlotDropdown.SelectedIndex].XPos, 3);
+                savedXPosLabel.Text = "X: " + Math.Round(saveSlots[saveToSlotDropdown.SelectedIndex].data.XPos, 3) + " : " + Math.Round(saveSlots[loadFromSlotDropdown.SelectedIndex].data.XPos, 3);
 
-                savedYPosLabel.Text = "Y: " + Math.Round(saveSlots[saveToSlotDropdown.SelectedIndex].YPos, 3) + " : " + Math.Round(saveSlots[loadFromSlotDropdown.SelectedIndex].YPos, 3);
+                savedYPosLabel.Text = "Y: " + Math.Round(saveSlots[saveToSlotDropdown.SelectedIndex].data.YPos, 3) + " : " + Math.Round(saveSlots[loadFromSlotDropdown.SelectedIndex].data.YPos, 3);
 
-                savedZPosLabel.Text = "Z: " + Math.Round(saveSlots[saveToSlotDropdown.SelectedIndex].ZPos, 3) + " : " + Math.Round(saveSlots[loadFromSlotDropdown.SelectedIndex].ZPos, 3);
+                savedZPosLabel.Text = "Z: " + Math.Round(saveSlots[saveToSlotDropdown.SelectedIndex].data.ZPos, 3) + " : " + Math.Round(saveSlots[loadFromSlotDropdown.SelectedIndex].data.ZPos, 3);
 
                 currentXPosLabel.Text = "X: " + Math.Round(kParams.XPos, 1);
                 currentYPosLabel.Text = "Y: " + Math.Round(kParams.YPos, 1);
@@ -349,10 +349,6 @@ namespace Chaos_Spear
         {
             try
             {
-                JSONSave dataToSave = new();
-                dataToSave.names = saveNames;
-                dataToSave.saves = saveSlots;
-
                 JsonSerializerOptions options = new()
                 {
                     WriteIndented = true
@@ -362,7 +358,7 @@ namespace Chaos_Spear
                 saveFileDialog.Filter = "JSON file|*.json";
                 saveFileDialog.Title = "Save a JSON file";
                 saveFileDialog.ShowDialog();
-                File.WriteAllText(saveFileDialog.FileName, JsonSerializer.Serialize(dataToSave, options));
+                File.WriteAllText(saveFileDialog.FileName, JsonSerializer.Serialize(saveSlots, options));
             }
             catch (Exception ex)
             {
@@ -380,19 +376,18 @@ namespace Chaos_Spear
                 openFileDialog.ShowDialog();
 
                 string jsonString = File.ReadAllText(openFileDialog.FileName);
-                JSONSave loadedJSONData = JsonSerializer.Deserialize<JSONSave>(jsonString);
+                saveSlots = JsonSerializer.Deserialize<List<saveSlot>>(jsonString);
                 saveToSlotDropdown.Items.Clear();
                 loadFromSlotDropdown.Items.Clear();
                 renameSaveSlotDropdown.Items.Clear();
-                saveNames = loadedJSONData.names;
-                saveSlots = loadedJSONData.saves;
+
                 for (int x = 0; x < saveSlots.Count - 1; x++)
                 {
-                    if (saveNames[x] != "")
+                    if (saveSlots[x].name != "")
                     {
-                        saveToSlotDropdown.Items.Add(x + " (" + saveNames[x] + ")");
-                        loadFromSlotDropdown.Items.Add(x + " (" + saveNames[x] + ")");
-                        renameSaveSlotDropdown.Items.Add(x + " (" + saveNames[x] + ")");
+                        saveToSlotDropdown.Items.Add(x + " (" + saveSlots[x].name + ")");
+                        loadFromSlotDropdown.Items.Add(x + " (" + saveSlots[x].name + ")");
+                        renameSaveSlotDropdown.Items.Add(x + " (" + saveSlots[x].name + ")");
                     }
                     else
                     {
@@ -415,7 +410,7 @@ namespace Chaos_Spear
             renameSaveSlotDropdown.Items.Clear();
             for (int x = 0; x < 10; x++)
             {
-                saveSlots[x] = new GOCPlayerKinematicParams();
+                saveSlots[x] = new saveSlot();
                 saveToSlotDropdown.Items.Add(x);
                 loadFromSlotDropdown.Items.Add(x);
                 renameSaveSlotDropdown.Items.Add(x);
@@ -427,7 +422,7 @@ namespace Chaos_Spear
             int renamedSlot = renameSaveSlotDropdown.SelectedIndex;
             string newName = renameSaveSlotInput.Text;
 
-            saveNames[renamedSlot] = newName;
+            saveSlots[renamedSlot].name = newName;
 
             if (newName != "")
             {
@@ -512,10 +507,6 @@ namespace Chaos_Spear
                 }
                 else
                 {
-                    if (boostMemAddress == 0)
-                    {
-                        return;
-                    }
                     // Scans for the instructions that cause the initial chunk of boost to be lost when starting a boost, and the instruction that causes boost to gradually drain
                     var groundBoostChunk = sigScanner.FindPattern("F3 0F 5F CA F3 0F 58 4E 68 F3 0F 11 4E 68 49 8B 47 40");
                     if (!groundBoostChunk.Found)

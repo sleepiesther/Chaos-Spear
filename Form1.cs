@@ -291,7 +291,18 @@ namespace Chaos_Spear
             savedParams = saveSlots[loadFromSlotDropdown.SelectedIndex].data;
             nint kParamsMemoryAddress;
             gameMem.Read((nuint)kParamsMemAddress, out kParamsMemoryAddress);
-            gameMem.Write<GOCPlayerKinematicParams>((nuint)kParamsMemoryAddress, savedParams);
+            gameMem.Write<float>((nuint)kParamsMemoryAddress + 0x80, savedParams.xPos);
+            gameMem.Write<float>((nuint)kParamsMemoryAddress + 0x84, savedParams.yPos);
+            gameMem.Write<float>((nuint)kParamsMemoryAddress + 0x88, savedParams.zPos);
+            //why not rotate the guy
+            gameMem.Write<float>((nuint)kParamsMemoryAddress + 0x90, savedParams.qRotX);
+            gameMem.Write<float>((nuint)kParamsMemoryAddress + 0x94, savedParams.qRotY);
+            gameMem.Write<float>((nuint)kParamsMemoryAddress + 0x98, savedParams.qRotZ);
+            gameMem.Write<float>((nuint)kParamsMemoryAddress + 0x9C, savedParams.qRotW);
+            gameMem.Write<float>((nuint)kParamsMemoryAddress + 0xD0, 0);
+            gameMem.Write<float>((nuint)kParamsMemoryAddress + 0xD4, 0);
+            gameMem.Write<float>((nuint)kParamsMemoryAddress + 0xD8, 0);
+
         }
 
         private void timer1_Tick(object sender, EventArgs e)

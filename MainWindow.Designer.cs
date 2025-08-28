@@ -1,6 +1,6 @@
 ﻿namespace Chaos_Spear
 {
-    partial class Form1
+    partial class MainWindow
     {
         /// <summary>
         ///  Required designer variable.
@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             attachButton = new Button();
             savePositionButton = new Button();
             loadButtonButton = new Button();
@@ -39,7 +38,7 @@
             currentXPosLabel = new Label();
             currentYPosLabel = new Label();
             currentZPosLabel = new Label();
-            timer1 = new System.Windows.Forms.Timer(components);
+            timer = new System.Windows.Forms.Timer(components);
             speedLabel = new Label();
             maxRingsButton = new Button();
             saveToSlotDropdown = new ComboBox();
@@ -82,19 +81,21 @@
             renameSaveSlotLabel = new Label();
             renameSaveSlotDropdown = new ComboBox();
             renameSaveSlotInput = new TextBox();
+            resetSpeedCheckbox = new CheckBox();
+            creditsButton = new Button();
             cheatsGroupBox.SuspendLayout();
             SuspendLayout();
             // 
             // attachButton
             // 
             attachButton.Font = new Font("Segoe UI", 16F);
-            attachButton.Image = (Image)resources.GetObject("attachButton.Image");
+            attachButton.Image = Properties.Resources.attachIconDetached;
             attachButton.Location = new Point(35, 7);
             attachButton.Name = "attachButton";
             attachButton.Size = new Size(87, 77);
             attachButton.TabIndex = 0;
             attachButton.UseVisualStyleBackColor = true;
-            attachButton.Click += attach;
+            attachButton.Click += ToggleAttach;
             // 
             // savePositionButton
             // 
@@ -105,7 +106,7 @@
             savePositionButton.TabIndex = 1;
             savePositionButton.Text = "Save Position";
             savePositionButton.UseVisualStyleBackColor = true;
-            savePositionButton.Click += savePosition;
+            savePositionButton.Click += SavePosition;
             // 
             // loadButtonButton
             // 
@@ -116,7 +117,7 @@
             loadButtonButton.TabIndex = 2;
             loadButtonButton.Text = "Load Position";
             loadButtonButton.UseVisualStyleBackColor = true;
-            loadButtonButton.Click += loadPosition;
+            loadButtonButton.Click += LoadPosition;
             // 
             // savedXPosLabel
             // 
@@ -179,9 +180,9 @@
             currentZPosLabel.TabIndex = 6;
             currentZPosLabel.Text = "Z:";
             // 
-            // timer1
+            // timer
             // 
-            timer1.Tick += timer1_Tick;
+            timer.Tick += timer_Tick;
             // 
             // speedLabel
             // 
@@ -195,13 +196,13 @@
             // 
             // maxRingsButton
             // 
-            maxRingsButton.Image = (Image)resources.GetObject("maxRingsButton.Image");
+            maxRingsButton.Image = Properties.Resources._999Rings;
             maxRingsButton.Location = new Point(32, 250);
             maxRingsButton.Name = "maxRingsButton";
             maxRingsButton.Size = new Size(87, 76);
             maxRingsButton.TabIndex = 10;
             maxRingsButton.UseVisualStyleBackColor = true;
-            maxRingsButton.Click += giveMaxRings;
+            maxRingsButton.Click += GiveMaxRings;
             // 
             // saveToSlotDropdown
             // 
@@ -261,23 +262,23 @@
             // 
             // jsonSaveButton
             // 
-            jsonSaveButton.Location = new Point(17, 502);
+            jsonSaveButton.Location = new Point(17, 483);
             jsonSaveButton.Name = "jsonSaveButton";
             jsonSaveButton.Size = new Size(100, 40);
             jsonSaveButton.TabIndex = 17;
             jsonSaveButton.Text = "Save to JSON";
             jsonSaveButton.UseVisualStyleBackColor = true;
-            jsonSaveButton.Click += saveToJSON;
+            jsonSaveButton.Click += SaveToJson;
             // 
             // jsonLoadButton
             // 
-            jsonLoadButton.Location = new Point(137, 502);
+            jsonLoadButton.Location = new Point(137, 483);
             jsonLoadButton.Name = "jsonLoadButton";
             jsonLoadButton.Size = new Size(100, 40);
             jsonLoadButton.TabIndex = 18;
             jsonLoadButton.Text = "Load JSON";
             jsonLoadButton.UseVisualStyleBackColor = true;
-            jsonLoadButton.Click += loadJSON;
+            jsonLoadButton.Click += LoadJson;
             // 
             // gameVersionLabel
             // 
@@ -292,24 +293,24 @@
             // 
             // wipeSavesButton
             // 
-            wipeSavesButton.Location = new Point(257, 502);
+            wipeSavesButton.Location = new Point(257, 483);
             wipeSavesButton.Name = "wipeSavesButton";
             wipeSavesButton.Size = new Size(100, 40);
             wipeSavesButton.TabIndex = 22;
             wipeSavesButton.Text = "Wipe save slots";
             wipeSavesButton.UseVisualStyleBackColor = true;
-            wipeSavesButton.Click += wipeSaves;
+            wipeSavesButton.Click += WipeSaves;
             // 
             // chargeChaosControlButton
             // 
-            chargeChaosControlButton.Image = (Image)resources.GetObject("chargeChaosControlButton.Image");
+            chargeChaosControlButton.Image = Properties.Resources.fillCC;
             chargeChaosControlButton.Location = new Point(32, 154);
             chargeChaosControlButton.Margin = new Padding(2);
             chargeChaosControlButton.Name = "chargeChaosControlButton";
             chargeChaosControlButton.Size = new Size(87, 76);
             chargeChaosControlButton.TabIndex = 27;
             chargeChaosControlButton.UseVisualStyleBackColor = true;
-            chargeChaosControlButton.Click += chargeChaosControl;
+            chargeChaosControlButton.Click += ChargeChaosControl;
             // 
             // xPosInput
             // 
@@ -344,7 +345,7 @@
             manualTeleportButton.TabIndex = 35;
             manualTeleportButton.Text = "Set Position";
             manualTeleportButton.UseVisualStyleBackColor = true;
-            manualTeleportButton.Click += manualTeleport;
+            manualTeleportButton.Click += ManualTeleport;
             // 
             // xPosInputLabel
             // 
@@ -403,58 +404,58 @@
             // fillCCHotkeyButton
             // 
             fillCCHotkeyButton.Font = new Font("Segoe UI", 7F);
-            fillCCHotkeyButton.Location = new Point(80, 425);
+            fillCCHotkeyButton.Location = new Point(80, 408);
             fillCCHotkeyButton.Name = "fillCCHotkeyButton";
             fillCCHotkeyButton.Size = new Size(64, 27);
             fillCCHotkeyButton.TabIndex = 53;
             fillCCHotkeyButton.UseVisualStyleBackColor = true;
-            fillCCHotkeyButton.Click += changeHotkey;
+            fillCCHotkeyButton.Click += ChangeHotkey;
             // 
             // maxRingsHotkeyButton
             // 
             maxRingsHotkeyButton.Font = new Font("Segoe UI", 7F);
-            maxRingsHotkeyButton.Location = new Point(80, 466);
+            maxRingsHotkeyButton.Location = new Point(80, 441);
             maxRingsHotkeyButton.Name = "maxRingsHotkeyButton";
             maxRingsHotkeyButton.Size = new Size(64, 27);
             maxRingsHotkeyButton.TabIndex = 52;
             maxRingsHotkeyButton.UseVisualStyleBackColor = true;
-            maxRingsHotkeyButton.Click += changeHotkey;
+            maxRingsHotkeyButton.Click += ChangeHotkey;
             // 
             // savePosHotkeyButton
             // 
             savePosHotkeyButton.Font = new Font("Segoe UI", 7F);
-            savePosHotkeyButton.Location = new Point(80, 503);
+            savePosHotkeyButton.Location = new Point(80, 477);
             savePosHotkeyButton.Name = "savePosHotkeyButton";
             savePosHotkeyButton.Size = new Size(64, 27);
             savePosHotkeyButton.TabIndex = 51;
             savePosHotkeyButton.UseVisualStyleBackColor = true;
-            savePosHotkeyButton.Click += changeHotkey;
+            savePosHotkeyButton.Click += ChangeHotkey;
             // 
             // loadPosHotkeyButton
             // 
             loadPosHotkeyButton.Font = new Font("Segoe UI", 7F);
-            loadPosHotkeyButton.Location = new Point(80, 540);
+            loadPosHotkeyButton.Location = new Point(80, 511);
             loadPosHotkeyButton.Name = "loadPosHotkeyButton";
             loadPosHotkeyButton.Size = new Size(64, 27);
             loadPosHotkeyButton.TabIndex = 50;
             loadPosHotkeyButton.UseVisualStyleBackColor = true;
-            loadPosHotkeyButton.Click += changeHotkey;
+            loadPosHotkeyButton.Click += ChangeHotkey;
             // 
             // boostCheatHotkeyButton
             // 
             boostCheatHotkeyButton.Font = new Font("Segoe UI", 7F);
-            boostCheatHotkeyButton.Location = new Point(80, 392);
+            boostCheatHotkeyButton.Location = new Point(80, 375);
             boostCheatHotkeyButton.Name = "boostCheatHotkeyButton";
             boostCheatHotkeyButton.Size = new Size(64, 27);
             boostCheatHotkeyButton.TabIndex = 49;
             boostCheatHotkeyButton.UseVisualStyleBackColor = true;
-            boostCheatHotkeyButton.Click += changeHotkey;
+            boostCheatHotkeyButton.Click += ChangeHotkey;
             // 
             // loadPosHotkeyLabel
             // 
             loadPosHotkeyLabel.AutoSize = true;
             loadPosHotkeyLabel.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            loadPosHotkeyLabel.Location = new Point(6, 543);
+            loadPosHotkeyLabel.Location = new Point(6, 514);
             loadPosHotkeyLabel.Name = "loadPosHotkeyLabel";
             loadPosHotkeyLabel.Size = new Size(70, 19);
             loadPosHotkeyLabel.TabIndex = 48;
@@ -464,7 +465,7 @@
             // 
             maxRingsHotkeyLabel.AutoSize = true;
             maxRingsHotkeyLabel.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            maxRingsHotkeyLabel.Location = new Point(6, 469);
+            maxRingsHotkeyLabel.Location = new Point(6, 446);
             maxRingsHotkeyLabel.Name = "maxRingsHotkeyLabel";
             maxRingsHotkeyLabel.Size = new Size(70, 19);
             maxRingsHotkeyLabel.TabIndex = 47;
@@ -474,7 +475,7 @@
             // 
             savePosHotkeyLabel.AutoSize = true;
             savePosHotkeyLabel.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            savePosHotkeyLabel.Location = new Point(6, 506);
+            savePosHotkeyLabel.Location = new Point(6, 480);
             savePosHotkeyLabel.Name = "savePosHotkeyLabel";
             savePosHotkeyLabel.Size = new Size(69, 19);
             savePosHotkeyLabel.TabIndex = 46;
@@ -484,7 +485,7 @@
             // 
             boostCheatHotkeyLabel.AutoSize = true;
             boostCheatHotkeyLabel.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            boostCheatHotkeyLabel.Location = new Point(6, 395);
+            boostCheatHotkeyLabel.Location = new Point(6, 378);
             boostCheatHotkeyLabel.Name = "boostCheatHotkeyLabel";
             boostCheatHotkeyLabel.Size = new Size(68, 19);
             boostCheatHotkeyLabel.TabIndex = 45;
@@ -494,7 +495,7 @@
             // 
             fillCCHotkeyLabel.AutoSize = true;
             fillCCHotkeyLabel.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            fillCCHotkeyLabel.Location = new Point(6, 429);
+            fillCCHotkeyLabel.Location = new Point(6, 412);
             fillCCHotkeyLabel.Name = "fillCCHotkeyLabel";
             fillCCHotkeyLabel.Size = new Size(50, 19);
             fillCCHotkeyLabel.TabIndex = 44;
@@ -504,7 +505,7 @@
             // 
             hotkeyHeaderLabel.AutoSize = true;
             hotkeyHeaderLabel.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            hotkeyHeaderLabel.Location = new Point(22, 352);
+            hotkeyHeaderLabel.Location = new Point(22, 335);
             hotkeyHeaderLabel.Name = "hotkeyHeaderLabel";
             hotkeyHeaderLabel.Size = new Size(106, 32);
             hotkeyHeaderLabel.TabIndex = 33;
@@ -512,14 +513,14 @@
             // 
             // boostCheatButton
             // 
-            boostCheatButton.Image = (Image)resources.GetObject("boostCheatButton.Image");
+            boostCheatButton.Image = Properties.Resources.infiniteBoostDeactivated;
             boostCheatButton.Location = new Point(32, 60);
             boostCheatButton.Margin = new Padding(2);
             boostCheatButton.Name = "boostCheatButton";
             boostCheatButton.Size = new Size(87, 76);
             boostCheatButton.TabIndex = 32;
             boostCheatButton.UseVisualStyleBackColor = true;
-            boostCheatButton.Click += toggleBoostCheat;
+            boostCheatButton.Click += ToggleBoostCheat;
             // 
             // cheatsHeadingLabel
             // 
@@ -569,12 +570,12 @@
             renameSaveSlotsButton.TabIndex = 48;
             renameSaveSlotsButton.Text = "Rename";
             renameSaveSlotsButton.UseVisualStyleBackColor = true;
-            renameSaveSlotsButton.Click += renameSaveSlots;
+            renameSaveSlotsButton.Click += RenameSaveSlots;
             // 
             // emptyAutoSave
             // 
             emptyAutoSave.AutoSize = true;
-            emptyAutoSave.Location = new Point(511, 514);
+            emptyAutoSave.Location = new Point(530, 495);
             emptyAutoSave.Name = "emptyAutoSave";
             emptyAutoSave.Size = new Size(156, 19);
             emptyAutoSave.TabIndex = 49;
@@ -607,12 +608,34 @@
             renameSaveSlotInput.Size = new Size(109, 23);
             renameSaveSlotInput.TabIndex = 52;
             // 
+            // resetSpeedCheckbox
+            // 
+            resetSpeedCheckbox.AutoSize = true;
+            resetSpeedCheckbox.Location = new Point(369, 495);
+            resetSpeedCheckbox.Name = "resetSpeedCheckbox";
+            resetSpeedCheckbox.Size = new Size(149, 19);
+            resetSpeedCheckbox.TabIndex = 55;
+            resetSpeedCheckbox.Text = "Reset speed on teleport";
+            resetSpeedCheckbox.UseVisualStyleBackColor = true;
+            // 
+            // creditsButton
+            // 
+            creditsButton.Location = new Point(630, 35);
+            creditsButton.Name = "creditsButton";
+            creditsButton.Size = new Size(60, 23);
+            creditsButton.TabIndex = 54;
+            creditsButton.Text = "Credits";
+            creditsButton.UseVisualStyleBackColor = true;
+            creditsButton.Click += ShowCredits;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.Control;
-            ClientSize = new Size(850, 563);
+            ClientSize = new Size(850, 539);
+            Controls.Add(resetSpeedCheckbox);
+            Controls.Add(creditsButton);
             Controls.Add(renameSaveSlotInput);
             Controls.Add(renameSaveSlotLabel);
             Controls.Add(renameSaveSlotDropdown);
@@ -649,9 +672,10 @@
             Controls.Add(loadButtonButton);
             Controls.Add(savePositionButton);
             Controls.Add(attachButton);
-            Name = "Form1";
+            FormBorderStyle = FormBorderStyle.FixedSingle;
+            Name = "MainWindow";
             Text = "Chaos Spear";
-            FormClosed += formClosed;
+            FormClosing += Closing;
             Load += Form1_Load;
             cheatsGroupBox.ResumeLayout(false);
             cheatsGroupBox.PerformLayout();
@@ -670,7 +694,7 @@
         private Label currentXPosLabel;
         private Label currentYPosLabel;
         private Label currentZPosLabel;
-        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Timer timer;
         private Label speedLabel;
         private Button maxRingsButton;
         private ComboBox saveToSlotDropdown;
@@ -709,10 +733,11 @@
         private Button loadPosHotkeyButton;
         private Button boostCheatHotkeyButton;
         private Button renameSaveSlotsButton;
-        private CheckBox checkBox1;
         private CheckBox emptyAutoSave;
         private Label renameSaveSlotLabel;
         private ComboBox renameSaveSlotDropdown;
         private TextBox renameSaveSlotInput;
+        private CheckBox resetSpeedCheckbox;
+        private Button creditsButton;
     }
 }

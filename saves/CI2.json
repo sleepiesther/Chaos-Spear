@@ -1,5 +1,21 @@
 [
   {
+    "name": "Flingshot",
+    "hasSaveData": true,
+    "data": {
+      "XPos": 6,
+      "YPos": 125.14251,
+      "ZPos": 74.29512,
+      "QRotX": 5.2482737E-06,
+      "QRotY": 0.99999416,
+      "QRotZ": -0.0034185122,
+      "QRotW": 1.7973218E-08,
+      "XSpd": 0,
+      "YSpd": 0,
+      "ZSpd": 0
+    }
+  },
+  {
     "name": "Descent into cave",
     "hasSaveData": true,
     "data": {
@@ -26,22 +42,6 @@
       "QRotY": 0.7036633,
       "QRotZ": -0.06965628,
       "QRotW": 0.7036675,
-      "XSpd": 0,
-      "YSpd": 0,
-      "ZSpd": 0
-    }
-  },
-  {
-    "name": "",
-    "hasSaveData": false,
-    "data": {
-      "XPos": 0,
-      "YPos": 0,
-      "ZPos": 0,
-      "QRotX": 0,
-      "QRotY": 0,
-      "QRotZ": 0,
-      "QRotW": 0,
       "XSpd": 0,
       "YSpd": 0,
       "ZSpd": 0

@@ -1,5 +1,21 @@
 [
   {
+    "name": "Ting",
+    "hasSaveData": true,
+    "data": {
+      "XPos": 24.12381,
+      "YPos": 1400.4701,
+      "ZPos": 1208.094,
+      "QRotX": 0,
+      "QRotY": 1,
+      "QRotZ": 0,
+      "QRotW": 0,
+      "XSpd": 0,
+      "YSpd": 0,
+      "ZSpd": 0
+    }
+  },
+  {
     "name": "Starting OOB",
     "hasSaveData": true,
     "data": {
@@ -58,22 +74,6 @@
       "QRotY": 0,
       "QRotZ": -0,
       "QRotW": 1,
-      "XSpd": 0,
-      "YSpd": 0,
-      "ZSpd": 0
-    }
-  },
-  {
-    "name": "",
-    "hasSaveData": false,
-    "data": {
-      "XPos": 0,
-      "YPos": 0,
-      "ZPos": 0,
-      "QRotX": 0,
-      "QRotY": 0,
-      "QRotZ": 0,
-      "QRotW": 0,
       "XSpd": 0,
       "YSpd": 0,
       "ZSpd": 0

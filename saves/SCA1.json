@@ -16,19 +16,19 @@
     }
   },
   {
-    "name": "Tube glitch",
+    "name": "Mohawk tuah/tube",
     "hasSaveData": true,
     "data": {
-      "XPos": 605.90436,
-      "YPos": 1711.9962,
-      "ZPos": -739.05554,
-      "QRotX": -2.126379E-08,
-      "QRotY": 0.70710677,
-      "QRotZ": -2.0789333E-08,
-      "QRotW": 0.70710677,
-      "XSpd": 12.303916,
-      "YSpd": 8.255719E-09,
-      "ZSpd": -6.4017684E-08
+      "XPos": 597.3606,
+      "YPos": 1714.8585,
+      "ZPos": -752.6243,
+      "QRotX": 0.24298505,
+      "QRotY": 8.41434E-06,
+      "QRotZ": 3.3591215E-05,
+      "QRotW": 0.97003007,
+      "XSpd": 0,
+      "YSpd": 0,
+      "ZSpd": 0
     }
   },
   {

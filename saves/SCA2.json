@@ -1,5 +1,21 @@
 [
   {
+    "name": "Wings loop OOB",
+    "hasSaveData": true,
+    "data": {
+      "XPos": -251.08502,
+      "YPos": 34.540005,
+      "ZPos": 307.58597,
+      "QRotX": 0.001175858,
+      "QRotY": 0.7071058,
+      "QRotZ": 0.001175813,
+      "QRotW": -0.7071058,
+      "XSpd": 0,
+      "YSpd": 0,
+      "ZSpd": 0
+    }
+  },
+  {
     "name": "Missile CC skip/FPS skip",
     "hasSaveData": true,
     "data": {
@@ -26,22 +42,6 @@
       "QRotY": 1,
       "QRotZ": 0,
       "QRotW": 2.0215565E-07,
-      "XSpd": 0,
-      "YSpd": 0,
-      "ZSpd": 0
-    }
-  },
-  {
-    "name": "",
-    "hasSaveData": false,
-    "data": {
-      "XPos": 0,
-      "YPos": 0,
-      "ZPos": 0,
-      "QRotX": 0,
-      "QRotY": 0,
-      "QRotZ": 0,
-      "QRotW": 0,
       "XSpd": 0,
       "YSpd": 0,
       "ZSpd": 0

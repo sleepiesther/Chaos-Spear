@@ -28,3 +28,13 @@ A practice tool for Shadow Generations.
 - Use the CC charge button to instantly grant yourself a charge of Chaos Control
 - Use the Save to JSON button to save all of your current slots to a JSON file.
 - Use the "Load from JSON" button to load the data from the file selected in the dropdown.
+
+## Credits:
+- Onaku: Creating the original Chaos Spear, help with using Cheat Engine
+- Labrys (https://github.com/Labreezy): Work on the original Chaos Spear, facing angle code, help with creating game hooks, and other general programming support
+- Jujstme: Version detection code I... borrowed... from the auto splitter
+- Moha: Entirely redesigning the UI, testing
+- Layla (www.twitch.tv/yukilayla): Design feedback, giving me the idea to add custom hotkeys
+- Lillie (https://bsky.app/profile/lillypad6199.bsky.social): Testing
+- Arcanox (https://bsky.app/profile/arcanox.me): General programming help
+- May (https://bsky.app/profile/mayberryzoom.bsky.social): General programming help
